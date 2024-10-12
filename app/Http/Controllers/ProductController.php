@@ -14,10 +14,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-        // return Inertia::render('Admin/Products/Product', [
-        //     'products' => Product::all()
-        // ]);
+
+        return Inertia::render('Admin/Products/Product', [
+            'products' => Product::all()
+        ]);
     }
 
     /**
@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function create()
     {
         //
-        // return Inertia::render('Admin/Products/CreateProduct');
+        return Inertia::render('Admin/Products/CreateProduct');
     }
 
     /**
@@ -43,9 +43,10 @@ class ProductController extends Controller
         //     'amount' => 'required|numeric',
         //     'criticalLevel' => 'required|integer',
         // ]);
-        // Product::create($request->all());
-        
-        // return Redirect::route('products.index');
+
+        Product::create($request->all());
+
+        return Redirect::route('products.index');
     }
 
     /**
