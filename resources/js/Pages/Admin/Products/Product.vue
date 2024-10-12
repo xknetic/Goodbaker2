@@ -5,7 +5,7 @@ import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({
-    productPrices: {
+    products: {
         type: Array,
         default: () => [],
     },
@@ -52,14 +52,13 @@ function destroy(id) {
                     </thead>
                     <tbody>
                         <!--       Variable         Model                 Variable     relationship -->
-                        <tr v-for="product_price in productPrices" :key="product_price.id">
-                            <td class="px-6 py-4">{{ product_price.products.productCategory }}</td>
-                            <td class="px-6 py-4">{{ product_price.products.productName }}</td>
-                            <td class="px-6 py-4">{{ product_price.areas.areaName }}</td>
-                            <td class="px-6 py-4">Pack x{{ product_price.products.unit }}</td>
-                            <td class="px-6 py-4">{{ product_price.products.quantity }}</td>
-                            <td class="px-6 py-4">₱{{ product_price.price }}</td>
-                            <td class="px-6 py-4">₱{{ product_price.price * product_price.products.quantity }}</td>
+                        <tr v-for="product in products" :key="product.productID">
+                            <td class="px-6 py-4">{{ product.productCategory }}</td>
+                            <td class="px-6 py-4">{{ product.productName }}</td>
+                            <td class="px-6 py-4">{{ product.unit }}</td>
+                            <td class="px-6 py-4">Pack x{{ product.quantity }}</td>
+                            <td class="px-6 py-4">PRICE</td>
+                            <td class="px-6 py-4">{{ product.amount }}</td>
                             <!-- <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('products.edit', product.id)" class="text-[#0109F4] hover:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

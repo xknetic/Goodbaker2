@@ -54,7 +54,7 @@ Route::resource('/deliveries', DeliveryController::class)
 // Route::resource('/products', ProductController::class)
 // ->middleware(['auth', 'verified']);
 
-Route::resource('/products', ProductPriceController::class)
+Route::resource('/products', ProductController::class)
 ->middleware(['auth', 'verified']);
 
 Route::resource('/premixes', PremixController::class)
