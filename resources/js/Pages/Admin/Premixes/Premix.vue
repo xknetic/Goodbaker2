@@ -1,16 +1,23 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 </script>
 
 <template>
-    <Head title="Branches" />
+    <Head title="Premixes" />
 
     <AuthenticatedLayout>
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h2 class="font-bold">Premixes</h2>
+                <h3 class="font-bold">Premixes</h3>
+                <Link :href="route('premixes.create')" class="btn btn-primary">
+                    <PrimaryButton class="p-2">
+                        Create
+                    </PrimaryButton>
+                </Link>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 

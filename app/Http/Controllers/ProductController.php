@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\Product;
+use App\Models\ProductPrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -16,7 +18,7 @@ class ProductController extends Controller
     {
 
         return Inertia::render('Admin/Products/Product', [
-            'products' => Product::all()
+            'products' => Product::with(['products'])->get(),
         ]);
     }
 
@@ -44,7 +46,29 @@ class ProductController extends Controller
         //     'criticalLevel' => 'required|integer',
         // ]);
 
-        Product::create($request->all());
+        $request->validate([
+            'productCategory' => 'required|string|max:25',
+            'productName' => 'required|string|max:25',
+            'unit' => 'required|string|max:25',
+            'quantity' => 'required|integer',
+            'amount' => 'required|numeric',
+            'criticalLevel' => 'required|integer',
+            'area' => 'required|string|max:255',
+            'product' => 'required|string|max:255',
+            'price' => 'required|numeric',
+        ]);
+
+        Product::create($request->only([
+            'productCategory',
+            'productName',
+            'unit',
+            'quantity',
+            'amount',
+            'criticalLevel',
+        ]));
+
+        // Area::create($request->only(['areaName']));
+        ProductPrice::create($request->only(['area', 'product' ,'price']));
 
         return Redirect::route('products.index');
     }
@@ -63,6 +87,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        return Inertia::render('Admin/Products/EditProduct', [
+            'product' => $product,
+        ]);
     }
 
     /**
@@ -71,6 +98,8 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
+        $product->update($request->all());
+        return Redirect::route('products.index');
     }
 
     /**

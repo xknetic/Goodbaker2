@@ -82,7 +82,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 <!-- Premixes -->
                                 <ResponsiveNavLink 
                                     :href="route('premixes.index')"
-                                    :active="route().current('premixes.index')"
+                                    :active="route().current('premixes.index') || route().current('premixes.create')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Premixes
@@ -100,7 +100,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 <!-- Raw Materials -->
                                 <ResponsiveNavLink 
                                     :href="route('rawmaterials.index')"
-                                    :active="route().current('rawmaterials.index')"
+                                    :active="route().current('rawmaterials.index') || route().current('rawmaterials.create')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Raw Materials

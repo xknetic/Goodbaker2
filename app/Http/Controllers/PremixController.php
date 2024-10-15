@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
 use App\Models\Premix;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class PremixController extends Controller
 {
@@ -25,6 +26,7 @@ class PremixController extends Controller
     public function create()
     {
         //
+        return Inertia::render('Admin/Premixes/CreatePremix');
     }
 
     /**
@@ -33,6 +35,16 @@ class PremixController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'premixName' => 'required|string|max:25',
+            'category' => 'required|string|max:25',
+            'size' => 'required|string|max:25',
+            'cost' => 'required|numeric',
+        ]);
+
+        Premix::create($request->all());
+
+        return Redirect::route('premixes.index');
     }
 
     /**
