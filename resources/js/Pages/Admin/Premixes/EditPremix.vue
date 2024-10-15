@@ -6,26 +6,30 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 
+const props = defineProps({
+    premix: Object,
+});
+
 const form = useForm({
-    premixName: '',
-    category: '',
-    size: '',
-    cost: '',
+    premixName: props.premix.premixName,
+    category: props.premix.category,
+    size: props.premix.size,
+    cost: props.premix.cost,
 });
 
 const submit = () => {
-    form.post(route('premixes.store'));
+    form.put(route('premixes.update', props.premix.premixID));
 }
 </script>
 
 <template>
-    <Head title="Premixes" />
+    <Head title="Edit Premix" />
 
     <AuthenticatedLayout>
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h3 class="font-bold">Premixes</h3>
+                <h3 class="font-bold">Premix</h3>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -44,18 +48,12 @@ const submit = () => {
                             </Link>
                         </div>
                         <div>
-                            <h3> Create Premixes </h3>
+                            <h3> Edit Premix </h3>
                         </div>
                     </div>
                     <div class="space-x-5">
-                        <!-- <Link href="/products" class="btn btn-primary">
-                            <PrimaryButton class="p-2">
-                                Cancel
-                            </PrimaryButton>
-                        </Link> -->
-
                         <PrimaryButton class="p-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Create
+                            Update
                         </PrimaryButton>
                     </div>
                 </div>
@@ -74,12 +72,6 @@ const submit = () => {
                     <TextInput class="mt-1 block w-[50%]" id="category" type="text" v-model="form.category" required />
                     <InputError :message="form.errors.category" />
                 </div>
-
-                <!-- <div>
-                    <InputLabel for="area" class="mb-2"> Area </InputLabel>
-                    <TextInput class="mt-1 block w-[50%]" id="area" type="text" v-model="form.area" required />
-                    <InputError :message="form.errors.area" />
-                </div> -->
 
                 <div>
                     <InputLabel for="size" class="mb-2"> Size </InputLabel>

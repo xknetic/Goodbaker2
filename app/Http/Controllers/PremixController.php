@@ -61,6 +61,9 @@ class PremixController extends Controller
     public function edit(Premix $premix)
     {
         //
+        return Inertia::render('Admin/Premixes/EditPremix', [
+            'premix' => $premix
+        ]);
     }
 
     /**
@@ -69,6 +72,15 @@ class PremixController extends Controller
     public function update(Request $request, Premix $premix)
     {
         //
+        $request->validate([
+            'premixName' => 'required|string|max:25',
+            'category' => 'required|string|max:25',
+            'size' => 'required|string|max:25',
+            'cost' => 'required|numeric',
+        ]);
+
+        $premix->update($request->all());
+        return Redirect::route('premixes.index');
     }
 
     /**
@@ -77,5 +89,9 @@ class PremixController extends Controller
     public function destroy(Premix $premix)
     {
         //
+        $premix->delete();
+        sleep(1);
+
+        return Redirect::route('premixes.index');
     }
 }

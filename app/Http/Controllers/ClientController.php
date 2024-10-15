@@ -60,6 +60,9 @@ class ClientController extends Controller
     public function edit(Client $client)
     {
         //
+        return Inertia::render('Admin/Clients/EditClient', [
+            'client' => $client
+        ]);
     }
 
     /**
@@ -68,6 +71,15 @@ class ClientController extends Controller
     public function update(Request $request, Client $client)
     {
         //
+        $request->validate([
+            'clientName' => 'required|string|max:50',
+            'clientAddress' => 'required|string|max:100',
+            'clientContact' => 'required|integer',
+            // 'clientDate' => 'nullable|string',
+        ]);
+
+        $client->update($request->all());
+        return Redirect::route('clients.index');
     }
 
     /**

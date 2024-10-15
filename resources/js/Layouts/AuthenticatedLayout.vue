@@ -73,7 +73,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 <!-- Products -->
                                 <ResponsiveNavLink 
                                     :href="route('products.index')"
-                                    :active="route().current('products.index') || route().current('products.create')"
+                                    :active="route().current('products.index') || route().current('products.create') || route().current('products.edit')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Products
@@ -82,20 +82,20 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 <!-- Premixes -->
                                 <ResponsiveNavLink 
                                     :href="route('premixes.index')"
-                                    :active="route().current('premixes.index') || route().current('premixes.create')"
+                                    :active="route().current('premixes.index') || route().current('premixes.create') || route().current('premixes.edit')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Premixes
                                 </ResponsiveNavLink>
 
                                 <!-- Beverages -->
-                                <ResponsiveNavLink 
+                                <!-- <ResponsiveNavLink 
                                     :href="route('beverage.index')"
                                     :active="route().current('beverage.index')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Beverages
-                                </ResponsiveNavLink>
+                                </ResponsiveNavLink> -->
 
                                 <!-- Raw Materials -->
                                 <ResponsiveNavLink 
@@ -120,7 +120,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 </div>
 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
-                                <path clip-rule="evenodd" fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                                    <path clip-rule="evenodd" fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
                                 </svg>
                             </button>
                         </template>
@@ -130,7 +130,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 <!-- Clients -->
                                 <ResponsiveNavLink 
                                     :href="route('clients.index')"
-                                    :active="route().current('clients.index')"
+                                    :active="route().current('clients.index') || route().current('clients.create') || route().current('clients.edit')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Clients
@@ -139,7 +139,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 <!-- Suppliers -->
                                 <ResponsiveNavLink 
                                     :href="route('suppliers.index')"
-                                    :active="route().current('suppliers.index')"
+                                    :active="route().current('suppliers.index') || route().current('suppliers.create') || route().current('suppliers.edit')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Suppliers

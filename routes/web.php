@@ -51,9 +51,6 @@ Route::resource('/sales', SaleController::class)
 Route::resource('/deliveries', DeliveryController::class)
 ->middleware(['auth', 'verified']);
 
-// Route::resource('/products', ProductController::class)
-// ->middleware(['auth', 'verified']);
-
 Route::resource('/products', ProductController::class)
 ->middleware(['auth', 'verified']);
 

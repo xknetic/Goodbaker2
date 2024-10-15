@@ -9,6 +9,12 @@ class Premix extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $primaryKey = 'premixID';
+
+    protected $table = 'premixes';
+
     protected $guarded = [];
 
     public function premixes(){

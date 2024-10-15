@@ -7,11 +7,15 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 
+const props = defineProps({
+    client: Object,
+});
+
 const form = useForm({
-    clientName: '',
-    clientAddress: '',
-    clientContact: '',
-    clientDate: '',
+    clientName: props.client.clientName,
+    clientAddress: props.client.clientAddress,
+    clientContact: props.client.clientContact,
+    // clientDate: props.client.clientDate,
 });
 
 const currentDate = () => {
@@ -22,7 +26,7 @@ const currentDate = () => {
 const formattedDate = ref(currentDate());
 
 const submit = () => {
-    form.post(route('clients.store'));
+    form.put(route('clients.update', props.client.clientID));
 }
 </script>
 
@@ -52,29 +56,19 @@ const submit = () => {
                             </Link>
                         </div>
                         <div>
-                            <h3> Create Clients </h3>
+                            <h3> Edit Clients </h3>
                         </div>
                     </div>
                     <div class="space-x-5">
-                        <!-- <Link href="/suppliers" class="btn btn-primary">
-                            <PrimaryButton>
-                                <span>
-                                    Cancel
-                                </span>
-                            </PrimaryButton>
-                        </Link> -->
-
                         <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             <span>
-                                Create
+                                Update
                             </span>
                         </PrimaryButton>
                     </div>
                 </div>
 
                 <div class="border-b border-gray-700 my-5" />
-
-                <!-- Form Fields -->
 
                 <div>
                     <InputLabel for="clientName" class="mb-2">Client Name</InputLabel>

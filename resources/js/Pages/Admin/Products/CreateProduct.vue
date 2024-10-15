@@ -6,6 +6,13 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 
+const props = defineProps({
+    areas: {
+        type: Array,
+        default: () => [],
+    },
+});
+
 const form = useForm({
     productCategory: '',
     productName: '',
@@ -76,7 +83,7 @@ const submit = () => {
 
                 <div>
                     <InputLabel for="productCategory" class="mt-5">Category</InputLabel>
-                    <select class="mt-1 block w-[50%]" id="productCategory" v-model="form.productCategory" required>
+                    <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="productCategory" v-model="form.productCategory" required>
                         <option disabled value="">Select Category</option>
                         <option value="PASTRIES">Pastries</option>
                         <option value="HOTBAKES">Hotbakes</option>
@@ -95,9 +102,16 @@ const submit = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="area" class="mb-2"> Area </InputLabel>
-                    <TextInput class="mt-1 block w-[50%]" id="area" type="text" v-model="form.area" required />
-                    <InputError :message="form.errors.area" />
+                    <InputLabel for="area" class="mt-5">Area</InputLabel>
+                    <select 
+                        class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" 
+                        id="area"
+                        v-model="form.area">
+
+                        <option disabled value="">Select Category</option>
+                        <option v-for="area in props.areas" :key="area.id" :value="area.areaID">{{ area.areaName }}</option>
+                    </select>
+                    <InputError :message="form.errors.area"/>
                 </div>
 
                 <div>
@@ -105,16 +119,6 @@ const submit = () => {
                     <TextInput class="mt-1 block w-[50%]" id="product" type="text" v-model="form.product" required />
                     <InputError :message="form.errors.product" />
                 </div>
-
-                <!-- <div>
-                    <InputLabel for="areaName" class="mb-2">Area</InputLabel>
-                    <select class="mt-1 block w-[50%]" id="areaName" v-model="form.areaName">
-                        <option disabled value="">Select Area</option>
-                        <option v-for="area in areas" :value="area.areaID" :key="area.areaID">{{ area.areaName }}</option>
-                        <option v-for="product_price in productPrices" :key="product_price.id">{{ product_price.areas.areaName }}</option>
-                    </select>
-                    <InputError :message="form.errors.areaName"/>
-                </div> -->
 
                 <div>
                     <InputLabel for="unit" class="mb-2">Unit</InputLabel>

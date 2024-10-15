@@ -11,6 +11,8 @@ class Product extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'productID';
+
     protected $table = 'products';
 
     protected $guarded = [];

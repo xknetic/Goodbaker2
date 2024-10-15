@@ -28,7 +28,9 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Admin/Products/CreateProduct');
+        return Inertia::render('Admin/Products/CreateProduct', [
+            'areas' => Area::all(),
+        ]);
     }
 
     /**
@@ -53,8 +55,8 @@ class ProductController extends Controller
             'quantity' => 'required|integer',
             'amount' => 'required|numeric',
             'criticalLevel' => 'required|integer',
-            'area' => 'required|string|max:255',
-            'product' => 'required|string|max:255',
+            'area' => 'required|integer|exists:areas,areaID',
+            'product' => 'required|string',
             'price' => 'required|numeric',
         ]);
 
@@ -89,6 +91,7 @@ class ProductController extends Controller
         //
         return Inertia::render('Admin/Products/EditProduct', [
             'product' => $product,
+            'areas' => Area::all(),
         ]);
     }
 
@@ -98,7 +101,34 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
-        $product->update($request->all());
+        $request->validate([
+            'productCategory' => 'required|string|max:25',
+            'productName' => 'required|string|max:25',
+            'unit' => 'required|string|max:25',
+            'quantity' => 'required|integer',
+            'amount' => 'required|numeric',
+            'criticalLevel' => 'required|integer',
+            'area' => 'required|integer|exists:areas,areaID',
+            'product' => 'required|string',
+            'price' => 'required|numeric',
+        ]);
+    
+        // Update the product details
+        $product->update($request->only([
+            'productCategory',
+            'productName',
+            'unit',
+            'quantity',
+            'amount',
+            'criticalLevel',
+        ]));
+    
+        // Update or create the product price
+        ProductPrice::updateOrCreate(
+            ['area' => $request->area, 'product' => $request->product],
+            ['price' => $request->price]
+        );
+    
         return Redirect::route('products.index');
     }
 

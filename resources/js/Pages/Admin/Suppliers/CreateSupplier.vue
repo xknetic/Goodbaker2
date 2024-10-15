@@ -24,7 +24,7 @@ const submit = () => {
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h2 class="font-bold">Supplier</h2>
+                <h3 class="font-bold">Supplier</h3>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -43,7 +43,7 @@ const submit = () => {
                             </Link>
                         </div>
                         <div>
-                            <h3> Create Product </h3>
+                            <h3> Create Supplier </h3>
                         </div>
                     </div>
                     <div class="space-x-5">

@@ -11,6 +11,8 @@ class Client extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'clientID';
+
     protected $table = 'clients';
 
     protected $guarded = [];

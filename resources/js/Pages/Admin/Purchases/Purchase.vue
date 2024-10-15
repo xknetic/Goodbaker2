@@ -4,16 +4,20 @@ import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Branches" />
+    <Head title="Purchases" />
 
     <AuthenticatedLayout>
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Purchases</h2>
-                <Link href="products/create" class="btn btn-primary">Create</Link>
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold">Purchases</h3>
+                <Link href="suppliers/create" class="btn btn-primary">
+                    <PrimaryButton class="p-2">
+                        Create
+                    </PrimaryButton>
+                </Link>
             </div>
-            <div class="border-b border-gray-700 mb-8"></div>
+            <div class="border-b border-gray-700 my-2 mb-5" />
 
             <!-- Bottom Table -->
             <div class="overflow-x-auto">

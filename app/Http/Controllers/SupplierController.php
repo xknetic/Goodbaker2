@@ -59,6 +59,9 @@ class SupplierController extends Controller
     public function edit(Supplier $supplier)
     {
         //
+        return Inertia::render('Admin/Suppliers/EditSupplier', [
+            'supplier' => $supplier
+        ]);
     }
 
     /**
@@ -67,6 +70,14 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier)
     {
         //
+        $request->validate([
+            'supplierName' => 'required|string|max:50',
+            'address' => 'required|string|max:100',
+            'contactNumber' => 'required|string|size:11',
+        ]);
+
+        $supplier->update($request->all());
+        return Redirect::route('suppliers.index');
     }
 
     /**
@@ -75,5 +86,9 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         //
+        $supplier->delete();
+        sleep(1);
+
+        return Redirect::route('suppliers.index');
     }
 }
