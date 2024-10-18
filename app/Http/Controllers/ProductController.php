@@ -112,8 +112,7 @@ class ProductController extends Controller
             'product' => 'required|string',
             'price' => 'required|numeric',
         ]);
-    
-        // Update the product details
+
         $product->update($request->only([
             'productCategory',
             'productName',
@@ -123,7 +122,6 @@ class ProductController extends Controller
             'criticalLevel',
         ]));
     
-        // Update or create the product price
         ProductPrice::updateOrCreate(
             ['area' => $request->area, 'product' => $request->product],
             ['price' => $request->price]

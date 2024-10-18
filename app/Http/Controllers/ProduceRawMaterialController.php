@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use App\Models\Product;
-use App\Models\OrderForm;
 use Illuminate\Http\Request;
+use App\Models\ProduceRawMaterial;
 
-class OrderFormController extends Controller
+class ProduceRawMaterialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,8 @@ class OrderFormController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Client/OrderForm', [
-            'orderform' => OrderForm::all(),
-            'products' => Product::with(['products'])->get(),
+        return Inertia::render('Admin/RawMaterials/ProduceRawMaterial', [
+            'ingredients' => ProduceRawMaterial::with(['product', 'rawMaterial'])->get(),
         ]);
     }
 
@@ -40,7 +38,7 @@ class OrderFormController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(OrderForm $orderForm)
+    public function show(ProduceRawMaterial $produceRawMaterial)
     {
         //
     }
@@ -48,7 +46,7 @@ class OrderFormController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(OrderForm $orderForm)
+    public function edit(ProduceRawMaterial $produceRawMaterial)
     {
         //
     }
@@ -56,7 +54,7 @@ class OrderFormController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, OrderForm $orderForm)
+    public function update(Request $request, ProduceRawMaterial $produceRawMaterial)
     {
         //
     }
@@ -64,7 +62,7 @@ class OrderFormController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(OrderForm $orderForm)
+    public function destroy(ProduceRawMaterial $produceRawMaterial)
     {
         //
     }

@@ -19,7 +19,6 @@ return new class extends Migration
 
             $table->foreign('product')->references('productID')->on('products')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
-
         });
     }
 

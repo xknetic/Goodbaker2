@@ -8,13 +8,13 @@ import InputError from '@/Components/InputError.vue';
 </script>
 
 <template>
-    <Head title="Branches" />
+    <Head title="Delivery" />
 
     <AuthenticatedLayout>
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h2 class="font-bold">Delivery</h2>
+                <h3 class="font-bold">Delivery</h3>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -36,11 +36,11 @@ import InputError from '@/Components/InputError.vue';
                         </div>
                     </div>
                     <div class="space-x-5">
-                        <Link href="/sales" class="btn btn-primary">
+                        <!-- <Link href="/sales" class="btn btn-primary">
                             <PrimaryButton class="p-2">
                                 Cancel
                             </PrimaryButton>
-                        </Link>
+                        </Link> -->
 
                         <PrimaryButton class="p-2">
                             Create
@@ -62,12 +62,6 @@ import InputError from '@/Components/InputError.vue';
                     </div>
 
                     <div>
-                        <InputLabel for="productName" class="mb-2">Product</InputLabel>
-                        <TextInput class="mt-1 block w-[40%]" id="productName" type="text" required />
-                        <InputError />
-                    </div>
-
-                    <div>
                         <InputLabel for="deliveryType" class="mb-2">Delivery Type</InputLabel>
                         <TextInput class="mt-1 block w-[40%]" id="deliveryType" type="text" required />
                         <InputError />
@@ -76,6 +70,12 @@ import InputError from '@/Components/InputError.vue';
                     <div>
                         <InputLabel for="client" class="mb-2">Client</InputLabel>
                         <TextInput class="mt-1 block w-[40%]" id="client" type="text" required />
+                        <InputError />
+                    </div>
+
+                    <div>
+                        <InputLabel for="productName" class="mb-2">Product</InputLabel>
+                        <TextInput class="mt-1 block w-[40%]" id="productName" type="text" required />
                         <InputError />
                     </div>
                 </div>

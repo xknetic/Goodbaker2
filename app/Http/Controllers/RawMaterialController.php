@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Inertia\Inertia;
+use App\Models\Supplier;
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class RawMaterialController extends Controller
 {
@@ -15,7 +17,7 @@ class RawMaterialController extends Controller
     {
         //
         return Inertia::render('Admin/RawMaterials/RawMaterial', [
-            'rawmaterials' => RawMaterial::all()
+            'rawmaterials' => RawMaterial::with(['supplier'])->get(),
         ]);
     }
 
@@ -25,7 +27,9 @@ class RawMaterialController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Admin/RawMaterials/CreateRawMaterial');
+        return Inertia::render('Admin/RawMaterials/CreateRawMaterial', [
+            'suppliers' => Supplier::all(),
+        ]);
     }
 
     /**
@@ -34,12 +38,33 @@ class RawMaterialController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'rawMaterialName' => 'required|string|max:25',
+            'container' => 'required|string|max:25',
+            'unit' => 'required|string|max:25',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'supplierID' => 'required|exists:suppliers,supplierID',
+        ]);
+    
+        // Create the RawMaterial with the supplierID
+        RawMaterial::create($request->only([
+            'rawMaterialName',
+            'container',
+            'unit',
+            'price',
+            'quantity',
+        ]) + ['supplierID' => $request->supplierID]);
+
+        // Supplier::create($request->only(['supplierID']));
+
+        return Redirect::route('rawmaterials.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(RawMaterial $rawMaterial)
+    public function show()
     {
         //
     }
@@ -50,6 +75,10 @@ class RawMaterialController extends Controller
     public function edit(RawMaterial $rawMaterial)
     {
         //
+        return Inertia::render('Admin/RawMaterials/EditRawMaterial', [
+            'rawMaterial' => $rawMaterial,
+            'suppliers' => Supplier::all(),
+        ]);
     }
 
     /**
@@ -58,6 +87,41 @@ class RawMaterialController extends Controller
     public function update(Request $request, RawMaterial $rawMaterial)
     {
         //
+        $request->validate([
+            'rawMaterialName' => 'required|string|max:25',
+            'container' => 'required|string|max:25',
+            'unit' => 'required|string|max:25',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'supplierID' => 'required|exists:suppliers,supplierID',
+        ]);
+
+        $rawMaterial->update($request->only([
+            'rawMaterialName',
+            'container',
+            'unit',
+            'price',
+            'quantity',
+        ]) + ['supplierID' => $request->supplierID]);
+
+        $request->validate([
+            'rawMaterialName' => 'required|string|max:25',
+            'container' => 'required|string|max:25',
+            'unit' => 'required|string|max:25',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'supplierID' => 'required|exists:suppliers,supplierID',
+        ]);
+
+        $rawMaterial->update($request->only([
+            'rawMaterialName',
+            'container',
+            'unit',
+            'price',
+            'quantity',
+        ]) + ['supplierID' => $request->supplierID]);
+
+        return Redirect::route('rawmaterials.index');
     }
 
     /**
@@ -66,5 +130,9 @@ class RawMaterialController extends Controller
     public function destroy(RawMaterial $rawMaterial)
     {
         //
+        $rawMaterial->delete();
+        sleep(1);
+
+        return Redirect::route('rawmaterials.index');
     }
 }

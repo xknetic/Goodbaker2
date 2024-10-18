@@ -12,19 +12,24 @@ const props = defineProps({
         type: Object,
         default: () => [],
     },
+
+    rawmaterials: {
+        type: Object,
+        default: () => [],
+    },
 });
 
 const form = useForm({
-    rawMaterialName: '',
-    unit: '',
-    container: '',
-    price: '',
-    quantity: '',
-    supplierID: '',
+    rawMaterialName: props.rawmaterials.rawMaterialName,
+    unit: props.rawmaterials.unit,
+    container: props.rawmaterials.container,
+    price: props.rawmaterials.price,
+    quantity: props.rawmaterials.quantity,
+    supplierID: props.rawmaterials.supplierID,
 });
 
 const submit = () => {
-    form.post(route('rawmaterials.store'));
+    form.put(route('rawmaterials.update', props.rawmaterials.rawMaterialID));
 }
 
 const search = ref('');
@@ -50,7 +55,7 @@ function selectSupplier(supplier) {
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h3 class="font-bold">Raw Materials</h3>
+                <h3 class="font-bold">Produce</h3>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -69,12 +74,12 @@ function selectSupplier(supplier) {
                             </Link>
                         </div>
                         <div>
-                            <h3> Create Product </h3>
+                            <h3> Edit Product </h3>
                         </div>
                     </div>
                     <div class="space-x-5">
                         <PrimaryButton class="p-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Create
+                            Edit
                         </PrimaryButton>
                     </div>
                 </div>

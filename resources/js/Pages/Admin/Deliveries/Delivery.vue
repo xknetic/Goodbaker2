@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 </script>
 
 <template>
-    <Head title="Branches" />
+    <Head title="Delivery" />
 
     <AuthenticatedLayout>
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
@@ -14,7 +14,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                 <h3 class="font-bold">Delivery</h3>
                 <Link href="deliveries/create" class="btn btn-primary">
                     <PrimaryButton>
-                        <span> Create </span>
+                        <span> Load </span>
                     </PrimaryButton>
                 </Link>
             </div>

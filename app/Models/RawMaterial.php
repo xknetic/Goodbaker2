@@ -9,9 +9,16 @@ class RawMaterial extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $table = 'raw_materials';
+
+    protected $primaryKey = 'rawMaterialID';
+
     protected $guarded = [];
 
-    public function rawmaterials(){
-        return $this->belongsToMany(RawMaterial::class);
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplierID', 'supplierID');
     }
 }
