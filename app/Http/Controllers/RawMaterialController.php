@@ -87,22 +87,22 @@ class RawMaterialController extends Controller
     public function update(Request $request, RawMaterial $rawMaterial)
     {
         //
-        $request->validate([
-            'rawMaterialName' => 'required|string|max:25',
-            'container' => 'required|string|max:25',
-            'unit' => 'required|string|max:25',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'supplierID' => 'required|exists:suppliers,supplierID',
-        ]);
+        // $request->validate([
+        //     'rawMaterialName' => 'required|string|max:25',
+        //     'container' => 'required|string|max:25',
+        //     'unit' => 'required|string|max:25',
+        //     'price' => 'required|numeric',
+        //     'quantity' => 'required|integer',
+        //     'supplierID' => 'required|exists:suppliers,supplierID',
+        // ]);
 
-        $rawMaterial->update($request->only([
-            'rawMaterialName',
-            'container',
-            'unit',
-            'price',
-            'quantity',
-        ]) + ['supplierID' => $request->supplierID]);
+        // $rawMaterial->update($request->only([
+        //     'rawMaterialName',
+        //     'container',
+        //     'unit',
+        //     'price',
+        //     'quantity',
+        // ]) + ['supplierID' => $request->supplierID]);
 
         $request->validate([
             'rawMaterialName' => 'required|string|max:25',
