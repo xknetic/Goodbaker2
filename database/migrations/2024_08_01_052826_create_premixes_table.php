@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id('premixID');
             $table->string('premixName', 25);
             $table->string('category', 25);
-            $table->string('size', 25);
+            $table->string('size', 25)->nullable();
+            $table->integer('quantity');
             $table->float('cost');
         });
     }

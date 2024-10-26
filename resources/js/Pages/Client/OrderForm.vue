@@ -3,17 +3,38 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import IncrementButton from '@/Components/IncrementButton.vue';
+import TextInput from '@/Components/TextInput.vue';
+import { ref } from 'vue'
 
 const props = defineProps({
     products: {
         type: Object,
         default: () => ({}),
     },
+
+    productcategories: {
+        type: Object,
+        default: () => ({}),
+    },
 });
+
+const order = ref(0)
+
+function increment(product) {
+    document.getElementById(product).value++;
+}
+
+function decrement(product) {
+    if(document.getElementById(product).value != 0 ) {
+        document.getElementById(product).value--
+    }
+}
 </script>
 
+
 <template>
-    <Head title="Branches" />
+    <Head title="Order Form" />
 
     <GuestLayout>
         <div class="flex flex-col h-screen p-4 bg-[#D9D9D9]">
@@ -51,38 +72,66 @@ const props = defineProps({
                                 <PrimaryButton>
                                     <h4>All</h4>
                                 </PrimaryButton>
-                                <PrimaryButton>
-                                    <h4>Pastries</h4>
-                                </PrimaryButton>
-                                <PrimaryButton>
-                                    <h4>Hotbakes</h4>
-                                </PrimaryButton>
-                                <PrimaryButton>
-                                    <h4>Loaves</h4>
-                                </PrimaryButton>
-                                <PrimaryButton>
-                                    <h4>Assorted Bread</h4>
-                                </PrimaryButton>
-                                <PrimaryButton>
-                                    <h4>Pasalubong</h4>
-                                </PrimaryButton>
-                                <PrimaryButton>
-                                    <h4>Cakes</h4>
+                                <PrimaryButton v-for="category in productcategories" :key="category.id">
+                                    <h4>{{ category.categoryName }}</h4>
                                 </PrimaryButton>
                             </div>
                         </div>
                     </div>
 
-                    <h3>Pastries</h3>
-                    <div class="flex space-x-5 overflow-x-scroll">
+                    <!-- <div v-for="category in productcategory" :key="category.id">
+                    <h3>{{ category.categoryName }}</h3>
+                    <div class="flex overflow-x-scroll">
                         <div v-for="product in products" :key="product.id" class="bg-[#BFBFBF] rounded-lg">
-                            <div class="p-3">
+                            <div v-if="product.productCategory === category.categoryID" class="p-3">
                                 <h4>{{ product.productName }}</h4>
-                                <h4>P 150</h4>
+                                <h4>P {{ product.products[0]?.price }}</h4>
                                 <div class="flex space-x-4 items-center">
-                                    <IncrementButton>
-                                        asd
+                                    <IncrementButton @click="decrement(product.productName)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
+                                        </svg>
                                     </IncrementButton>
+
+                                    <h4 id="quantity">0</h4>
+
+                                    <IncrementButton @click="increment(product.productName)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                        </svg>
+                                    </IncrementButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div> -->
+
+                    <div v-for="category in productcategories" :key="category.id">
+                        <h3>{{ category.categoryName }}</h3>
+                        <div class="flex overflow-x-scroll">
+                            <div v-for="product in products" :key="product.id">
+                                <div v-if="product.productCategory === category.categoryID">
+                                    <div class="mr-5 bg-[#BFBFBF] rounded-lg p-3">
+                                        <div>
+                                            <h4>{{ product.productName }}</h4>
+                                            <h4>P {{ product.products[0]?.price }}</h4>
+                                            <div class="flex space-x-4 items-center">
+                                                <IncrementButton @click="decrement(product.productID)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
+                                                    </svg>
+                                                </IncrementButton>
+                                                
+                                                <TextInput :id="product.productID" class="w-10 text-center h-8 px-1 bg-[#bfbfbf] border-0" type="text" />
+
+                                                <IncrementButton @click="increment(product.productID)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+                                                    </svg>
+                                                </IncrementButton>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +154,7 @@ const props = defineProps({
                         <div class="bg-[#BFBFBF] p-4 rounded-lg">
                             <div class="bg-[#D9D9D9] rounded-lg">
                                 <div class="p-3">
-                                    <h4>Brownies x10 (big)</h4>
+                                    <h4>{{ order }}</h4>
                                     <h4>P 150</h4>
                                     <div class="flex space-x-4 items-center">
                                         <IncrementButton>
@@ -132,7 +181,6 @@ const props = defineProps({
                             asdas
                         </div>
                     </div>
-
                 </aside>
             </main>
         </div>

@@ -1,42 +1,12 @@
 <script setup>
+import SaleChart from '@/Components/SaleChart.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import VueApexCharts from 'vue3-apexcharts';
-import { ref } from 'vue';
 
-const chartOptions = ref({
-    chart: {
-        type: 'bar',
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    series: [{
-        name: 'Sales',
-        data: [10, 41, 35, 51, 49, 62, 148]
-    }],
-    xaxis: {
-        categories: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-    },
-    colors: ['#0108EE'],
-});
-
-// Doughnut chart options
-const doughnutChartOptions = ref({
-    chart: {
-        type: 'donut',
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    series: [44, 55],
-    labels: ['Income', 'Outcome'],
-    colors: ['#0108EE', '#F7C849'],
-    legend: {
-        position: 'bottom',
-        horizontalAlign: 'center',
-        offsetX: 0,
-        offsetY: 0,
+const props = defineProps({
+    sales: {
+        type: Object,
+        default: () => ({}),
     },
 });
 </script>
@@ -45,55 +15,50 @@ const doughnutChartOptions = ref({
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
+        <article class="min-h-full rounded-lg flex flex-col">
+            <!-- left -->
+            <div class="flex gap-5">
+                <main class="flex-1 overflow-auto">
+                    <div class="mb-5">
+                        <div class="bg-white p-5 mb-5 rounded-lg">
+                            <h4 class="font-bold">Sales Report</h4>
 
-        <div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white rounded-lg p-6">
-                    <!-- Top -->
-                    <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-bold">Sales Reports </h4>
-                    </div>
-                    <div class="border-b border-gray-700 mb-2" />
-                    <div class="flex">
-                        <VueApexCharts :options="chartOptions" :series="chartOptions.series" type="bar" height="200" />
-                        <div class="border-l border-gray-700" />
-                        <VueApexCharts :options="doughnutChartOptions" :series="doughnutChartOptions.series" type="donut" height="200" />
-                    </div>
-                </div>
+                            <div class="border-b border-gray-700 my-2 mb-5" />
 
-                <div class="bg-white rounded-lg p-6 mt-5">
-                    <!-- Top -->
-                    <div class="flex justify-between items-center mb-2">
-                        <h4 class="font-bold"> Recent transaction </h4>
-                    </div>
-                    <div class="border-b border-gray-700 mb-2" />
+                            <SaleChart />
+                        </div>
+                        <div class="bg-white p-5 rounded-lg overflow-auto">
+                            <h4 class="font-bold">Recent Transaction</h4>
 
-                    <!-- Bottom Table -->
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm text-left">
-                            <thead class="text-xs uppercase">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">Client Name</th>
-                                    <th scope="col" class="px-6 py-3">Address</th>
-                                    <th scope="col" class="px-6 py-3">Time</th>
-                                    <th scope="col" class="px-6 py-3">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="product in products" :key="product.id" class="border-gray-700">
-                                    <td class="px-6 py-4">{{ product.category }}</td>
-                                    <td class="px-6 py-4">{{ product.productName }}</td>
-                                    <td class="px-6 py-4">{{ product.unit }}</td>
-                                    <td class="px-6 py-4">{{ product.quantity }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                            <div class="border-b border-gray-700 my-2 mb-5" />
+
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs uppercase">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">Client Name</th>
+                                        <th scope="col" class="px-6 py-3">Address</th>
+                                        <th scope="col" class="px-6 py-3">Time</th>
+                                        <th scope="col" class="px-6 py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-xs uppercase">
+                                    <tr>
+                                        <td scope="col" class="px-6 py-3">Client Name</td>
+                                        <td scope="col" class="px-6 py-3">Address</td>
+                                        <td scope="col" class="px-6 py-3">Time</td>
+                                        <td scope="col" class="px-6 py-3">Status</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                </main>
+                <aside class="bg-white rounded-lg p-5 w-[30%]">
+
+                    <div class="border-b border-gray-700 my-2 mb-5" />
+
+                </aside>
             </div>
-        </div>
+        </article>
     </AuthenticatedLayout>
 </template>

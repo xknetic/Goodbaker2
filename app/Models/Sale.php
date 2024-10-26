@@ -9,13 +9,26 @@ class Sale extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $table = 'sales';
+
+    protected $primaryKey = 'salesID';
+
     protected $guarded = [];
 
-    public function sales(){
-        return $this->belongsToMany(Sale::class);
+    public function deliveries()
+    {
+        return $this->belongsTo(Delivery::class,'deliveryID' , 'deliveryID');
     }
 
-    public function clients(){
-        return $this->belongsToMany(Client::class);
+    public function saletypes()
+    {
+        return $this->belongsTo(SaleType::class, 'saleType');
+    }
+
+    public function trucks()
+    {
+        return $this->belongsTo(Truck::class, 'truck');
     }
 }

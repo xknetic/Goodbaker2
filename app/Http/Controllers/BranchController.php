@@ -26,6 +26,7 @@ class BranchController extends Controller
     public function create()
     {
         //
+        return Inertia::render('Admin/Branches/CreateBranches');
     }
 
     /**
@@ -35,7 +36,7 @@ class BranchController extends Controller
     {
         //
         $request->validate([
-            'BranchName' => 'required|string|max:25',
+            'branchName' => 'required|string|max:25',
         ]);
 
         Branch::create($request->all());

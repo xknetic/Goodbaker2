@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Purchase;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Purchase;
+use App\Models\Supplier;
+use App\Models\RawMaterial;
+use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
 {
@@ -25,6 +27,10 @@ class PurchaseController extends Controller
     public function create()
     {
         //
+        return Inertia::render('Admin/Purchases/CreatePurchase', [
+            'suppliers' => Supplier::all(),
+            'rawmaterials' => RawMaterial::all()
+        ]);
     }
 
     /**

@@ -13,23 +13,20 @@ const props = defineProps({
         default: () => [],
     },
 
-    rawmaterials: {
-        type: Object,
-        default: () => [],
-    },
+    rawMaterial: Object,
 });
 
 const form = useForm({
-    rawMaterialName: props.rawmaterials.rawMaterialName,
-    unit: props.rawmaterials.unit,
-    container: props.rawmaterials.container,
-    price: props.rawmaterials.price,
-    quantity: props.rawmaterials.quantity,
-    supplierID: props.rawmaterials.supplierID,
+    rawMaterialName: props.rawMaterial.rawMaterialName || '',
+    unit: props.rawMaterial.unit || '',
+    container: props.rawMaterial.container || '',
+    price: props.rawMaterial.price || '',
+    quantity: props.rawMaterial.quantity || '',
+    supplierID: props.rawMaterial.supplierID || '',
 });
 
 const submit = () => {
-    form.put(route('rawmaterials.update', props.rawmaterials.rawMaterialID));
+    form.put(route('rawmaterials.update', props.rawMaterial.rawMaterialID));
 }
 
 const search = ref('');
@@ -37,16 +34,29 @@ const filteredSuppliers = ref(props.suppliers);
 
 function filterSuppliers() {
     filteredSuppliers.value = props.suppliers.filter(supplier =>
-        supplier.supplierID.toString().toLowerCase().includes(search.value.toLowerCase())
+        supplier.supplierName.toString().toLowerCase().includes(search.value.toLowerCase())
     );
 }
 
 function selectSupplier(supplier) {
-    search.value = supplier.supplierID;
+    search.value = supplier.supplierName;
     form.supplierID = supplier.supplierID;
     filteredSuppliers.value = [];
 }
 </script>
+
+<style>
+    #selectsup {
+        visibility: hidden;
+        position: fixed;
+    }
+    #typesup:focus~#selectsup {
+        visibility: visible;
+    }
+    #selectsup:hover {
+        visibility: visible;
+    }
+</style>
 
 <template>
     <Head title="Raw Materials" />
@@ -55,7 +65,7 @@ function selectSupplier(supplier) {
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h3 class="font-bold">Produce</h3>
+                <h3 class="font-bold">Raw Materials</h3>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -79,7 +89,7 @@ function selectSupplier(supplier) {
                     </div>
                     <div class="space-x-5">
                         <PrimaryButton class="p-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Edit
+                            Update
                         </PrimaryButton>
                     </div>
                 </div>
@@ -107,7 +117,7 @@ function selectSupplier(supplier) {
                     </div>
 
                     <div>
-                        <InputLabel for="price" class="mb-2">Price </InputLabel>
+                        <InputLabel for="price" class="mb-2">Price</InputLabel>
                         <TextInput class="mt-1 block w-[50%]" id="price" type="text" v-model="form.price" required />
                         <InputError :message="form.errors.price" />
                     </div>
@@ -118,12 +128,6 @@ function selectSupplier(supplier) {
                         <InputError :message="form.errors.quantity" />
                     </div>
 
-                    <!-- <div>
-                        <InputLabel for="supplierID" class="mb-2">Supplier</InputLabel>
-                        <TextInput class="mt-1 block w-[50%]" id="supplierID" type="text" v-model="form.supplierID" required />
-                        <InputError :message="form.errors.supplierID" />
-                    </div> -->
-
                     <div>
                         <InputLabel for="supplier" class="mb-2">Supplier</InputLabel>
                         <TextInput 
@@ -131,18 +135,19 @@ function selectSupplier(supplier) {
                             v-model="search" 
                             @input="filterSuppliers" 
                             class="mt-1 block w-[50%]" 
-                            placeholder="Search for supplier ID" 
+                            id="typesup" 
+                            placeholder="Search for supplier" 
                         />
                         <InputError :message="form.errors.supplierID" />
 
-                        <ul v-if="filteredSuppliers.length > 0" class="">
-                            <li 
+                        <ul id="selectsup" v-if="filteredSuppliers.length > 0" class="w-[50%]">
+                            <li
                                 v-for="supplier in filteredSuppliers" 
                                 :key="supplier.supplierID" 
                                 @click="selectSupplier(supplier)" 
                                 class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[50%] pl-5 rounded-lg mt-1"
                             >
-                                {{ supplier.supplierID }}
+                                {{ supplier.supplierName }}
                             </li>
                         </ul>
                     </div>

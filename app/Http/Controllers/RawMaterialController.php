@@ -18,6 +18,8 @@ class RawMaterialController extends Controller
         //
         return Inertia::render('Admin/RawMaterials/RawMaterial', [
             'rawmaterials' => RawMaterial::with(['supplier'])->get(),
+            'suppliers' => Supplier::all(),
+            'amount' => RawMaterial::max('price')
         ]);
     }
 
@@ -40,21 +42,24 @@ class RawMaterialController extends Controller
         //
         $request->validate([
             'rawMaterialName' => 'required|string|max:25',
-            'container' => 'required|string|max:25',
             'unit' => 'required|string|max:25',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
+            'type' => 'required|string|max:25',
+            'typeQuantity' => 'required|integer',
             'supplierID' => 'required|exists:suppliers,supplierID',
         ]);
     
         // Create the RawMaterial with the supplierID
         RawMaterial::create($request->only([
             'rawMaterialName',
-            'container',
+            'type',
+            'typeQuantity',
             'unit',
             'price',
             'quantity',
-        ]) + ['supplierID' => $request->supplierID]);
+            'supplierID'
+        ]));
 
         // Supplier::create($request->only(['supplierID']));
 
@@ -72,11 +77,11 @@ class RawMaterialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(RawMaterial $rawMaterial)
+    public function edit(RawMaterial $rawmaterial)
     {
         //
         return Inertia::render('Admin/RawMaterials/EditRawMaterial', [
-            'rawMaterial' => $rawMaterial,
+            'rawMaterial' => $rawmaterial,
             'suppliers' => Supplier::all(),
         ]);
     }
@@ -84,38 +89,23 @@ class RawMaterialController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, RawMaterial $rawMaterial)
+    public function update(Request $request, RawMaterial $rawmaterial)
     {
         //
-        // $request->validate([
-        //     'rawMaterialName' => 'required|string|max:25',
-        //     'container' => 'required|string|max:25',
-        //     'unit' => 'required|string|max:25',
-        //     'price' => 'required|numeric',
-        //     'quantity' => 'required|integer',
-        //     'supplierID' => 'required|exists:suppliers,supplierID',
-        // ]);
-
-        // $rawMaterial->update($request->only([
-        //     'rawMaterialName',
-        //     'container',
-        //     'unit',
-        //     'price',
-        //     'quantity',
-        // ]) + ['supplierID' => $request->supplierID]);
-
         $request->validate([
             'rawMaterialName' => 'required|string|max:25',
-            'container' => 'required|string|max:25',
+            'type' => 'required|string|max:25',
+            'typeQuantity' => 'required|integer',
             'unit' => 'required|string|max:25',
             'price' => 'required|numeric',
             'quantity' => 'required|integer',
             'supplierID' => 'required|exists:suppliers,supplierID',
         ]);
 
-        $rawMaterial->update($request->only([
+        $rawmaterial->update($request->only([
             'rawMaterialName',
-            'container',
+            'type',
+            'typeQuantity',
             'unit',
             'price',
             'quantity',
@@ -127,10 +117,10 @@ class RawMaterialController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(RawMaterial $rawMaterial)
+    public function destroy(RawMaterial $rawmaterial)
     {
-        //
-        $rawMaterial->delete();
+        // Delete the raw material record
+        $rawmaterial->delete();
         sleep(1);
 
         return Redirect::route('rawmaterials.index');

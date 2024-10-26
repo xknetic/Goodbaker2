@@ -2,16 +2,46 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Client;
+use App\Models\Driver;
+use App\Models\TruckLoadItem;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Delivery extends Model
 {
     use HasFactory;
 
+    public $timestamps = True;
+
+    protected $table = 'deliveries';
+
+    protected $primaryKey = 'deliveryID';
+
     protected $guarded = [];
 
-    public function deliveries(){
-        return $this->belongsToMany(Delivery::class);
+    public function trucks()
+    {
+        return $this->belongsTo(Truck::class, 'truck', 'truckID');
+    }
+
+    public function drivers()
+    {
+        return $this->belongsTo(Driver::class, 'truckDriver', 'driverID');
+    }
+
+    public function clients()
+    {
+        return $this->belongsTo(Client::class, 'client', 'clientID');
+    }
+
+    public function saletypes()
+    {
+        return $this->belongsTo(SaleType::class, 'saleType', 'saleTypeID');
+    }
+
+    public function truckloaditems()
+    {
+        return $this->hasMany(TruckLoadItem::class, 'deliveryID', 'deliveryID');
     }
 }

@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingredient_raw_materials', function (Blueprint $table) {
-            $table->id('productIngredientRawMaterialID');
+        Schema::create('transfer_items', function (Blueprint $table) {
+            $table->id('tranferItemID');
+            $table->unsignedBigInteger('product')->nullable();
+            $table->unsignedBigInteger('premix')->nullable();
+            $table->unsignedBigInteger('rawMaterial')->nullable();
             $table->integer('quantity');
-            $table->unsignedBigInteger('product');
-            $table->unsignedBigInteger('rawMaterial');
+            $table->unsignedBigInteger('transferID');
 
             $table->foreign('product')->references('productID')->on('products')->onDelete('cascade');
+            $table->foreign('premix')->references('premixID')->on('premixes')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
+            $table->foreign('transferID')->references('transferID')->on('transfers')->onDelete('cascade');
+
         });
     }
 
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingredient_raw_material');
+        Schema::dropIfExists('transfer_products');
     }
 };

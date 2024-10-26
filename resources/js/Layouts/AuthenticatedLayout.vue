@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import Dropdown2nd from '@/Components/Dropdown2nd.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { usePermission } from '@/composables/permission';
+
+const { hasRole } = usePermission();
 </script>
 
 <template>
@@ -25,19 +28,31 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                         Dashboard
                     </ResponsiveNavLink>
 
+                    <!-- User -->
+                    <ResponsiveNavLink 
+                        v-if="hasRole('admin')"
+                        :href="route('users.index')"
+                        :active="route().current('users.index') || route().current('users.create') || route().current('users.edit')"
+                        class="flex items-center mb-1 text-sm"
+                    >
+                        User List
+                    </ResponsiveNavLink>
+
                     <!-- Branches -->
                     <ResponsiveNavLink 
+                        v-if="hasRole('admin') || hasRole('branch')"
                         :href="route('branches.index')"
-                        :active="route().current('branches.index')"
+                        :active="route().current('branches.index') || route().current('branches.create')"
                         class="flex items-center mb-1 text-sm"
                     >
                         Branches
                     </ResponsiveNavLink>
 
                     <!-- Sales -->
-                    <ResponsiveNavLink 
+                    <ResponsiveNavLink
+                        v-if="hasRole('admin') || hasRole('agent')"
                         :href="route('sales.index')"
-                        :active="route().current('sales.index')"
+                        :active="route().current('sales.index') || route().current('sales.create')"
                         class="flex items-center mb-1 text-sm"
                     >
                         Sales
@@ -45,15 +60,16 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 
                     <!-- Delivery -->
                     <ResponsiveNavLink
+                        v-if="hasRole('admin') || hasRole('agent')"
                         :href="route('deliveries.index')"
-                        :active="route().current('deliveries.index')"
+                        :active="route().current('deliveries.index') || route().current('deliveries.create') || route().current('deliveries.show')"
                         class="flex items-center mb-1 text-sm"
                     >
                         Delivery
                     </ResponsiveNavLink>
 
                     <!-- Inventory -->
-                    <Dropdown2nd>
+                    <Dropdown2nd v-if="hasRole('admin')">
                         <template #trigger>
                             <button
                             type="button"
@@ -69,9 +85,10 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                         </template>
 
                         <template #content>
-                            <div>
+                            <div class="px-6">
                                 <!-- Products -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin') || hasRole('agent')"
                                     :href="route('products.index')"
                                     :active="route().current('products.index') || route().current('products.create') || route().current('products.edit')"
                                     class="flex items-center mb-1 text-sm"
@@ -80,7 +97,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 </ResponsiveNavLink>
 
                                 <!-- Premixes -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('premixes.index')"
                                     :active="route().current('premixes.index') || route().current('premixes.create') || route().current('premixes.edit')"
                                     class="flex items-center mb-1 text-sm"
@@ -98,19 +116,30 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 </ResponsiveNavLink> -->
 
                                 <!-- Raw Materials -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('rawmaterials.index')"
                                     :active="route().current('rawmaterials.index') || route().current('rawmaterials.create')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Raw Materials
                                 </ResponsiveNavLink>
+
+                                <!-- Transfer Products -->
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
+                                    :href="route('transfers.index')"
+                                    :active="route().current('transfers.index') || route().current('transfers.create')"
+                                    class="flex items-center mb-1 text-sm"
+                                >
+                                    Transfer Items
+                                </ResponsiveNavLink>
                             </div>
                         </template>
                     </Dropdown2nd>
 
                     <!-- Contacts -->
-                    <Dropdown2nd>
+                    <Dropdown2nd v-if="hasRole('admin')">
                         <template #trigger>
                             <button
                             type="button"
@@ -126,9 +155,10 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                         </template>
 
                         <template #content>
-                            <div>
+                            <div class="px-6">
                                 <!-- Clients -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('clients.index')"
                                     :active="route().current('clients.index') || route().current('clients.create') || route().current('clients.edit')"
                                     class="flex items-center mb-1 text-sm"
@@ -137,7 +167,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 </ResponsiveNavLink>
 
                                 <!-- Suppliers -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('suppliers.index')"
                                     :active="route().current('suppliers.index') || route().current('suppliers.create') || route().current('suppliers.edit')"
                                     class="flex items-center mb-1 text-sm"
@@ -149,7 +180,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                     </Dropdown2nd>
 
                     <!-- Purchases -->
-                    <Dropdown2nd>
+                    <Dropdown2nd v-if="hasRole('admin')">
                         <template #trigger>
                             <button
                             type="button"
@@ -165,9 +196,10 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                         </template>
 
                         <template #content>
-                            <div>
+                            <div class="px-6">
                                 <!-- View Purchases -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('purchases.index')"
                                     :active="route().current('purchases.index')"
                                     class="flex items-center mb-1 text-sm"
@@ -176,7 +208,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 </ResponsiveNavLink>
 
                                 <!-- Purchase Return -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('purchasereturns.index')"
                                     :active="route().current('purchasereturns.index')"
                                     class="flex items-center mb-1 text-sm"
@@ -188,7 +221,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                     </Dropdown2nd>
 
                     <!-- Reports -->
-                    <Dropdown2nd>
+                    <Dropdown2nd v-if="hasRole('admin')">
                         <template #trigger>
                             <button
                             type="button"
@@ -204,9 +237,10 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                         </template>
 
                         <template #content>
-                            <div>
+                            <div class="px-6">
                                 <!-- Sales Reports -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('salesreports.index')"
                                     :active="route().current('salesreports.index')"
                                     class="flex items-center mb-1 text-sm"
@@ -215,7 +249,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
                                 </ResponsiveNavLink>
 
                                 <!-- Inventory Reports -->
-                                <ResponsiveNavLink 
+                                <ResponsiveNavLink
+                                    v-if="hasRole('admin')"
                                     :href="route('inventoryreports.index')"
                                     :active="route().current('inventoryreports.index')"
                                     class="flex items-center mb-1 text-sm"

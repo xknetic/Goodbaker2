@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Delivery;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Truck;
+use App\Models\Client;
+use App\Models\Driver;
+use App\Models\Product;
+use App\Models\Delivery;
+use App\Models\SaleType;
+use Illuminate\Http\Request;
+use App\Models\TruckLoadItem;
+use Illuminate\Support\Facades\Redirect;
 
 class DeliveryController extends Controller
 {
@@ -15,7 +22,7 @@ class DeliveryController extends Controller
     {
         //
         return Inertia::render('Admin/Deliveries/Delivery', [
-            'deliveries' => Delivery::all()
+            'deliveries' => Delivery::with(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems'])->get(),
         ]);
     }
 
@@ -25,7 +32,14 @@ class DeliveryController extends Controller
     public function create()
     {
         //
-        return Inertia::render('Admin/Deliveries/DeliveryLoad');
+        return Inertia::render('Admin/Deliveries/DeliveryLoad', [
+            'saletypes' => SaleType::all(),
+            'trucks' => Truck::all(),
+            'drivers' => Driver::all(),
+            'clients' => Client::all(),
+            'products' => Product::with(['products'])->get(),
+        ]);
+        
     }
 
     /**
@@ -34,6 +48,44 @@ class DeliveryController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'salesDate' => 'required|date|max:25',
+            'truck' => 'required|exists:trucks,truckID',
+            'saleType' => 'required|exists:sale_types,saleTypeID',
+            'truckDriver' => 'required|exists:drivers,driverID',
+            'client' => 'required|exists:clients,clientID',
+            'products' => 'required|array', 
+        ]);
+
+        $deliveries = Delivery::create($request->only([
+            'salesDate',
+            'truck',
+            'saleType',
+            'truckDriver',
+            'client',
+        ]));
+
+        if (!$deliveries) {
+            return redirect()->route('deliveries.index');
+        }
+    
+        // Loop through each product and create TruckLoadItem entries
+        foreach ($request->products as $productData) {
+            TruckLoadItem::create([
+                'deliveryID' => $deliveries->deliveryID,
+                'product' => $productData['productID'],
+                'quantity' => $productData['quantity'],
+            ]);
+
+            // Deduct the ingredient quantity from raw materials
+            $product = Product::find($productData['productID']); // Ensure this is the correct model name
+            if ($product) {
+                $product->quantity -= $productData['quantity']; // Subtracting the quantity
+                $product->save(); // Save the adjusted quantity back to the database
+            }
+        }
+    
+        return Redirect::route('deliveries.index');
     }
 
     /**
@@ -42,6 +94,13 @@ class DeliveryController extends Controller
     public function show(Delivery $delivery)
     {
         //
+        $delivery->load(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems']);
+
+        return Inertia::render('Admin/Deliveries/DeliveryViewMore', [
+            'deliveries' => $delivery,
+            'trucks' => $delivery->trucks,
+            'truckloaditems' => $delivery->truckloaditems,
+        ]);
     }
 
     /**

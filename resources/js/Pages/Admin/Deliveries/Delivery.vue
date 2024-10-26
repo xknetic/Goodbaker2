@@ -1,7 +1,17 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { usePermission } from '@/composables/permission';
+
+const { hasRole } = usePermission();
+
+const props = defineProps({
+    deliveries: {
+        type: Array,
+        default: () => [],
+    },
+});
 </script>
 
 <template>
@@ -12,11 +22,39 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
             <!-- Top -->
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Delivery</h3>
-                <Link href="deliveries/create" class="btn btn-primary">
-                    <PrimaryButton>
-                        <span> Load </span>
-                    </PrimaryButton>
-                </Link>
+                <div class="flex gap-5">
+                    <Link
+                        v-if="hasRole('admin')"
+                        :href="route('deliverytypes.index')"
+                        class="btn btn-primary">
+                        <PrimaryButton class="p-2">
+                            Delivery Type
+                        </PrimaryButton>
+                    </Link>
+                    <Link
+                        v-if="hasRole('admin')"
+                        :href="route('drivers.index')"
+                        class="btn btn-primary">
+                        <PrimaryButton class="p-2">
+                            Driver
+                        </PrimaryButton>
+                    </Link>
+                    <Link
+                        v-if="hasRole('admin')"
+                        :href="route('trucks.index')"
+                        class="btn btn-primary">
+                        <PrimaryButton class="p-2">
+                            Trucks
+                        </PrimaryButton>
+                    </Link>
+                    <Link
+                        :href="route('deliveries.create')"
+                        class="btn btn-primary">
+                        <PrimaryButton>
+                            <span> Load </span>
+                        </PrimaryButton>
+                    </Link>
+                </div>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -30,22 +68,22 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                             <th scope="col" class="px-6 py-3">Truck Driver</th>
                             <th scope="col" class="px-6 py-3">Truck Agent</th>
                             <th scope="col" class="px-6 py-3">Total Sold</th>
-                            <th scope="col" class="px-6 py-3">Actions</th>
+                            <th scope="col" class="px-6 py-3 flex justify-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-gray-700">
+                        <tr v-for="delivery in deliveries" :key="delivery.id" class="border-gray-700">
+                            <td class="px-6 py-4"> {{ delivery.trucks.truckID }} </td>
+                            <td class="px-6 py-4"> {{ delivery.trucks.plateNumber }}</td>
+                            <td class="px-6 py-4"> {{ delivery.drivers.driverName }} </td>
+                            <td class="px-6 py-4">
+                            </td>
                             <td class="px-6 py-4">asd</td>
-                            <td class="px-6 py-4">asd</td>
-                            <td class="px-6 py-4">asd</td>
-                            <td class="px-6 py-4">asd</td>
-                            <td class="px-6 py-4">asd</td>
-                            <td class="px-6 py-4 flex items-center space-x-3">
-                                <Link  class="text-blue-400 hover:text-blue-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                    </svg>
+                            <td class="px-6 py-4 flex items-center space-x-3 justify-center">
+                                <Link :href="route('deliveries.show', delivery.deliveryID)" class="text-blue-400 hover:text-blue-600">
+                                    <PrimaryButton>
+                                        View More
+                                    </PrimaryButton>
                                 </Link>
                             </td>
                         </tr>

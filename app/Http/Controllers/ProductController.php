@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
+use App\Models\PremixIngredient;
+use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\RawMaterial;
 use App\Models\ProductPrice;
 use Illuminate\Http\Request;
+use App\Models\ProductCategory;
+use App\Models\ProductIngredient;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -18,7 +22,7 @@ class ProductController extends Controller
     {
 
         return Inertia::render('Admin/Products/Product', [
-            'products' => Product::with(['products'])->get(),
+            'products' => Product::with(['products', 'productcategories'])->get(),
         ]);
     }
 
@@ -30,37 +34,28 @@ class ProductController extends Controller
         //
         return Inertia::render('Admin/Products/CreateProduct', [
             'areas' => Area::all(),
+            'productcategories' => ProductCategory::all(),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, ProductPrice $price, Product $product)
     {
-        //
-        // $request->validate([
-        //     'productCategory' => 'required|string|max:25',
-        //     'productName' => 'required|string|max:25',
-        //     'unit' => 'required|string|max:25',
-        //     'quantity' => 'required|integer',
-        //     'amount' => 'required|numeric',
-        //     'criticalLevel' => 'required|integer',
-        // ]);
-
         $request->validate([
-            'productCategory' => 'required|string|max:25',
+            'productCategory' => 'required|integer|exists:product_categories,categoryID',
             'productName' => 'required|string|max:25',
             'unit' => 'required|string|max:25',
             'quantity' => 'required|integer',
             'amount' => 'required|numeric',
             'criticalLevel' => 'required|integer',
             'area' => 'required|integer|exists:areas,areaID',
-            'product' => 'required|string',
             'price' => 'required|numeric',
+            'ingredients' => 'required|array',
         ]);
 
-        Product::create($request->only([
+        $product = Product::create($request->only([
             'productCategory',
             'productName',
             'unit',
@@ -69,8 +64,33 @@ class ProductController extends Controller
             'criticalLevel',
         ]));
 
-        // Area::create($request->only(['areaName']));
-        ProductPrice::create($request->only(['area', 'product' ,'price']));
+        ProductPrice::create([
+            'area'=>$request->area,
+            'product'=>$product->productID,
+            'price'=>$request->price
+        ]);
+
+        foreach ($request->ingredients as $ingredientData) {
+            ProductIngredient::create([
+                'product' => $product->productID,
+                'quantity' => $ingredientData['quantity'],
+                'rawMaterial' => $ingredientData['rawMaterial'],
+                'premix' => $ingredientData['premix'],
+            ]);
+
+            // Deduct the ingredient quantity from raw materials
+            $rawMaterial = RawMaterial::find($ingredientData['rawMaterial']); // Ensure this is the correct model name
+            if ($rawMaterial) {
+                $rawMaterial->quantity -= $ingredientData['quantity']; // Subtracting the quantity
+                $rawMaterial->save(); // Save the adjusted quantity back to the database
+            }
+
+            $premix = PremixIngredient::find($ingredientData['premix']);
+            if ($premix) {
+                $premix->quantity -= $ingredientData['quantity'];
+                $premix->save();
+            }
+        }
 
         return Redirect::route('products.index');
     }
@@ -88,10 +108,15 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $productPrice = ProductPrice::where('product', $product->productID)->first();
         return Inertia::render('Admin/Products/EditProduct', [
             'product' => $product,
             'areas' => Area::all(),
+            'productPrices' => $productPrice ? $productPrice->price : null,
+            'productcategories' => ProductCategory::all(),
+            'area' => $productPrice ? $productPrice->area : null,
+            'productIngredients' => ProductIngredient::all(),
+            
         ]);
     }
 
@@ -100,19 +125,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
         $request->validate([
-            'productCategory' => 'required|string|max:25',
+            'productCategory' => 'required|integer|exists:product_categories,categoryID',
             'productName' => 'required|string|max:25',
             'unit' => 'required|string|max:25',
             'quantity' => 'required|integer',
             'amount' => 'required|numeric',
             'criticalLevel' => 'required|integer',
             'area' => 'required|integer|exists:areas,areaID',
-            'product' => 'required|string',
             'price' => 'required|numeric',
+            'ingredients' => 'required|array',
+            'productIngredients' => ProductIngredient::where('product', $product->productID),
         ]);
 
+        // Update the product
         $product->update($request->only([
             'productCategory',
             'productName',
@@ -121,12 +147,36 @@ class ProductController extends Controller
             'amount',
             'criticalLevel',
         ]));
-    
-        ProductPrice::updateOrCreate(
-            ['area' => $request->area, 'product' => $request->product],
-            ['price' => $request->price]
-        );
-    
+
+        // Update product price directly
+        ProductPrice::where('product', $product->productID)
+            ->update(['price' => $request->price, 'area' => $request->area]);
+
+        // Update ingredients
+        $product->ingredients()->delete(); // Clear existing ingredients
+
+        foreach ($request->ingredients as $ingredientData) {
+            ProductIngredient::create([
+                'product' => $product->productID,
+                'quantity' => $ingredientData['quantity'],
+                'rawMaterial' => $ingredientData['rawMaterial'],
+                'premix' => $ingredientData['premix'],
+            ]);
+
+            // Deduct the ingredient quantity from raw materials
+            $rawMaterial = RawMaterial::find($ingredientData['rawMaterial']);
+            if ($rawMaterial) {
+                $rawMaterial->quantity += $ingredientData['quantity'];
+                $rawMaterial->save();
+            }
+
+            $premix = PremixIngredient::find($ingredientData['premix']);
+            if ($premix) {
+                $premix->quantity += $ingredientData['quantity'];
+                $premix->save();
+            }
+        }
+
         return Redirect::route('products.index');
     }
 

@@ -13,7 +13,7 @@ const props = defineProps({
 const form = useForm({});
 
 function destroy(id) {
-    if (confirm("Sure ka ba idedelete mo? Di na to mababalik tanginamo ahh")) {
+    if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
         form.delete(route('clients.destroy', id));
     }
 }

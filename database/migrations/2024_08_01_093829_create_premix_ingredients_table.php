@@ -19,7 +19,6 @@ return new class extends Migration
 
             $table->foreign('premix')->references('premixID')->on('premixes')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
-
         });
     }
 

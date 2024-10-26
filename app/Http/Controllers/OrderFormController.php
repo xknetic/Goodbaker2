@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\OrderForm;
 use Illuminate\Http\Request;
+use App\Models\ProductCategory;
 
 class OrderFormController extends Controller
 {
@@ -18,7 +19,12 @@ class OrderFormController extends Controller
         return Inertia::render('Client/OrderForm', [
             'orderform' => OrderForm::all(),
             'products' => Product::with(['products'])->get(),
+            'productcategories' => ProductCategory::all(),
         ]);
+
+        // return Inertia::render('Admin/Products/Product', [
+        //     'products' => Product::all()
+        // ]);
     }
 
     /**

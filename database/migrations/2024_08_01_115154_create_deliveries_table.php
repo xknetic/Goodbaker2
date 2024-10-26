@@ -12,13 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('deliveries', function (Blueprint $table) {
-            $table->id('truckID');
-            $table->string('plateNumber', 7);
+            $table->timestamps();
+            $table->id('deliveryID');
+            $table->date('salesDate');
+            $table->unsignedBigInteger('truck');
+            $table->unsignedBigInteger('saleType');
             $table->unsignedBigInteger('truckDriver');
-            $table->unsignedBigInteger('truckAgent');
+            $table->unsignedBigInteger('client');
+            // $table->unsignedBigInteger('truckAgent');
 
             // Foreign key constraints
+            $table->foreign('truck')->references('truckID')->on('trucks')->onDelete('cascade');
             $table->foreign('truckDriver')->references('driverID')->on('drivers')->onDelete('cascade');
+            $table->foreign('saleType')->references('saleTypeID')->on('sale_types')->onDelete('cascade');
+            $table->foreign('client')->references('clientID')->on('clients')->onDelete('cascade');
             // $table->foreign('truckAgent')->references('id')->on('user_table')->onDelete('cascade');
 
         });

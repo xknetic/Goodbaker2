@@ -14,7 +14,7 @@ const props = defineProps({
 const form = useForm({});
 
 function destroy(id) {
-    if (confirm("Sure ka ba idedelete mo? Di na to mababalik tanginamo ahh")) {
+    if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
         form.delete(route('products.destroy', id));
     }
 }
@@ -28,11 +28,23 @@ function destroy(id) {
             <!-- Top -->
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Product</h3>
-                <Link :href="route('products.create')" class="btn btn-primary">
-                    <PrimaryButton class="p-2">
-                        Create
-                    </PrimaryButton>
-                </Link>
+                <div class="flex gap-5">
+                    <Link :href="route('categories.index')" class="btn btn-primary">
+                        <PrimaryButton class="p-2">
+                            Category
+                        </PrimaryButton>
+                    </Link>
+                    <Link :href="route('areas.index')" class="btn btn-primary">
+                        <PrimaryButton class="p-2">
+                            Area
+                        </PrimaryButton>
+                    </Link>
+                    <Link :href="route('products.create')" class="btn btn-primary">
+                        <PrimaryButton class="p-2">
+                            Create
+                        </PrimaryButton>
+                    </Link>
+                </div>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
@@ -53,12 +65,12 @@ function destroy(id) {
                     <tbody>
                         <!--       Variable         Model                 Variable     relationship -->
                         <tr v-for="product in products" :key="product.id">
-                            <td class="px-6 py-4">{{ product.productCategory }}</td>
+                            <td class="px-6 py-4">{{ product.productcategories.categoryName }}</td>
                             <td class="px-6 py-4">{{ product.productName }}</td>
                             <td class="px-6 py-4">{{ product.unit }}</td>
-                            <td class="px-6 py-4">Pack x{{ product.quantity }}</td>
+                            <td class="px-6 py-4">{{ product.quantity }}</td>
                             <td class="px-6 py-4">{{ product.products[0]?.price }}</td>
-                            <td class="px-6 py-4">{{ product.amount * product.products[0]?.price }}</td>
+                            <td class="px-6 py-4">{{ product.quantity * product.products[0]?.price }}</td>
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('products.edit', product.productID)" class="text-[#0109F4] hover:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

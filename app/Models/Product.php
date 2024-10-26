@@ -20,4 +20,14 @@ class Product extends Model
     public function products(){
         return $this->hasMany(ProductPrice::class, 'product', 'productID');
     }
+
+    public function productcategories()
+    {
+        return $this->belongsTo(ProductCategory::class, 'productCategory', 'categoryID');
+    }
+
+    public function ingredients()
+    {
+        return $this->hasMany(ProductIngredient::class, 'product', 'productID');
+    }
 }

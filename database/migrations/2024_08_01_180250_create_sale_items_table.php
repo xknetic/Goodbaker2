@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('sale_items', function (Blueprint $table) {
             $table->id('salesItemID');
             $table->unsignedBigInteger('salesID');
-            $table->unsignedBigInteger('product');
+            $table->unsignedBigInteger('truckLoadItem')->nullable();
             $table->integer('quantity');
 
+            $table->foreign('truckLoadItem')->references('truckLoadItemID')->on('truck_load_items')->onDelete('cascade');
             $table->foreign('salesID')->references('salesID')->on('sales')->onDelete('cascade');
-            $table->foreign('product')->references('productID')->on('products')->onDelete('cascade');
         });
     }
 

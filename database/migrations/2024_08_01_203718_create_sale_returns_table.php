@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_returns', function (Blueprint $table) {
-            $table->id('returnID');
+        Schema::create('sale_returns', function (Blueprint $table) {
+            $table->id('saleReturnID');
             $table->unsignedBigInteger('badOrder');
             $table->unsignedBigInteger('salesID');
 

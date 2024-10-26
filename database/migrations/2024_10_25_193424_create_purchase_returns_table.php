@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('truck_loads', function (Blueprint $table) {
-            $table->id('truckLoadID');
-            $table->dateTime('loadDate');
-            $table->unsignedBigInteger('truck');
-
-            $table->foreign('truck')->references('truckID')->on('deliveries')->onDelete('cascade');
+        Schema::create('purchase_returns', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('truck_loads');
+        Schema::dropIfExists('purchase_returns');
     }
 };

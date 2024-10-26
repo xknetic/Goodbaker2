@@ -13,7 +13,7 @@ const props = defineProps({
 const form = useForm({});
 
 function destroy(id) {
-    if (confirm("Sure ka ba idedelete mo? Di na to mababalik tanginamo ahh")) {
+    if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
         form.delete(route('premixes.destroy', id));
     }
 }
@@ -56,11 +56,11 @@ function destroy(id) {
                     <tbody>
                         <tr >
                             <td class="px-6 py-4">{{ premix.premixName }}</td>
-                            <td class="px-6 py-4">₱{{ premix.size }}</td>
-                            <td class="px-6 py-4">Loakan</td>
-                            <td class="px-6 py-4">Mabini</td>
-                            <td class="px-6 py-4">City Camp</td>
-                            <td class="px-6 py-4">Rosario</td>
+                            <td class="px-6 py-4">{{ premix.size }}</td>
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">4</td>
+                            <td class="px-6 py-4">3</td>
+                            <td class="px-6 py-4">273</td>
                             <td class="px-6 py-4">Total</td>
                             <td class="px-6 py-4">₱{{ premix.cost }}</td>
                             <td class="px-6 py-4">Amount</td>

@@ -1,6 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 </script>
 
 <template>
@@ -11,7 +13,7 @@ import { Head } from '@inertiajs/vue3';
             <!-- Top -->
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Purchases</h3>
-                <Link href="suppliers/create" class="btn btn-primary">
+                <Link :href="route('purchases.create')" class="btn btn-primary">
                     <PrimaryButton class="p-2">
                         Create
                     </PrimaryButton>
