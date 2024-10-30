@@ -46,15 +46,19 @@ class UserController extends Controller
             'userContact' => 'required|string|size:11',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'creationDate'
         ]);
 
         // Create the user
         $user = User::create([
+            'creationDate' => now(),
             'name' => $request->name,
             'userName' => $request->userName,
             'userContact' => $request->userContact,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'password' => now(),
+
         ]);
 
         $user->assignRole($request->role);

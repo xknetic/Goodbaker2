@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('branches', function (Blueprint $table) {
             $table->id('branchID');
             $table->string('branchName', 25);
+            $table->unsignedBigInteger('contactPerson');
+            $table->string('contact', 11);
+
+            $table->foreign('contactPerson')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -15,7 +15,7 @@ class SaleTypeController extends Controller
     {
         //
         return Inertia::render('Admin/Creates/SaleTypes/SaleType', [
-            'deliverytypes' => SaleType::all(),
+            'saletypes' => SaleType::all()
         ]);
     }
 
@@ -69,8 +69,10 @@ class SaleTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SaleType $saleType)
+    public function destroy(SaleType $deliverytype)
     {
         //
+        $deliverytype->delete();
+        sleep(1);
     }
 }

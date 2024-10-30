@@ -17,7 +17,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    public function products(){
+    public function productprices(){
         return $this->hasMany(ProductPrice::class, 'product', 'productID');
     }
 
@@ -29,5 +29,10 @@ class Product extends Model
     public function ingredients()
     {
         return $this->hasMany(ProductIngredient::class, 'product', 'productID');
+    }
+
+    public function truckloaditems()
+    {
+        return $this->hasMany(TruckLoadItem::class, 'product', 'productID');
     }
 }

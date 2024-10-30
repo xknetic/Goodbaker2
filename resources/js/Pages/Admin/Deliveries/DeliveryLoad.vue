@@ -6,8 +6,16 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref, computed } from 'vue';
+import Multiselect from 'vue-multiselect';
+import { fromJSON } from 'postcss';
+import '@vueform/multiselect/themes/default.css';
 
 const props = defineProps({
+    users: {
+        type: Array,
+        default: () => [],
+    },
+
     trucks: {
         type: Array,
         default: () => [],
@@ -44,6 +52,7 @@ const form = useForm({
     truck: '',
     saleType: '',
     truckDriver: '',
+    agent: '',
     client: '',
     products: [],
 });
@@ -80,7 +89,21 @@ function selectDriver(driver) {
     searchDrivers.value = driver.driverName;
     form.truckDriver = driver.driverID;
     filteredDrivers.value = [];
-    
+}
+
+const searchAgents = ref('');
+const filteredAgents = ref(props.users.filter(user => user.roles[0]?.name === 'agent'));
+
+function filterAgents() {
+    filteredAgents.value = props.users.filter(agent =>
+        agent.name.toString().toLowerCase().includes(searchAgents.value.toLowerCase())
+    );
+}
+
+function selectAgent(agent) {
+    searchAgents.value = agent.name;
+    form.agent = agent.id;
+    filteredAgents.value = [];
 }
 
 const searchClients = ref('');
@@ -111,23 +134,30 @@ function selectProduct(products) {
     searchProducts.value = products.productName;
     newProduct.value.productID= products.productID;
     newProduct.value.product= products.productName;
-    newProduct.value.price= products.products[0]?.price;
+    newProduct.value.price= products.productsprices[0]?.price;
     filteredProducts.value = [];
 }
+
+const a = ref([
+    {id:1,name:'dsf'},
+    {id:2,name:'asd'}
+])
+
 </script>
 <style>
-    #selectdri, #selectcli, #selectpro {
+    #selectdri, #selectcli, #selectpro, #selectage {
         visibility: hidden;
         position: absolute;
         z-index: 1;
     }
-    #typedri:focus~#selectdri, #typecli:focus~#selectcli, #typepro:focus~#selectpro{
+
+    #typedri:focus~#selectdri, #typecli:focus~#selectcli, #typepro:focus~#selectpro, #typeage:focus~#selectage{
         visibility: visible;
     }
-    #selectdri:hover, #selectcli:hover, #selectpro:hover{
+
+    #selectdri:hover, #selectcli:hover, #selectpro:hover, #selectage:hover{
         visibility: visible;
     }
-    
 </style>
 
 <template>
@@ -170,19 +200,19 @@ function selectProduct(products) {
 
                 <!-- Form Fields -->
                 <div>
-                    <div class="hidden">
-                        <InputLabel for="salesDate" class="mb-2">Load Date</InputLabel>
-                        <TextInput class="mt-1 block w-[50%]" id="salesDate" type="text" v-model="form.salesDate" disabled />
+                    <div>
+                        <InputLabel for="salesDate" class="mb-2">Delivery Date</InputLabel>
+                        <TextInput class="mt-1 block w-[50%]" id="salesDate" type="text" v-model="form.salesDate" />
                     </div>
 
                     <div class="relative">
-                        <InputLabel for="driver" class="mb-2">Truck Driver</InputLabel>
+                        <InputLabel for="driver" class="mb-2">Driver</InputLabel>
                         <TextInput id="typedri"
-                            type="text" 
+                            type="text"
                             v-model="searchDrivers" 
                             @input="filterDrivers" 
                             class="mt-1 block w-[50%]" 
-                            placeholder="Search for truck driver" 
+                            placeholder="Search for driver" 
                         />
                         <InputError :message="form.errors.supplierID" />
 
@@ -194,6 +224,29 @@ function selectProduct(products) {
                                 class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[50%] pl-5 rounded-lg mt-1"
                             >
                                 {{ driver.driverName }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="relative">
+                        <InputLabel for="agent" class="mb-2">Agent</InputLabel>
+                        <TextInput id="typeage"
+                            type="text"
+                            v-model="searchAgents" 
+                            @input="filterAgents" 
+                            class="mt-1 block w-[50%]" 
+                            placeholder="Search for agent" 
+                        />
+                        <InputError :message="form.errors.supplierID" />
+
+                        <ul id="selectage" v-if="filteredAgents.length > 0" class="w-[50%] bg-white" >
+                            <li 
+                                v-for="agent in filteredAgents" 
+                                :key="agent.id" 
+                                @click="selectAgent(agent)" 
+                                class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[50%] pl-5 rounded-lg mt-1"
+                            >
+                                {{ agent.name }}
                             </li>
                         </ul>
                     </div>
@@ -216,7 +269,7 @@ function selectProduct(products) {
 
                     <div>
                         <InputLabel for="saleType" class="mb-2">Delivery Type</InputLabel>
-                        <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="saleType" v-model="form.saleType" required>
+                        <select v-model="form.saleType" name="state" id="deliveryType" class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                             <option disabled value="">Select Delivery Type</option>
                             <option v-for="type in saletypes" :key="type.id" :value="type.saleTypeId">{{ type.saleTypeName }}</option>
                         </select>
@@ -226,6 +279,19 @@ function selectProduct(products) {
                         <InputLabel for="saleType" class="mb-2">saleType</InputLabel>
                         <TextInput class="mt-1 block w-[50%]" id="saleType" type="text" v-model="form.saleType"  />
                         <InputError :message="form.errors.saleType" />
+                    </div> -->
+                    
+                    <!-- <div>
+                        <InputLabel for="client" class="mb-2">Client</InputLabel>
+                        <Multiselect
+                        v-model="form.client"
+                        :options="props.clients"
+                        label="clientName"
+                        track-by="clientID"
+                        placeholder="Search for client"
+                        class="mt-1 w-1/2"
+                        />
+                        <InputError :message="form.errors.supplierID" />
                     </div> -->
 
                     <div class="relative">
@@ -314,14 +380,6 @@ function selectProduct(products) {
                                 <td class="px-6 py-4">{{ product.product }}</td>
                                 <td class="px-6 py-4">{{ product.quantity }}</td>
                                 <td class="px-6 py-4">{{ product.price }}</td>
-                                <td class="px-6 py-4 flex items-center space-x-3">
-                                    <button @click.prevent="removeIngredient(index)" class="text-red-700 hover:text-red-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                        </svg>
-                                    </button>
-                                </td>
                             </tr>
                         </tbody>
                     </table>

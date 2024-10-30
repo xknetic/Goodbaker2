@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id('salesID');
             $table->dateTime('salesDate');
             $table->string('salesStatus', 15);
-            $table->unsignedBigInteger('saleType');
             $table->unsignedBigInteger('deliveryID')->nullable();
             $table->unsignedBigInteger('userName');
 
             $table->foreign('deliveryID')->references('deliveryID')->on('deliveries')->onDelete('cascade');
-            $table->foreign('saleType')->references('saleTypeID')->on('sale_types')->onDelete('cascade');
             $table->foreign('userName')->references('id')->on('users')->onDelete('cascade');
         });
     }

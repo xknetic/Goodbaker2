@@ -73,5 +73,7 @@ class TruckController extends Controller
     public function destroy(Truck $truck)
     {
         //
+        $truck->delete();
+        sleep(1);
     }
 }

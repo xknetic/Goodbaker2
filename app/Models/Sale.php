@@ -17,17 +17,17 @@ class Sale extends Model
 
     protected $guarded = [];
 
-    public function deliveries()
+    public function delivery()
     {
         return $this->belongsTo(Delivery::class,'deliveryID' , 'deliveryID');
     }
 
-    public function saletypes()
+    public function saletype()
     {
         return $this->belongsTo(SaleType::class, 'saleType');
     }
 
-    public function trucks()
+    public function truck()
     {
         return $this->belongsTo(Truck::class, 'truck');
     }

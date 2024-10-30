@@ -2,6 +2,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Multiselect from 'vue-multiselect';
+import { ref } from 'vue';
 
 const props = defineProps({
     branches: {
@@ -9,6 +11,15 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
+// Create a reactive property to hold the selected branches
+const selectedBranches = ref([]);
+
+// Create an options array from the branches prop for the multiselect
+const options = props.branches.map(branch => ({
+    id: branch.id,
+    name: branch.branchName,
+}));
 </script>
 
 <template>
@@ -27,6 +38,18 @@ const props = defineProps({
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
+            <!-- Multi-select for Branches -->
+            <div class="mb-5">
+                <label for="branch-select" class="block text-sm font-medium text-gray-700">Select Branches:</label>
+                <Multiselect
+                    v-model="selectedBranch"
+                    :options="props.branches"
+                    label="branchName"
+                    :close-on-select="true"
+                    :searchable="true"
+                />
+            </div>
+
             <!-- Bottom Table -->
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
@@ -36,6 +59,7 @@ const props = defineProps({
                             <th scope="col" class="px-6 py-3">Available Products</th>
                             <th scope="col" class="px-6 py-3">Remaining</th>
                             <th scope="col" class="px-6 py-3">Today Sold</th>
+                            <th scope="col" class="px-6 py-3">Contact Person</th>
                             <th scope="col" class="px-6 py-3">View Branch</th>
                         </tr>
                     </thead>
@@ -45,6 +69,7 @@ const props = defineProps({
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4">{{ branch.users.name }} ({{ branch.contact }})</td>
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('branches.show', branch.branchID)" class="text-[#0109F4] hover:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

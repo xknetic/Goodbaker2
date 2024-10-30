@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Area;
-use App\Models\PremixIngredient;
 use Inertia\Inertia;
+use App\Models\Premix;
 use App\Models\Product;
 use App\Models\RawMaterial;
 use App\Models\ProductPrice;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Models\PremixIngredient;
 use App\Models\ProductIngredient;
 use Illuminate\Support\Facades\Redirect;
 
@@ -22,7 +23,7 @@ class ProductController extends Controller
     {
 
         return Inertia::render('Admin/Products/Product', [
-            'products' => Product::with(['products', 'productcategories'])->get(),
+            'products' => Product::with(['productprices', 'productcategories'])->get(),
         ]);
     }
 
@@ -35,6 +36,8 @@ class ProductController extends Controller
         return Inertia::render('Admin/Products/CreateProduct', [
             'areas' => Area::all(),
             'productcategories' => ProductCategory::all(),
+            'rawmaterials' => RawMaterial::all(),
+            'premixes' => Premix::all(),
         ]);
     }
 
@@ -48,7 +51,6 @@ class ProductController extends Controller
             'productName' => 'required|string|max:25',
             'unit' => 'required|string|max:25',
             'quantity' => 'required|integer',
-            'amount' => 'required|numeric',
             'criticalLevel' => 'required|integer',
             'area' => 'required|integer|exists:areas,areaID',
             'price' => 'required|numeric',
@@ -60,7 +62,6 @@ class ProductController extends Controller
             'productName',
             'unit',
             'quantity',
-            'amount',
             'criticalLevel',
         ]));
 
@@ -113,9 +114,12 @@ class ProductController extends Controller
             'product' => $product,
             'areas' => Area::all(),
             'productPrices' => $productPrice ? $productPrice->price : null,
-            'productcategories' => ProductCategory::all(),
             'area' => $productPrice ? $productPrice->area : null,
             'productIngredients' => ProductIngredient::all(),
+            'rawmaterials' => RawMaterial::all(),
+            'premixes' => Premix::all(),
+            'productcategories' => ProductCategory::all(),
+            'productingredients' => ProductIngredient::with('premix', 'rawMaterial')->get(),
             
         ]);
     }
@@ -130,12 +134,10 @@ class ProductController extends Controller
             'productName' => 'required|string|max:25',
             'unit' => 'required|string|max:25',
             'quantity' => 'required|integer',
-            'amount' => 'required|numeric',
             'criticalLevel' => 'required|integer',
             'area' => 'required|integer|exists:areas,areaID',
             'price' => 'required|numeric',
             'ingredients' => 'required|array',
-            'productIngredients' => ProductIngredient::where('product', $product->productID),
         ]);
 
         // Update the product
@@ -144,7 +146,6 @@ class ProductController extends Controller
             'productName',
             'unit',
             'quantity',
-            'amount',
             'criticalLevel',
         ]));
 
@@ -156,12 +157,24 @@ class ProductController extends Controller
         $product->ingredients()->delete(); // Clear existing ingredients
 
         foreach ($request->ingredients as $ingredientData) {
-            ProductIngredient::create([
+            $ingredientID = ProductIngredient::create([
                 'product' => $product->productID,
                 'quantity' => $ingredientData['quantity'],
-                'rawMaterial' => $ingredientData['rawMaterial'],
-                'premix' => $ingredientData['premix'],
             ]);
+            if (is_array($ingredientData['rawMaterial'])) {
+                ProductIngredient::where('productIngredientID', $ingredientID->productIngredientID)
+                ->update(['rawMaterial' => $ingredientData['rawMaterial']['rawMaterialID']]);
+            }else {
+                ProductIngredient::where('productIngredientID', $ingredientID->productIngredientID)
+                ->update(['rawMaterial' => $ingredientData['rawMaterial']]);
+            }
+            if (is_array($ingredientData['premix'])) {
+                ProductIngredient::where('productIngredientID', $ingredientID->productIngredientID)
+                ->update(['premix' => $ingredientData['premix']['premixID']]);
+            }else {
+                ProductIngredient::where('productIngredientID', $ingredientID->productIngredientID)
+                ->update(['premix' => $ingredientData['premix']]);
+            }
 
             // Deduct the ingredient quantity from raw materials
             $rawMaterial = RawMaterial::find($ingredientData['rawMaterial']);
@@ -170,7 +183,7 @@ class ProductController extends Controller
                 $rawMaterial->save();
             }
 
-            $premix = PremixIngredient::find($ingredientData['premix']);
+            $premix = Premix::find($ingredientData['premix']);
             if ($premix) {
                 $premix->quantity += $ingredientData['quantity'];
                 $premix->save();

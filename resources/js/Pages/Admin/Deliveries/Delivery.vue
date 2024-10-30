@@ -63,22 +63,23 @@ const props = defineProps({
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs uppercase">
                         <tr>
+                            <th scope="col" class="px-6 py-3">Delivery Date</th>
+                            <th scope="col" class="px-6 py-3">Delivery Type</th>
                             <th scope="col" class="px-6 py-3">Truck</th>
                             <th scope="col" class="px-6 py-3">Plate No.</th>
                             <th scope="col" class="px-6 py-3">Truck Driver</th>
                             <th scope="col" class="px-6 py-3">Truck Agent</th>
-                            <th scope="col" class="px-6 py-3">Total Sold</th>
                             <th scope="col" class="px-6 py-3 flex justify-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="delivery in deliveries" :key="delivery.id" class="border-gray-700">
+                            <td class="px-6 py-4"> {{ delivery.salesDate }} </td>
+                            <td class="px-6 py-4"> {{ delivery.saletypes.saleTypeName }} </td>
                             <td class="px-6 py-4"> {{ delivery.trucks.truckID }} </td>
                             <td class="px-6 py-4"> {{ delivery.trucks.plateNumber }}</td>
                             <td class="px-6 py-4"> {{ delivery.drivers.driverName }} </td>
-                            <td class="px-6 py-4">
-                            </td>
-                            <td class="px-6 py-4">asd</td>
+                            <td class="px-6 py-4"> {{ delivery.users.name }} </td>
                             <td class="px-6 py-4 flex items-center space-x-3 justify-center">
                                 <Link :href="route('deliveries.show', delivery.deliveryID)" class="text-blue-400 hover:text-blue-600">
                                     <PrimaryButton>

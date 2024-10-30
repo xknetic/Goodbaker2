@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('saleType');
             $table->unsignedBigInteger('truckDriver');
             $table->unsignedBigInteger('client');
+            $table->unsignedBigInteger('agent');
             // $table->unsignedBigInteger('truckAgent');
 
             // Foreign key constraints
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->foreign('truckDriver')->references('driverID')->on('drivers')->onDelete('cascade');
             $table->foreign('saleType')->references('saleTypeID')->on('sale_types')->onDelete('cascade');
             $table->foreign('client')->references('clientID')->on('clients')->onDelete('cascade');
+            $table->foreign('agent')->references('id')->on('users')->onDelete('cascade');
             // $table->foreign('truckAgent')->references('id')->on('user_table')->onDelete('cascade');
 
         });

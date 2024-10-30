@@ -13,7 +13,7 @@ class ProductIngredient extends Model
 
     protected $table = 'product_ingredients';
 
-    protected $primaryKey = 'productIngredientRawMaterialID';
+    protected $primaryKey = 'productIngredientID';
 
     protected $guarded = [];
 

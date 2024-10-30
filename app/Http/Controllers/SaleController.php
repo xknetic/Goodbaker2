@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
-use App\Models\SaleItem;
 use Inertia\Inertia;
 use App\Models\Truck;
+use App\Models\Delivery;
+use App\Models\SaleItem;
 use App\Models\SaleType;
-use App\Models\TruckLoadItem;
 use Illuminate\Http\Request;
+use App\Models\TruckLoadItem;
 use Illuminate\Support\Facades\Redirect;
 
 class SaleController extends Controller
@@ -20,8 +21,7 @@ class SaleController extends Controller
     {
         //
         return Inertia::render('Admin/Sales/Sales', [
-            'sales' => Sale::with('deliveries', 'saletypes', 'trucks')->get(),
-            'saleitems' => SaleItem::with('sale', 'product', 'truckLoadItem')->get(),
+            'sales' => Sale::all()
         ]);
     }
 
@@ -34,7 +34,8 @@ class SaleController extends Controller
         return Inertia::render('Admin/Sales/CreateSale', [
             'saletypes' => SaleType::all(),
             'trucks' => Truck::all(),
-            'truckloaditems' => TruckLoadItem::all(),
+            'deliveries' => Delivery::with('trucks')->get(),
+            'truckloaditems' => TruckLoadItem::with('products')->get()
         ]);
     }
 
@@ -47,7 +48,6 @@ class SaleController extends Controller
         $request->validate([
             'salesDate' => 'required|date',
             'salesStatus' => 'required|string|max:15',
-            'saleType' => 'required|exists:sale_types,saleTypeID',
             'deliveryID' => 'nullable|exists:deliveries,deliveryID',
         ]);
 
@@ -55,7 +55,6 @@ class SaleController extends Controller
             'userName' =>auth()->user()->id,
             'salesDate' =>$request->salesDate,
             'salesStatus'=>$request->salesStatus,
-            'saleType'=>$request->saleType,
             'deliveryID'=>$request->deliveryID,
         ]);
 

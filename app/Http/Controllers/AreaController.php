@@ -40,8 +40,7 @@ class AreaController extends Controller
 
         Area::create($request->all());
 
-        // return redirect()->to(url()->current());
-        return Redirect::route('products.index');
+        return redirect()->to(url()->current());
     }
 
     /**

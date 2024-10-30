@@ -18,11 +18,18 @@ const props = defineProps({
     },
 });
 
+const currentDate = () => {
+    const current = new Date();
+    return current.toISOString().split('T')[0];
+};
+
 const form = useForm({
-    branchName: '',
-    supplier: '',
-    rawmaterial: ''
+    purchaseDate: currentDate(),
+    supplier: '',   
+    purchases: []
 });
+
+const newPurchase = ref({rawMaterialID: '', purchase: '', unit: '', quantity: ''});
 
 const submit = () => {
     form.post(route('purchases.store'));
@@ -42,6 +49,7 @@ function selectSupplier(supplier) {
     form.supplier = supplier.supplierID;
     filteredSuppliers.value = [];
     filterRawMaterials()
+    form.purchases = [];
 }
 
 const searchRawMaterials = ref('');
@@ -55,9 +63,21 @@ function filterRawMaterials() {
 
 function selectRawMaterial(rawmaterial) {
     searchRawMaterials.value = rawmaterial.rawMaterialName;
-    form.rawmaterial = rawmaterial.rawmaterialID;
+    newPurchase.value.rawMaterialID= rawmaterial.rawMaterialID;
+    newPurchase.value.purchase= rawmaterial.rawMaterialName;
+    newPurchase.value.unit= rawmaterial.unit;
     filteredRawMaterials.value = [];
 }
+
+const addPurchase = () => {
+    if (newPurchase.value.quantity && newPurchase.value.purchase) {
+        form.purchases.push({ ...newPurchase.value });
+        newPurchase.value = {purchase: '', unit: '', quantity: ''};
+        searchRawMaterials.value = '';
+        filteredRawMaterials.value = [];
+        filterRawMaterials();
+    }
+};
 </script>
 
 <style>
@@ -124,6 +144,11 @@ function selectRawMaterial(rawmaterial) {
 
                 <!-- Form Fields -->
 
+                <div>
+                    <InputLabel for="purchaseDate" class="mb-2">Purchase Date</InputLabel>
+                    <TextInput class="mt-1 block w-[50%]" id="purchaseDate" type="text" v-model="form.purchaseDate" />
+                </div>
+
                 <div class="relative">
                     <InputLabel for="supplier" class="mb-2">Supplier</InputLabel>
                     <TextInput id="typesup"
@@ -171,6 +196,40 @@ function selectRawMaterial(rawmaterial) {
                     </ul>
                 </div>
 
+                <div class="mt-4">
+                    <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
+                    <TextInput class="mt-1 block w-[50%]" id="quantity" v-model="newPurchase.quantity" />
+                    <InputError :message="form.errors.quantity" />
+                </div>
+
+                <PrimaryButton @click.prevent="addPurchase" class="mt-2">
+                    Add Purchase Item
+                </PrimaryButton>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs uppercase">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">SL.</th>
+                                <th scope="col" class="px-6 py-3">Purchase Item</th>
+                                <th scope="col" class="px-6 py-3">Unit</th>
+                                <th scope="col" class="px-6 py-3">Quantity</th>
+                                <th scope="col" class="px-6 py-3">Action</th>
+                            </tr>
+                        </thead>
+
+
+                        <!-- Table -->
+                        <tbody>
+                            <tr v-for="(purchase, index) in form.purchases" :key="index">
+                                <td class="px-6 py-4">{{ index + 1 }}</td>
+                                <td class="px-6 py-4">{{ purchase.purchase }}</td>
+                                <td class="px-6 py-4">{{ purchase.unit }}</td>
+                                <td class="px-6 py-4">{{ purchase.quantity }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <!-- <div class="mt-4">
                     <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="quantity" v-model="newRawMaterial.quantity" />

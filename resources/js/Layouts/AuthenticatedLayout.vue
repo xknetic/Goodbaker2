@@ -52,7 +52,7 @@ const { hasRole } = usePermission();
                     <ResponsiveNavLink
                         v-if="hasRole('admin') || hasRole('agent')"
                         :href="route('sales.index')"
-                        :active="route().current('sales.index') || route().current('sales.create')"
+                        :active="route().current('sales.index')"
                         class="flex items-center mb-1 text-sm"
                     >
                         Sales
@@ -62,7 +62,7 @@ const { hasRole } = usePermission();
                     <ResponsiveNavLink
                         v-if="hasRole('admin') || hasRole('agent')"
                         :href="route('deliveries.index')"
-                        :active="route().current('deliveries.index') || route().current('deliveries.create') || route().current('deliveries.show')"
+                        :active="route().current('deliveries.index') || route().current('deliveries.create')"
                         class="flex items-center mb-1 text-sm"
                     >
                         Delivery
@@ -208,14 +208,6 @@ const { hasRole } = usePermission();
                                 </ResponsiveNavLink>
 
                                 <!-- Purchase Return -->
-                                <ResponsiveNavLink
-                                    v-if="hasRole('admin')"
-                                    :href="route('purchasereturns.index')"
-                                    :active="route().current('purchasereturns.index')"
-                                    class="flex items-center mb-1 text-sm"
-                                >
-                                    Purchase Return
-                                </ResponsiveNavLink>
                             </div>
                         </template>
                     </Dropdown2nd>

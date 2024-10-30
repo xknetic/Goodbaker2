@@ -37,7 +37,12 @@ class Delivery extends Model
 
     public function saletypes()
     {
-        return $this->belongsTo(SaleType::class, 'saleType', 'saleTypeID');
+        return $this->belongsTo(SaleType::class, 'saleType', 'saleTypeId');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'agent', 'id');
     }
 
     public function truckloaditems()
