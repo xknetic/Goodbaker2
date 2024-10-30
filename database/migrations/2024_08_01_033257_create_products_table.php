@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('productName', 25);
             $table->string('unit', 25);
             $table->integer('quantity');
-            $table->float('amount');
             $table->integer('criticalLevel');
 
             $table->foreign('productCategory')->references('categoryID')->on('product_categories')->onDelete('cascade');

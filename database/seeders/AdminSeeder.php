@@ -21,6 +21,7 @@ class AdminSeeder extends Seeder
             'password' => Hash::make('admin12345'),
             'userContact' => '1234567890',
             'email' => 'admin@example.com',
+            'creationDate' => now(),
             'email_verified_at' => now(),
             'created_at' => now(),
             'updated_at' => now(),

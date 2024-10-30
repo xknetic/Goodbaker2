@@ -69,8 +69,8 @@ function destroy(id) {
                             <td class="px-6 py-4">{{ product.productName }}</td>
                             <td class="px-6 py-4">{{ product.unit }}</td>
                             <td class="px-6 py-4">{{ product.quantity }}</td>
-                            <td class="px-6 py-4">{{ product.products[0]?.price }}</td>
-                            <td class="px-6 py-4">{{ product.quantity * product.products[0]?.price }}</td>
+                            <td class="px-6 py-4">{{ product.productprices[0]?.price }}</td>
+                            <td class="px-6 py-4">{{ product.quantity * product.productprices[0]?.price }}</td>
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('products.edit', product.productID)" class="text-[#0109F4] hover:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

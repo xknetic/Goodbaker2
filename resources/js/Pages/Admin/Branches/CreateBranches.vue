@@ -6,9 +6,12 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
+import NumberInput from '@/Components/NumberInput.vue';
 
 const form = useForm({
     branchName: '',
+    contactPerson: '',
+    contact: '',
 });
 
 const submit = () => {
@@ -70,6 +73,27 @@ const submit = () => {
                     <InputLabel for="branchName" class="mb-2">Branch Name</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="branchName" type="text" v-model="form.branchName" required />
                     <InputError :message="form.errors.branchName" />
+                </div>
+
+                <div>
+                    <InputLabel for="branchName" class="mb-2">Contact Person</InputLabel>
+                    <TextInput class="mt-1 block w-[50%]" id="contactPerson" type="text" v-model="form.contactPerson" required />
+                    <InputError :message="form.errors.branchName" />
+                </div>
+                
+                <div class="mt-2">
+                    <InputLabel for="contact" value="Contact Number" />
+                    <NumberInput
+                        maxlength="11"
+                        id="contact"
+                        type="text"
+                        pattern="\d*"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, this.maxLength);"
+                        class="mt-1 block w-[50%]"
+                        v-model="form.contact"
+                        required
+                    />
+                    <InputError class="mt-2" :message="form.errors.userContact" />
                 </div>
             </form>
         </article>

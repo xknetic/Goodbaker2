@@ -20,4 +20,8 @@ class Branch extends Model
     public function branches(){
         return $this->belongsToMany(Branch::class);
     }
+
+    public function users(){
+        return $this->belongsTo(User::class, 'contactPerson', 'id');
+    }
 }

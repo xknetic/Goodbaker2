@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id('supplierID');
             $table->string('supplierName', 50);
-            $table->string('address', 100);
-            $table->string('contactNumber', 11);
+            $table->string('address', 100)->nullable();
+            $table->string('contactNumber', 11)->nullable();
         });
     }
 

@@ -20,10 +20,17 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    premixes: {
+        type: Array,
+        default: () => [],
+    },
+    productingredients: {
+        type: Array,
+        default: () => [],
+    },
     area: Object,
     product: Object,
     productPrices: Object,
-    productIngredients: Object,
 });
 
 const form = useForm({
@@ -37,26 +44,25 @@ const form = useForm({
     area: props.area,
     product: props.product.product,
     productID: props.product.productID,
-    ingredients: props.productIngredients ? props.productIngredients : [],
+    ingredients: props.productingredients ? props.productingredients : [],
 });
 
-const newIngredient = ref({ quantity: '', rawMaterial: '' });
-var rawMaterialQuantity = 0;
+const newIngredient = ref({ quantity: '', rawMaterial: '', rawMaterialName: '', premix: '', premixName: '' });
 
 const addIngredients = () => {
-    if (newIngredient.value.quantity && newIngredient.value.rawMaterial) {
-        props.rawmaterials.find((rawmaterial, i) => {
-            if (rawmaterial.rawMaterialID === parseInt(newIngredient.value.rawMaterial)) {
-                rawMaterialQuantity = props.rawmaterials[i].quantity;
-                return true; // stop searching
-            }
-        });
-        if ((rawMaterialQuantity >= newIngredient.value.quantity) && (newIngredient.value.quantity >= 0)) {
-            form.ingredients.push({ ...newIngredient.value });
-            newIngredient.value.quantity = '';
-            newIngredient.value.rawMaterial = '';
-        }
+    if ((newIngredient.value.rawMaterial || newIngredient.value.premix) && newIngredient.value.quantity) {
+        form.ingredients.push({ ...newIngredient.value });
+        newIngredient.value.quantity = '';
+        newIngredient.value.rawMaterial = '';
+        newIngredient.value.rawMaterialName = '';
+        newIngredient.value.premix = '';
+        newIngredient.value.premixName = '';
+        searchRawMaterials.value = '';
+        searchPremixes.value = '';
+        filterRawMaterials();
+        filterPremixes();
     }
+
 };
 
 const removeIngredient = (index) => {
@@ -66,7 +72,55 @@ const removeIngredient = (index) => {
 const submit = () => {
     form.put(route('products.update', props.product.productID));
 }
+
+const searchRawMaterials = ref('');
+const filteredRawMaterials = ref(props.rawmaterials);
+
+function filterRawMaterials() {
+    filteredRawMaterials.value = props.rawmaterials.filter(rawMaterial =>
+    rawMaterial.rawMaterialName.toString().toLowerCase().includes(searchRawMaterials.value.toLowerCase())
+    );  
+}
+
+function selectRawMaterial(rawMaterial) {
+    searchRawMaterials.value = rawMaterial.rawMaterialName;
+    newIngredient.value.rawMaterialName = rawMaterial.rawMaterialName;
+    newIngredient.value.rawMaterial = rawMaterial.rawMaterialID
+    filteredRawMaterials.value = [];
+}
+
+const searchPremixes = ref('');
+const filteredPremixes = ref(props.premixes);
+
+function filterPremixes() {
+    filteredPremixes.value = props.premixes.filter(premix =>
+    premix.premixName.toString().toLowerCase().includes(searchPremixes.value.toLowerCase())
+    );  
+}
+
+function selectPremix(premix) {
+    searchPremixes.value = premix.premixName;
+    newIngredient.value.premixName = premix.premixName;
+    newIngredient.value.premix = premix.premixID
+    filteredPremixes.value = [];
+}
 </script>
+
+<style>
+    #selectpre, #selectraw {
+        display: none;
+        position: absolute;
+        z-index: 1;
+    }
+    #typepre:focus~#selectpre, #typeraw:focus~#selectraw {
+        display: inline;
+        visibility: visible;
+    }
+    #selectpre:hover, #selectraw:hover {
+        display: inline;
+        visibility: visible;
+    }
+</style>
 
 <template>
     <Head title="Product" />
@@ -159,12 +213,6 @@ const submit = () => {
                 </div>
 
                 <div>
-                    <InputLabel for="amount" class="mb-2">Amount</InputLabel>
-                    <TextInput class="mt-1 block w-[50%]" id="amount" type="text" v-model="form.amount" required />
-                    <InputError :message="form.errors.amount" />
-                </div>
-
-                <div>
                     <InputLabel for="criticalLevel" class="mb-2">Critical Level</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="criticalLevel" type="text" v-model="form.criticalLevel" required />
                     <InputError :message="form.errors.criticalLevel" />
@@ -175,7 +223,49 @@ const submit = () => {
                     <h4>Ingredients</h4>
 
                     <div class="flex gap-5 mb-3">
-                        <TextInput v-model="newIngredient.rawMaterial" class="mt-1 block w-[20%]" type="text" placeholder="Raw Material" />
+                        <div class="relative">
+                            <TextInput id="typepre"
+                                type="text"
+                                v-model="searchPremixes" 
+                                @input="filterPremixes" 
+                                class="mt-1 block" 
+                                placeholder="Search for premix" 
+                            />
+                            <InputError :message="form.errors.supplierID" />
+
+                            <ul id="selectpre" v-if="filteredPremixes.length > 0" class="w-[100%] bg-white" >
+                                <li 
+                                    v-for="premix in filteredPremixes" 
+                                    :key="premix.id" 
+                                    @click="selectPremix(premix)" 
+                                    class="cursor-pointer hover:text-white hover:bg-[#0108EE] pl-5 rounded-lg mt-1"
+                                >
+                                    {{ premix.premixName }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="relative">
+                            <TextInput id="typeraw"
+                                type="text"
+                                v-model="searchRawMaterials" 
+                                @input="filterRawMaterials" 
+                                class="mt-1 block" 
+                                placeholder="Search for raw material" 
+                            />
+                            <InputError :message="form.errors.supplierID" />
+
+                            <ul id="selectraw" v-if="filteredRawMaterials.length > 0" class="w-[100%] bg-white" >
+                                <li 
+                                    v-for="rawMaterial in filteredRawMaterials" 
+                                    :key="rawMaterial.id" 
+                                    @click="selectRawMaterial(rawMaterial)" 
+                                    class="cursor-pointer hover:text-white hover:bg-[#0108EE] pl-5 rounded-lg mt-1"
+                                >
+                                    {{ rawMaterial.rawMaterialName }}
+                                </li>
+                            </ul>
+                        </div>
                         <TextInput v-model="newIngredient.quantity" class="mt-1 block w-[20%]" type="text" placeholder="Quantity" />
                         <PrimaryButton @click.prevent="addIngredients" class="px-5">
                             Add
@@ -185,14 +275,17 @@ const submit = () => {
                     <table class="w-[50%] text-sm text-left">
                         <thead class="text-xs uppercase">
                             <tr>
-                                <th scope="col" class="px-6 py-3">{{ rawMaterialQuantity }}</th>
+                                <th scope="col" class="px-6 py-3">Premix / Raw Material</th>
                                 <th scope="col" class="px-6 py-3">Quantity</th>
                                 <th scope="col" class="px-6 py-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(ingredient, index) in form.ingredients" :key="index" class="border-gray-700">
-                                <td class="px-6 py-4">{{ ingredient.rawMaterial }}</td>
+                                <td class="px-6 py-4" v-if="ingredient.rawMaterial.rawMaterialName">{{ ingredient.raw_material.rawMaterialName }}</td>
+                                <td class="px-6 py-4" v-else-if="ingredient.rawMaterial">{{ ingredient.rawMaterialName }}</td>
+                                <td class="px-6 py-4" v-if="ingredient.premix.premixName">{{ ingredient.premix.premixName }}</td>
+                                <td class="px-6 py-4" v-else-if="ingredient.premix">{{ ingredient.premixName }}</td>
                                 <td class="px-6 py-4">{{ ingredient.quantity }}</td>
                                 <td class="px-6 py-4 flex items-center space-x-3">
                                     <button @click.prevent="removeIngredient(index)" class="text-red-700 hover:text-red-400">

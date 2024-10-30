@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Models\Delivery;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\RawMaterial;
+use App\Models\PurchaseItem;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -17,7 +19,7 @@ class PurchaseController extends Controller
     {
         //
         return Inertia::render('Admin/Purchases/Purchase', [
-            'purchases' => Purchase::all()
+            'purchases' => Purchase::with(['suppliers', 'purchaseitems'])->get(),
         ]);
     }
 
@@ -39,6 +41,24 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'purchaseDate' => 'required|date|max:25',
+            'supplier' => 'required|exists:suppliers,supplierID',
+            'purchases' => 'required|array', 
+        ]);
+
+        $purchases = Purchase::create($request->only([
+            'purchaseDate',
+            'supplier'
+        ]));
+
+        foreach ($request->purchases as $purchaseData) {
+            PurchaseItem::create([
+                'purchaseID' => $purchases->purchaseID,
+                'rawMaterialID' => $purchaseData['rawMaterialID'],
+                'quantity' => $purchaseData['quantity'],
+            ]);
+        }
     }
 
     /**
@@ -46,7 +66,14 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        //
+         //
+         $purchase->load(['purchaseitems.rawmaterials']);
+
+         return Inertia::render('Admin/Purchases/PurchaseViewMore', [
+            'purchases' => $purchase,
+            'purchaseitems' => $purchase->purchaseitems,
+        ]);
+
     }
 
     /**

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('userContact', 25);
             $table->string('email')->unique();
+            $table->date('creationDate');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

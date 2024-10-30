@@ -8,6 +8,13 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import NumberInput from '@/Components/NumberInput.vue';
+
+const currentDate = () => {
+    const current = new Date();
+    return current.toISOString().split('T')[0];
+};
+
 
 const form = useForm({
     name: '',
@@ -17,6 +24,7 @@ const form = useForm({
     password_confirmation: '',
     userContact: '',
     role: '',
+    creationDate: currentDate()
 });
 
 const showPassword = ref(false);
@@ -91,9 +99,12 @@ const submit = () => {
 
                     <div class="mt-2">
                         <InputLabel for="userContact" value="User Contact" />
-                        <TextInput
+                        <NumberInput
+                            maxlength="11"
                             id="userContact"
                             type="text"
+                            pattern="\d*"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, this.maxLength);"
                             class="mt-1 block w-[50%]"
                             v-model="form.userContact"
                             required

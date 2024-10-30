@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Truck;
 use App\Models\Client;
@@ -22,7 +23,8 @@ class DeliveryController extends Controller
     {
         //
         return Inertia::render('Admin/Deliveries/Delivery', [
-            'deliveries' => Delivery::with(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems'])->get(),
+            'deliveries' => Delivery::with(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems', 'users'])->get(),
+            'users' => User::all()
         ]);
     }
 
@@ -32,12 +34,20 @@ class DeliveryController extends Controller
     public function create()
     {
         //
+        // $agents = User::whereHas('roles', function ($query) {
+        // $query->where('name', 'agent'); // Assuming 'name' is the correct column
+        // })->get();
+
+        // // Pass the agents to your view
+        // return view('your_view_name', compact('agents')); // Adjust to your view name
+
         return Inertia::render('Admin/Deliveries/DeliveryLoad', [
             'saletypes' => SaleType::all(),
             'trucks' => Truck::all(),
             'drivers' => Driver::all(),
             'clients' => Client::all(),
-            'products' => Product::with(['products'])->get(),
+            'products' => Product::with(['productprices'])->get(),
+            'users' => User::with('roles')->get(),
         ]);
         
     }
@@ -49,20 +59,22 @@ class DeliveryController extends Controller
     {
         //
         $request->validate([
-            'salesDate' => 'required|date|max:25',
-            'truck' => 'required|exists:trucks,truckID',
-            'saleType' => 'required|exists:sale_types,saleTypeID',
-            'truckDriver' => 'required|exists:drivers,driverID',
-            'client' => 'required|exists:clients,clientID',
-            'products' => 'required|array', 
+            // 'salesDate' => 'required|date|max:25',
+            // 'truck' => 'required|exists:trucks,truckID',
+            // 'saleType' => 'required|exists:sale_types,saleTypeID',
+            // 'truckDriver' => 'required|exists:drivers,driverID',
+            // 'client' => 'required|exists:clients,clientID',
+            // 'products' => 'required|array', 
         ]);
 
         $deliveries = Delivery::create($request->only([
+            'agent',
             'salesDate',
             'truck',
             'saleType',
             'truckDriver',
             'client',
+            
         ]));
 
         if (!$deliveries) {
@@ -94,12 +106,13 @@ class DeliveryController extends Controller
     public function show(Delivery $delivery)
     {
         //
-        $delivery->load(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems']);
+        $delivery->load(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems.products.productprices']);
 
         return Inertia::render('Admin/Deliveries/DeliveryViewMore', [
             'deliveries' => $delivery,
             'trucks' => $delivery->trucks,
             'truckloaditems' => $delivery->truckloaditems,
+            'products' => Product::with(['productprices'])->get(),
         ]);
     }
 
@@ -117,6 +130,26 @@ class DeliveryController extends Controller
     public function update(Request $request, Delivery $delivery)
     {
         //
+        $validatedData = $request->validate([
+            'itemDelete' => 'array', // Ensure itemDelete is an array
+        ]);
+
+        $itemsToDelete = $validatedData['itemDelete'] ?? [];
+        if(!empty($itemsToDelete)) {
+            TruckLoadItem::whereIn('truckLoadItemID', $itemsToDelete)
+            ->where('deliveryID', $delivery->deliveryID) // Ensure these items belong to the specific delivery
+            ->delete();
+        }
+
+        foreach ($request->products as $itemData) {
+            TruckLoadItem::create([
+                'deliveryID' => $delivery->deliveryID,
+                'product' => $itemData['productID'],
+                'quantity' => $itemData['quantity'],
+            ]);
+        }
+
+        return Inertia::location(request()->fullUrl());
     }
 
     /**

@@ -16,7 +16,7 @@ class BranchController extends Controller
     {
         //
         return Inertia::render('Admin/Branches/Branches', [
-            'branches' => Branch::all()
+            'branches' => Branch::with('users')->get()
         ]);
     }
 
@@ -36,7 +36,9 @@ class BranchController extends Controller
     {
         //
         $request->validate([
-            'branchName' => 'required|string|max:25',
+            // 'branchName' => 'required|string|max:25',
+            // 'contactPerson' => 'required|integer|exists:users,id',
+            // 'contact' => 'required|string',
         ]);
 
         Branch::create($request->all());

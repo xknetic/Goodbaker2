@@ -2,8 +2,6 @@
 import { ref } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 
-
-
 const chartOptions = ref({
     chart: {
         type: 'bar',
@@ -42,21 +40,19 @@ const doughnutChartOptions = ref({
 </script>
 
 <template>
-    <div class="flex items-center justify-center">
-        <div class="flex">
-            <VueApexCharts
-                :options="chartOptions"
-                :series="chartOptions.series" 
-                type="bar"
-                height="auto"
-            />
-            <div class="border-l border-gray-700" />
-            <VueApexCharts
-                :options="doughnutChartOptions" 
-                :series="doughnutChartOptions.series" 
-                type="donut" 
-                height="200"
-            />
-        </div>
+    <div class="flex">
+        <VueApexCharts
+            :options="chartOptions"
+            :series="chartOptions.series" 
+            type="bar"
+            height="200"
+        />
+        <div class="border-l border-gray-700" />
+        <VueApexCharts
+            :options="doughnutChartOptions" 
+            :series="doughnutChartOptions.series" 
+            type="donut" 
+            height="200"
+        />
     </div>
 </template>

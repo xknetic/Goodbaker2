@@ -52,7 +52,7 @@ function destroy(id) {
                                 </span>
                             </td>
                             <td class="px-6 py-4">{{ user.userContact }}</td>
-                            <td class="px-6 py-4">{{ user.created_at }}</td>
+                            <td class="px-6 py-4">{{ user.creationDate }}</td>
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('users.edit', user.id)" class="text-[#0109F4] hover:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
