@@ -21,7 +21,8 @@ class SaleController extends Controller
     {
         //
         return Inertia::render('Admin/Sales/Sales', [
-            'sales' => Sale::all()
+            'sales' => Sale::with(['delivery', 'saletype', 'truck'])->get(),
+            'saleitems' => SaleItem::all(),
         ]);
     }
 
@@ -67,7 +68,7 @@ class SaleController extends Controller
             SaleItem::create([
                 'salesID' => $sales->salesID,
                 'quantity' => $productData['quantity'],
-                'truckLoadItem' => $productData['truckLoadItems'],
+                // 'truckLoadItem' => $productData['truckLoadItems'],
             ]);
 
             // Deduct the ingredient quantity from raw materials

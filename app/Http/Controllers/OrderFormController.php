@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\OrderForm;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderFormController extends Controller
 {
@@ -18,7 +20,7 @@ class OrderFormController extends Controller
         //
         return Inertia::render('Client/OrderForm', [
             'orderform' => OrderForm::all(),
-            'products' => Product::with(['products'])->get(),
+            'products' => Product::with(['productprices', 'productcategories', 'ingredients', 'truckloaditems'])->get(),
             'productcategories' => ProductCategory::all(),
         ]);
 
@@ -41,6 +43,33 @@ class OrderFormController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'customerName' => 'required|string|max:60',
+            'customerAddress' => 'required|string|max:100',
+            'customerContact' => 'required|string',
+            'orderDate' => 'required|date',
+            'products' => 'required|array',
+        ]);
+    
+        // Create the order form
+        $orderForm = OrderForm::create($request->only([
+            'customerName',
+            'customerAddress',
+            'customerContact',
+            'orderDate',
+        ]));
+    
+        // Loop through products to create order items
+        foreach ($request->products as $product) {
+            OrderItem::create([
+                'orderID' => $orderForm->orderID,
+                'productID' => $product['productID'],
+                'quantity' => $product['quantity'],
+            ]);
+        }
+
+        return Redirect::route('orderform.index');
+
     }
 
     /**

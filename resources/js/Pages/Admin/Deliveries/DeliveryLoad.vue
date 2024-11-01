@@ -6,9 +6,6 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref, computed } from 'vue';
-import Multiselect from 'vue-multiselect';
-import { fromJSON } from 'postcss';
-import '@vueform/multiselect/themes/default.css';
 
 const props = defineProps({
     users: {

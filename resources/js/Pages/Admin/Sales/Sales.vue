@@ -2,6 +2,18 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+const props = defineProps({
+    sales: {
+        type: Array,
+        default: () => [],
+    },
+    saleitems: {
+        type: Array,
+        default: () => [],
+    },
+});
+
 </script>
 
 <template>
@@ -27,14 +39,20 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                         <tr>
                             <th scope="col" class="px-6 py-3">Transaction No.</th>
                             <th scope="col" class="px-6 py-3">Date</th>
-                            <th scope="col" class="px-6 py-3">Invoice</th>
+                            <!-- <th scope="col" class="px-6 py-3">Invoice</th> -->
                             <th scope="col" class="px-6 py-3">Product Items</th>
                             <th scope="col" class="px-6 py-3">Quantity</th>
                             <th scope="col" class="px-6 py-3">Price</th>
                             <th scope="col" class="px-6 py-3">Status</th>
                         </tr>
                     </thead>
-                    
+                    <tbody>
+                        <tr v-for="sale in sales" :key="sale.id">
+                            <td class="px-6 py-4"> {{ sale.salesID }} </td>
+                            <td class="px-6 py-4"> {{ sale.salesDate }} </td>
+                            <td class="px-6 py-4"> {{ sale }} </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </article>

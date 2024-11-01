@@ -42,9 +42,9 @@ const options = props.branches.map(branch => ({
             <div class="mb-5">
                 <label for="branch-select" class="block text-sm font-medium text-gray-700">Select Branches:</label>
                 <Multiselect
-                    v-model="selectedBranch"
-                    :options="props.branches"
-                    label="branchName"
+                    v-model="selectedBranches"
+                    :options="options"
+                    label="name"
                     :close-on-select="true"
                     :searchable="true"
                 />

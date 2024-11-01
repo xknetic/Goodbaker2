@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class OrderForm extends Model
 {
     use HasFactory;
+    
+    public $timestamps = false;
+
+    protected $table = 'order_forms';
+
+    protected $primaryKey = 'orderID';
 
     protected $guarded = [];
 

@@ -4,16 +4,15 @@ import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="Branches" />
+    <Head title="Sales Reports" />
 
     <AuthenticatedLayout>
-        <article class="flex-1 w-full p-5 overflow-auto bg-white mx-5 rounded">
+        <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Sales Reports</h2>
-                <Link href="products/create" class="btn btn-primary">Create</Link>
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold">Sales Reports</h3>
             </div>
-            <div class="border-b border-gray-700 mb-8"></div>
+            <div class="border-b border-gray-700 my-2 mb-5" />
 
             <!-- Bottom Table -->
             <div class="overflow-x-auto">
