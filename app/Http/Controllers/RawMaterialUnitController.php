@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Branch;
-use App\Models\Client;
-use App\Models\Product;
-use App\Models\SalesReport;
+use App\Models\RawMaterialUnit;
 use Illuminate\Http\Request;
-use App\Models\ProductCategory;
 
-class SalesReportController extends Controller
+class RawMaterialUnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +13,6 @@ class SalesReportController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Admin/SalesReports/SalesReport', [
-            'salesreports' => SalesReport::all(),
-            'clients' => Client::all(),
-            'productcategories' => ProductCategory::all(),
-            'products' => Product::all(),
-            'branches' => Branch::all(),
-        ]);
     }
 
     /**
@@ -46,7 +34,7 @@ class SalesReportController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(SalesReport $salesReport)
+    public function show(RawMaterialUnit $rawMaterialUnit)
     {
         //
     }
@@ -54,7 +42,7 @@ class SalesReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SalesReport $salesReport)
+    public function edit(RawMaterialUnit $rawMaterialUnit)
     {
         //
     }
@@ -62,7 +50,7 @@ class SalesReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SalesReport $salesReport)
+    public function update(Request $request, RawMaterialUnit $rawMaterialUnit)
     {
         //
     }
@@ -70,7 +58,7 @@ class SalesReportController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SalesReport $salesReport)
+    public function destroy(RawMaterialUnit $rawMaterialUnit)
     {
         //
     }

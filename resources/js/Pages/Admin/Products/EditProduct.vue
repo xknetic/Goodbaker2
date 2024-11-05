@@ -47,22 +47,50 @@ const form = useForm({
     ingredients: props.productingredients ? props.productingredients : [],
 });
 
-const newIngredient = ref({ quantity: '', rawMaterial: '', rawMaterialName: '', premix: '', premixName: '' });
+const newIngredient = ref({ quantity: '', raw_material: {rawMaterialID:'', rawMaterialName:''}, premix:{premixID:'', premixName: ''}});
 
 const addIngredients = () => {
-    if ((newIngredient.value.rawMaterial || newIngredient.value.premix) && newIngredient.value.quantity) {
-        form.ingredients.push({ ...newIngredient.value });
+    if ((newIngredient.value.raw_material || newIngredient.value.premix) && newIngredient.value.quantity) {
+        if (newIngredient.value.raw_material.rawMaterialID) {
+            const ingredientToAdd = {
+                quantity: newIngredient.value.quantity,
+                raw_material: { 
+                    rawMaterialID: newIngredient.value.raw_material.rawMaterialID,
+                    rawMaterialName: newIngredient.value.raw_material.rawMaterialName 
+                }
+            }
+            // Push the plain object to form.ingredients
+        form.ingredients.push(ingredientToAdd);
         newIngredient.value.quantity = '';
-        newIngredient.value.rawMaterial = '';
-        newIngredient.value.rawMaterialName = '';
-        newIngredient.value.premix = '';
-        newIngredient.value.premixName = '';
+        newIngredient.value.raw_material.rawMaterialID = '';
+        newIngredient.value.raw_material.rawMaterialName = '';
+        newIngredient.value.premix.premixID = '';
+        newIngredient.value.premix.premixName = '';
+        searchRawMaterials.value = '';
+        searchPremixes.value = '';
+        filterRawMaterials();
+        filterPremixes();   
+        } else if (newIngredient.value.premix.premixID) {
+            const ingredientToAdd = {
+                quantity: newIngredient.value.quantity,
+                premix: { 
+                    premixID: newIngredient.value.premix.premixID,
+                    premixName: newIngredient.value.premix.premixName 
+                }
+            }
+            // Push the plain object to form.ingredients
+        form.ingredients.push(ingredientToAdd);
+        newIngredient.value.quantity = '';
+        newIngredient.value.raw_material.rawMaterialID = '';
+        newIngredient.value.raw_material.rawMaterialName = '';
+        newIngredient.value.premix.premixID = '';
+        newIngredient.value.premix.premixName = '';
         searchRawMaterials.value = '';
         searchPremixes.value = '';
         filterRawMaterials();
         filterPremixes();
-    }
-
+        }
+    };
 };
 
 const removeIngredient = (index) => {
@@ -84,8 +112,8 @@ function filterRawMaterials() {
 
 function selectRawMaterial(rawMaterial) {
     searchRawMaterials.value = rawMaterial.rawMaterialName;
-    newIngredient.value.rawMaterialName = rawMaterial.rawMaterialName;
-    newIngredient.value.rawMaterial = rawMaterial.rawMaterialID
+    newIngredient.value.raw_material.rawMaterialName = rawMaterial.rawMaterialName;
+    newIngredient.value.raw_material.rawMaterialID = rawMaterial.rawMaterialID
     filteredRawMaterials.value = [];
 }
 
@@ -100,8 +128,8 @@ function filterPremixes() {
 
 function selectPremix(premix) {
     searchPremixes.value = premix.premixName;
-    newIngredient.value.premixName = premix.premixName;
-    newIngredient.value.premix = premix.premixID
+    newIngredient.value.premix.premixName = premix.premixName;
+    newIngredient.value.premix.premixID = premix.premixID
     filteredPremixes.value = [];
 }
 </script>
@@ -282,10 +310,8 @@ function selectPremix(premix) {
                         </thead>
                         <tbody>
                             <tr v-for="(ingredient, index) in form.ingredients" :key="index" class="border-gray-700">
-                                <td class="px-6 py-4" v-if="ingredient.rawMaterial.rawMaterialName">{{ ingredient.raw_material.rawMaterialName }}</td>
-                                <td class="px-6 py-4" v-else-if="ingredient.rawMaterial">{{ ingredient.rawMaterialName }}</td>
-                                <td class="px-6 py-4" v-if="ingredient.premix.premixName">{{ ingredient.premix.premixName }}</td>
-                                <td class="px-6 py-4" v-else-if="ingredient.premix">{{ ingredient.premixName }}</td>
+                                <td class="px-6 py-4" v-if="ingredient.raw_material">{{ ingredient.raw_material.rawMaterialName }}</td>
+                                <td class="px-6 py-4" v-if="ingredient.premix">{{ ingredient.premix.premixName }}</td>
                                 <td class="px-6 py-4">{{ ingredient.quantity }}</td>
                                 <td class="px-6 py-4 flex items-center space-x-3">
                                     <button @click.prevent="removeIngredient(index)" class="text-red-700 hover:text-red-400">

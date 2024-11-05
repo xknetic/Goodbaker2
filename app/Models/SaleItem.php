@@ -27,8 +27,8 @@ class SaleItem extends Model
         return $this->belongsTo(Product::class, 'product');
     }
 
-    public function truckLoadItem()
+    public function truckloaditems()
     {
-        return $this->belongsTo(TruckLoadItem::class, 'truckLoadItems');
+        return $this->belongsTo(TruckLoadItem::class, 'truckLoadItem', 'truckLoadItemID');
     }
 }

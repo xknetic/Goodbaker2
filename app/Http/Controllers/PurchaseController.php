@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use App\Models\RawMaterial;
 use App\Models\PurchaseItem;
 use Illuminate\Http\Request;
+use App\Models\RawMaterialUnit;
 
 class PurchaseController extends Controller
 {
@@ -19,7 +20,7 @@ class PurchaseController extends Controller
     {
         //
         return Inertia::render('Admin/Purchases/Purchase', [
-            'purchases' => Purchase::with(['suppliers', 'purchaseitems'])->get(),
+            'purchases' => Purchase::with(['suppliers', 'purchaseitems.rawmaterialunits'])->get(),
         ]);
     }
 
@@ -31,7 +32,7 @@ class PurchaseController extends Controller
         //
         return Inertia::render('Admin/Purchases/CreatePurchase', [
             'suppliers' => Supplier::all(),
-            'rawmaterials' => RawMaterial::all()
+            'rawmaterials' => RawMaterial::with('rawmaterialunits')->get()
         ]);
     }
 
@@ -49,7 +50,8 @@ class PurchaseController extends Controller
 
         $purchases = Purchase::create($request->only([
             'purchaseDate',
-            'supplier'
+            'supplier',
+            'status'
         ]));
 
         foreach ($request->purchases as $purchaseData) {
@@ -57,6 +59,7 @@ class PurchaseController extends Controller
                 'purchaseID' => $purchases->purchaseID,
                 'rawMaterialID' => $purchaseData['rawMaterialID'],
                 'quantity' => $purchaseData['quantity'],
+                'unit' => $purchaseData['unit'],
             ]);
         }
     }
@@ -67,13 +70,12 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
          //
-         $purchase->load(['purchaseitems.rawmaterials']);
+         $purchase->load(['purchaseitems.rawmaterials', 'purchaseitems.rawmaterialunits']);
 
          return Inertia::render('Admin/Purchases/PurchaseViewMore', [
             'purchases' => $purchase,
             'purchaseitems' => $purchase->purchaseitems,
         ]);
-
     }
 
     /**
@@ -90,6 +92,29 @@ class PurchaseController extends Controller
     public function update(Request $request, Purchase $purchase)
     {
         //
+    }
+
+    public function complete(Request $request)
+    {
+    $purchase = Purchase::with('purchaseitems')->find($request->purchaseID);
+
+    if (!$purchase) {
+        return back()->withErrors(['message' => 'Purchase not found.']);
+    }
+
+    // Add each item from purchase items to the raw material table
+    foreach ($purchase->purchaseitems as $item) {
+        RawMaterialUnit::where('rawMaterial', $item->rawMaterialID)
+            ->where('rawMaterialUnitID', $item->unit)
+            ->increment('stock', $item->quantity);
+
+    }
+
+    Purchase::where('purchaseID', $request->purchaseID)
+        ->update(['status' => 'Completed']);
+    
+
+    return back()->with('success', 'Purchase completed successfully.');
     }
 
     /**

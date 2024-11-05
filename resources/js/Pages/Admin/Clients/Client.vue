@@ -42,7 +42,7 @@ function destroy(id) {
                         <tr>
                             <th scope="col" class="px-6 py-3">Name</th>
                             <th scope="col" class="px-6 py-3">Address</th>
-                            <th scope="col" class="px-6 py-3">Tel No.</th>
+                            <th scope="col" class="px-6 py-3">Contact No.</th>
                             <th scope="col" class="px-6 py-3">Date</th>
                             <th scope="col" class="px-6 py-3">Actions</th>
                         </tr>
@@ -52,7 +52,7 @@ function destroy(id) {
                             <td class="px-6 py-4">{{ client.clientName }}</td>
                             <td class="px-6 py-4">{{ client.clientAddress }}</td>
                             <td class="px-6 py-4">{{ client.clientContact }}</td>
-                            <td class="px-6 py-4">asd</td>
+                            <td class="px-6 py-4">{{ client.clientDate }}</td>
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('clients.edit', client.clientID)" class="text-blue-400 hover:text-blue-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

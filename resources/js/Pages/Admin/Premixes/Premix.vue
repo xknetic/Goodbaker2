@@ -36,34 +36,25 @@ function destroy(id) {
             <div class="border-b border-gray-700 my-2 mb-5" />
 
             <!-- Bottom Table -->
-            <div class="overflow-x-auto" v-for="premix in premixes" :key="premix.id">
-                <h3 class="px-6 py-4">{{ premix.category }}</h3>
+            <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs uppercase">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Product</th>
+                            <th scope="col" class="px-6 py-3">Premix</th>
                             <th scope="col" class="px-6 py-3">Size</th>
-                            <th scope="col" class="px-6 py-3">Loakan</th>
-                            <th scope="col" class="px-6 py-3">Mabini</th>
-                            <th scope="col" class="px-6 py-3">City Camp</th>
-                            <th scope="col" class="px-6 py-3">Rosario</th>
-                            <th scope="col" class="px-6 py-3">Total</th>
+                            <th scope="col" class="px-6 py-3">Quantity</th>
                             <th scope="col" class="px-6 py-3">Cost</th>
                             <th scope="col" class="px-6 py-3">Amount</th>
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr >
+                        <tr v-for="premix in premixes" :key="premix.id">
                             <td class="px-6 py-4">{{ premix.premixName }}</td>
                             <td class="px-6 py-4">{{ premix.size }}</td>
-                            <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">4</td>
-                            <td class="px-6 py-4">3</td>
-                            <td class="px-6 py-4">273</td>
-                            <td class="px-6 py-4">Total</td>
+                            <td class="px-6 py-4">{{premix.quantity}}</td>
                             <td class="px-6 py-4">₱{{ premix.cost }}</td>
-                            <td class="px-6 py-4">Amount</td>
+                            <td class="px-6 py-4">{{(premix.quantity * premix.cost).toFixed(2)}}</td>
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('premixes.edit', premix.premixID)" class="text-blue-500 hover:text-blue-700 transition duration-300 p-2 rounded-md flex items-center space-x-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

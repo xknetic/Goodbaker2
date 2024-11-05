@@ -26,10 +26,11 @@ const currentDate = () => {
 const form = useForm({
     purchaseDate: currentDate(),
     supplier: '',   
-    purchases: []
+    purchases: [],
+    status: 'Pending',
 });
 
-const newPurchase = ref({rawMaterialID: '', purchase: '', unit: '', quantity: ''});
+const newPurchase = ref({rawMaterialID: '', purchase: '', unit: '', unitName:'', quantity: ''});
 
 const submit = () => {
     form.post(route('purchases.store'));
@@ -54,6 +55,8 @@ function selectSupplier(supplier) {
 
 const searchRawMaterials = ref('');
 const filteredRawMaterials = ref(props.rawmaterials);
+const newUnit = ref({unit: ''});
+const selectUnit = ref('');
 
 function filterRawMaterials() {
     filteredRawMaterials.value = props.rawmaterials.filter(rawmaterial =>
@@ -65,14 +68,16 @@ function selectRawMaterial(rawmaterial) {
     searchRawMaterials.value = rawmaterial.rawMaterialName;
     newPurchase.value.rawMaterialID= rawmaterial.rawMaterialID;
     newPurchase.value.purchase= rawmaterial.rawMaterialName;
-    newPurchase.value.unit= rawmaterial.unit;
+    newUnit.value.unit= rawmaterial.rawmaterialunits;
     filteredRawMaterials.value = [];
 }
 
 const addPurchase = () => {
     if (newPurchase.value.quantity && newPurchase.value.purchase) {
+        newPurchase.value.unit = selectUnit.value.rawMaterialUnitID;
+        newPurchase.value.unitName = selectUnit.value.unit;
         form.purchases.push({ ...newPurchase.value });
-        newPurchase.value = {purchase: '', unit: '', quantity: ''};
+        newPurchase.value = {rawMaterialID: '', purchase: '', unit: '', unitName:'', quantity: ''};
         searchRawMaterials.value = '';
         filteredRawMaterials.value = [];
         filterRawMaterials();
@@ -196,6 +201,15 @@ const addPurchase = () => {
                     </ul>
                 </div>
 
+                <div>
+                    <InputLabel for="unit" class="mt-5">Unit</InputLabel>
+                    <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="unit" v-model="selectUnit" required>
+                        <option disabled value="">Select Unit</option>
+                        <option v-for="unit in newUnit.unit" :key="unit.id" :value="unit">{{ unit.unit }}</option>
+                    </select>
+                    <InputError :message="form.errors.productCategory"/>
+                </div>
+
                 <div class="mt-4">
                     <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="quantity" v-model="newPurchase.quantity" />
@@ -224,7 +238,7 @@ const addPurchase = () => {
                             <tr v-for="(purchase, index) in form.purchases" :key="index">
                                 <td class="px-6 py-4">{{ index + 1 }}</td>
                                 <td class="px-6 py-4">{{ purchase.purchase }}</td>
-                                <td class="px-6 py-4">{{ purchase.unit }}</td>
+                                <td class="px-6 py-4">{{ purchase.unitName }}</td>
                                 <td class="px-6 py-4">{{ purchase.quantity }}</td>
                             </tr>
                         </tbody>

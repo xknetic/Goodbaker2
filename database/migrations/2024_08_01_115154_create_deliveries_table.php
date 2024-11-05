@@ -18,8 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('truck');
             $table->unsignedBigInteger('saleType');
             $table->unsignedBigInteger('truckDriver');
-            $table->unsignedBigInteger('client');
+            $table->unsignedBigInteger('client')->nullable();
             $table->unsignedBigInteger('agent');
+            $table->string('route', 50)->nullable();
             // $table->unsignedBigInteger('truckAgent');
 
             // Foreign key constraints

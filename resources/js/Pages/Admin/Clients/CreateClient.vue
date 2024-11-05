@@ -7,19 +7,18 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 
+const currentDate = () => {
+    const current = new Date();
+    return current.toISOString().split('T')[0];
+};
+
+
 const form = useForm({
     clientName: '',
     clientAddress: '',
     clientContact: '',
-    clientDate: '',
+    clientDate: currentDate(),
 });
-
-const currentDate = () => {
-    const current = new Date();
-    return `${String(current.getDate()).padStart(2, '0')}/${String(current.getMonth() + 1).padStart(2, '0')}/${current.getFullYear()}`;
-};
-
-const formattedDate = ref(currentDate());
 
 const submit = () => {
     form.post(route('clients.store'));
@@ -94,11 +93,11 @@ const submit = () => {
                     <InputError :message="form.errors.clientContact" />
                 </div>
 
-                <div>
+                <!-- <div>
                     <InputLabel for="clientDate" class="mb-2">Client Date</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="clientDate" type="text" :placeholder="formattedDate" v-model="form.clientDate" />
                     <InputError :message="form.errors.clientDate" />
-                </div>
+                </div> -->
             </form>
         </article>
     </AuthenticatedLayout>

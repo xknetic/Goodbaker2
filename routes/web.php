@@ -68,6 +68,8 @@ Route::resource('/sales', SaleController::class)
 Route::resource('/deliveries', DeliveryController::class)
 ->middleware(['auth', 'role:admin|agent']);
 
+Route::post('/deliveries/{delivery}/load-in', [DeliveryController::class, 'loadIn'])->name('deliveries.loadIn');
+
 Route::resource('/products', ProductController::class)
 ->middleware(['auth', 'role:admin']);
 
@@ -88,6 +90,8 @@ Route::resource('/suppliers', SupplierController::class)
 
 Route::resource('/purchases', PurchaseController::class)
 ->middleware(['auth', 'role:admin']);
+Route::post('/purchases/complete', [PurchaseController::class, 'complete'])->name('purchases.complete');
+
 
 Route::resource('/salesreports', SalesReportController::class)
 ->middleware(['auth', 'role:admin']);

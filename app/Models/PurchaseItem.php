@@ -24,4 +24,8 @@ class PurchaseItem extends Model
     public function rawmaterials(){
         return $this->belongsTo(RawMaterial::class, 'rawMaterialID', 'rawMaterialID');
     }
+
+    public function rawmaterialunits(){
+        return $this->belongsTo(RawMaterialUnit::class, 'unit', 'rawMaterialUnitID');
+    }
 }

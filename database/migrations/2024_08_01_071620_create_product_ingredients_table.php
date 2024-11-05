@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product');
             $table->unsignedBigInteger('rawMaterial')->nullable();
             $table->unsignedBigInteger('premix')->nullable();
+            $table->float('variance')->nullable();
 
             $table->foreign('product')->references('productID')->on('products')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');

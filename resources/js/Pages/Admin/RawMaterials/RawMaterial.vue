@@ -15,7 +15,7 @@ const props = defineProps({
         default: () => [],
     },
 
-    amount: Object
+    // amount: Object
 });
 
 const form = useForm({});
@@ -24,6 +24,19 @@ function destroy(id) {
     if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
         form.delete(route('rawmaterials.destroy', id));
     }
+}
+
+function totalAmount(supplierID) {
+    // Ensure to check for valid supplierID
+    if (!supplierID) return 0;
+
+    return props.rawmaterials
+        .filter(rawMaterial => rawMaterial.supplierID === supplierID) // Filter by supplier
+        .reduce((total, rawMaterial) => {
+            return total + rawMaterial.rawmaterialunits.reduce((unitTotal, unit) => {
+                return unitTotal + (unit.price * unit.stock);
+            }, 0);
+        }, 0);
 }
 
 // var last = props.rawmaterials.length;
@@ -73,28 +86,26 @@ function destroy(id) {
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs uppercase">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Ingredients Name</th>
-                            <th scope="col" class="px-6 py-3">Unit</th>
+                            <th scope="col" class="px-6 py-3">Raw Material Name</th>
                             <th scope="col" class="px-6 py-3">Type</th>
-                            <th scope="col" class="px-6 py-3">Exp Date</th>
+                            <th scope="col" class="px-6 py-3">Unit</th>
                             <th scope="col" class="px-6 py-3">Price</th>
+                            <!-- <th scope="col" class="px-6 py-3">Exp Date</th> -->
                             <th scope="col" class="px-6 py-3">Stocks</th>
                             <th scope="col" class="px-6 py-3">Amount</th>
-                            <th scope="col" class="px-6 py-3">Total</th>
                             <th scope="col" class="px-6 py-3">Actions</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="rawMaterial in rawmaterials" :key="rawMaterial.id">
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.rawMaterialName }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.unit }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} x{{ rawMaterial.typeQuantity }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">--</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.price }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.quantity }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">₱{{ rawMaterial.price * rawMaterial.quantity }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">₱{{ amount }}</span></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 w-[25%]"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.rawMaterialName }}</span></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} {{ rawMaterial.typeQuantity }}</span></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 flex flex-col"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.unit }}</div></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.price }}</div></span></td>
+                            <!-- <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">--</span></td> -->
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.stock }}</div></span></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.price*unit.stock }}</div></span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('rawmaterials.edit', rawMaterial.rawMaterialID)" class="text-blue-400 hover:text-blue-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -109,6 +120,11 @@ function destroy(id) {
                                     </svg>
                                 </button>
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4"></td>
+                            <td class="px-6 py-4">Total</td>
+                            <td class="px-6 py-4">{{ totalAmount(supplier.supplierID) }}</td>
                         </tr>
                     </tbody>
                 </table>
