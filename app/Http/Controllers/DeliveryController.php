@@ -71,11 +71,11 @@ class DeliveryController extends Controller
             'agent',
             'salesDate',
             'truck',
-            'saleType',
             'truckDriver',
             'client',
-            
-        ]));
+            'route'
+        ])+ [
+            'saleType' => $request->input('saleType.saleTypeId'),]);
 
         if (!$deliveries) {
             return redirect()->route('deliveries.index');
@@ -114,6 +114,43 @@ class DeliveryController extends Controller
             'truckloaditems' => $delivery->truckloaditems,
             'products' => Product::with(['productprices'])->get(),
         ]);
+    }
+
+    public function loadIn(Request $request, Delivery $delivery)
+    {
+        $request->validate([
+            'items' => 'required|array',
+            'items.*.truckLoadItemID' => 'required|exists:truck_load_items,truckLoadItemID',
+            'items.*.badOrderQuantity' => 'required|integer|min:0',
+        ]);
+    
+        foreach ($request->items as $item) {
+            // Find the truck load item
+            $truckLoadItem = TruckLoadItem::find($item['truckLoadItemID']);
+            
+            // Deduct the bad order quantity from the TruckLoadItem
+            if ($truckLoadItem) {
+                // Deduct the bad order quantity
+                $truckLoadItem->quantity -= $item['badOrderQuantity'];
+                // Store the original quantity before deduction
+                $originalQuantity = $truckLoadItem->quantity;
+                $truckLoadItem->save();
+    
+                // Find the corresponding product
+                $product = Product::find($truckLoadItem->product); // Adjust this if the relation is different
+                
+                // Add the current quantity of the TruckLoadItem to the product's quantity
+                if ($product) {
+                    $product->quantity += $originalQuantity; // Add the original quantity (before deduction)
+                    $product->save();
+                }
+            }
+    
+            // Now delete all truck load items for this delivery
+            TruckLoadItem::where('deliveryID', $delivery->deliveryID)->delete();
+        }
+    
+        return redirect()->route('deliveries.index');
     }
 
     /**

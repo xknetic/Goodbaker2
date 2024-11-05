@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id('salesID');
-            $table->date('salesDate');
-            $table->string('salesStatus', 15);
+            $table->datetime('salesDate');
+            $table->string('salesStatus', 15)->nullable();
             $table->unsignedBigInteger('deliveryID')->nullable();
             $table->unsignedBigInteger('userName');
 

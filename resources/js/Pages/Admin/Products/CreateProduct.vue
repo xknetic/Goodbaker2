@@ -5,7 +5,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
-import Multiselect from 'vue-multiselect';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -61,6 +60,10 @@ const addIngredients = () => {
 const removeIngredient = (index) => {
     form.ingredients.splice(index, 1);
 };
+
+const submit = () => {
+    form.post(route('products.store'));
+}
 
 const searchRawMaterials = ref('');
 const filteredRawMaterials = ref(props.rawmaterials);
@@ -119,19 +122,6 @@ function disable() {
         newIngredient.value.premixName = '';
         newIngredient.value.premix = '';
     }
-}
-
-const selectedCategory = ref(null);
-const filteredCategories = ref(props.productcategories);
-
-const setSelectedCategory = (category) => {
-    if (category) {
-        form.productCategory = category.categoryID;
-    }
-};
-
-const submit = () => {
-    form.post(route('products.store'));
 }
 </script>
 
@@ -204,22 +194,10 @@ const submit = () => {
 
                 <div>
                     <InputLabel for="productCategory" class="mt-5">Category</InputLabel>
-                    <!-- <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="productCategory" v-model="form.productCategory" required>
+                    <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="productCategory" v-model="form.productCategory" required>
                         <option disabled value="">Select Category</option>
                         <option v-for="category in productcategories" :key="category.id" :value="category.categoryID">{{ category.categoryName }}</option>
-                    </select> -->
-
-                    <Multiselect 
-                        v-model="selectedCategory" 
-                        :options="filteredCategories" 
-                        :searchable="true" 
-                        :close-on-select="true"
-                        :placeholder="'Search for category'" 
-                        label="categoryName" 
-                        track-by="categoryID" 
-                        @select="setSelectedCategory"
-                        class="mt-1 block w-[50%]"
-                    />
+                    </select>
                     <InputError :message="form.errors.productCategory"/>
                 </div>
 

@@ -21,7 +21,7 @@ class SaleController extends Controller
     {
         //
         return Inertia::render('Admin/Sales/Sales', [
-            'sales' => Sale::with(['delivery', 'saletype', 'truck'])->get(),
+            'sales' => Sale::with(['delivery.saletypes', 'saletype', 'truck', 'saleitems.truckloaditems.products.productprices'])->get(),
             'saleitems' => SaleItem::all(),
         ]);
     }
@@ -35,8 +35,8 @@ class SaleController extends Controller
         return Inertia::render('Admin/Sales/CreateSale', [
             'saletypes' => SaleType::all(),
             'trucks' => Truck::all(),
-            'deliveries' => Delivery::with('trucks')->get(),
-            'truckloaditems' => TruckLoadItem::with('products')->get()
+            'deliveries' => Delivery::with('trucks', 'saletypes')->get(),
+            'truckloaditems' => TruckLoadItem::with('products', 'delivery')->get()
         ]);
     }
 
@@ -48,7 +48,6 @@ class SaleController extends Controller
         //
         $request->validate([
             'salesDate' => 'required|date',
-            'salesStatus' => 'required|string|max:15',
             'deliveryID' => 'nullable|exists:deliveries,deliveryID',
         ]);
 
@@ -64,22 +63,34 @@ class SaleController extends Controller
         }
 
         // Loop through each product and create TruckLoadItem entries
-        foreach ($request->products as $productData) {
-            SaleItem::create([
-                'salesID' => $sales->salesID,
-                'quantity' => $productData['quantity'],
-                // 'truckLoadItem' => $productData['truckLoadItems'],
-            ]);
+        if ($request->input('deliveryType') === 'Extract') {
+            foreach ($request->products as $productData) {
+                SaleItem::create([
+                    'salesID' => $sales->salesID,
+                    'quantity' => $productData['quantity'],
+                    'truckLoadItem' => $productData['itemID'],
+                ]);
 
-            // Deduct the ingredient quantity from raw materials
-            $product = TruckLoadItem::find($productData['truckLoadItems']); // Ensure this is the correct model name
-            if ($product) {
-                $product->quantity -= $productData['quantity']; // Subtracting the quantity
-                $product->save(); // Save the adjusted quantity back to the database
+                // Deduct the ingredient quantity from raw materials
+                $product = TruckLoadItem::find($productData['truckLoadItems']); // Ensure this is the correct model name
+                if ($product) {
+                    $product->quantity -= $productData['quantity']; // Subtracting the quantity
+                    $product->save(); // Save the adjusted quantity back to the database
+                }
             }
-        }
+        }else if ($request->input('deliveryType') === 'Wholesale') {
+            $truckLoadItems = TruckLoadItem::where('deliveryID', $request->input('deliveryID'))->get();
+
+            foreach ($truckLoadItems as $truckLoadItem) {
+                SaleItem::create([
+                    'salesID' => $sales->salesID,
+                    'quantity' => $truckLoadItem->quantity,
+                    'truckLoadItem' => $truckLoadItem->truckLoadItemID, // Assuming id is the primary key of TruckLoadItem
+                ]);
+            }
 
         return Redirect::route('sales.index');
+        }
     }
 
     /**

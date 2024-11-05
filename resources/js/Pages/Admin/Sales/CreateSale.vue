@@ -30,16 +30,19 @@ const props = defineProps({
     },
 });
 
-const currentDate = () => {
+const currentDateTime = () => {
     const current = new Date();
-    return current.toISOString().split('T')[0];
+    return current.toISOString().replace('T', ' ').split('.')[0];
 };
 
+const deliveryType = ref('');
+
 const form = useForm({
-    salesDate: currentDate(),
+    salesDate: currentDateTime(),
     salesStatus: '',
     deliveryID: '',
     products: [],
+    deliveryType: computed(() => deliveryType.value)
 });
 
 const newProduct = ref({quantity: '', truckLoadItems:'', itemID:''});
@@ -62,6 +65,7 @@ const submit = () => {
 const searchDeliveries = ref('');
 const filteredDeliveries = ref(props.deliveries);
 
+
 function filterDeliveries() {
     filteredDeliveries.value = props.deliveries.filter(delivery =>
     delivery.deliveryID.toString().toLowerCase().includes(searchDeliveries.value.toLowerCase())
@@ -71,6 +75,7 @@ function filterDeliveries() {
 function selectDelivery(delivery) {
     searchDeliveries.value = delivery.deliveryID;
     form.deliveryID = delivery.deliveryID;
+    deliveryType.value = delivery.saletypes.saleTypeName;
     filteredDeliveries.value = [];
     filterItems()
 }
@@ -175,7 +180,7 @@ function clearItems() {
                                 @click="selectDelivery(delivery)" 
                                 class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[50%] pl-5 rounded-lg mt-1"
                             >
-                                {{ delivery.deliveryID }}-{{ delivery.trucks.plateNumber }} ({{ delivery.salesDate }}) 
+                                {{ delivery.deliveryID }}-{{ delivery.trucks.plateNumber }}-{{ delivery.saletypes.saleTypeName }} ({{ delivery.salesDate }}) 
                             </li>
                         </ul>
                     </div>
@@ -188,7 +193,7 @@ function clearItems() {
                 </div>
 
                 <!-- Bottom Table for Ingredients -->
-                <div>
+                <div v-if="deliveryType=='Extract'">
                     <h4>Items</h4>
 
                     <div class="flex gap-5 mb-3">
@@ -241,6 +246,23 @@ function clearItems() {
                                         </svg>
                                     </button>
                                 </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div v-if="deliveryType=='Wholesale'">
+                    <table class="w-[50%] text-sm text-left">
+                        <thead class="text-xs uppercase">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Product</th>
+                                <th scope="col" class="px-6 py-3">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in truckloaditems" :key="index">
+                                <td class="px-6 py-4" v-show="item.delivery.deliveryID==form.deliveryID">{{ item.products.productName }}</td>
+                                <td class="px-6 py-4" v-show="item.delivery.deliveryID==form.deliveryID">{{ item.quantity }}</td>
                             </tr>
                         </tbody>
                     </table>

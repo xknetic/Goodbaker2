@@ -31,4 +31,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Truck::class);
     }
+
+    public function saleitems()
+    {
+        return $this->hasMany(SaleItem::class, 'salesID', 'salesID');
+    }
 }

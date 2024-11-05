@@ -6,6 +6,9 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref, computed } from 'vue';
+import Modal from '@/Components/Modal.vue';
+
+const showModal = ref(false);
 
 const props = defineProps({
     deliveries: {
@@ -45,6 +48,8 @@ const addProduct = () => {
                 searchProducts.value = '';
                 filteredProducts.value = [];
                 filterProducts();
+            }else {
+                alert("Insufficient Products.");
             }
         }
     }
@@ -79,6 +84,20 @@ function addDelete(item) {
 const removeItem = (index) => {
     form.products.splice(index, 1);
 };
+
+const submitBadOrders = () => {
+    const itemsToSubmit = form.items.map(item => ({
+        truckLoadItemID: item.truckLoadItemID,
+        badOrderQuantity: item.badOrderQuantity || 0 // Use 0 if not defined
+    }));
+
+    // Send the request to loadIn with the items
+    form.post(route('deliveries.loadIn', props.deliveries.deliveryID), {
+        items: itemsToSubmit
+    });
+};
+
+
 </script>
 <style>
     #selectpro{
@@ -126,6 +145,14 @@ const removeItem = (index) => {
                         </div>
                     </div>
                     <div class="space-x-5">
+                        <!-- <PrimaryButton @click.prevent="loadIn" class="p-2">
+                            Load In
+                        </PrimaryButton> -->
+
+                        <PrimaryButton @click.prevent="showModal = true" class="p-2">
+                            Load In
+                        </PrimaryButton>
+
                         <PrimaryButton class="p-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             Update
                         </PrimaryButton>
@@ -146,7 +173,7 @@ const removeItem = (index) => {
                         />
                         <InputError :message="form.errors.supplierID" />
 
-                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] bg-white" >
+                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] max-h-0 bg-white" >
                             <li 
                                 v-for="product in filteredProducts" 
                                 :key="product.productID" 
@@ -194,7 +221,7 @@ const removeItem = (index) => {
                                 </td>
                             </tr>
                             <tr v-for="item, index in form.products">
-                                <td class="px-6 py-4">{{ item.product    }}</td>
+                                <td class="px-6 py-4">{{ item.product }}</td>
                                 <td class="px-6 py-4">{{ item.quantity }}</td>
                                 <td class="px-6 py-4">{{ item.price }}</td>
                                 <td class="px-6 py-4">{{ item.price * item.quantity }}</td>
@@ -210,11 +237,49 @@ const removeItem = (index) => {
                         </tbody>
                     </table>
                 </div>
-
-                <div class="flex mt-5 mr-5 justify-end">
-                </div>
-
             </form>
+
+
+            <Modal
+                :show="showModal" 
+                @close="showModal = false" 
+                :closeable="true"
+                >
+                
+                <div class="p-5">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs uppercase">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Products</th>
+                                <th scope="col" class="px-6 py-3">Good Orders</th>
+                                <th scope="col" class="px-6 py-3">Bad Orders</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in form.items">
+                                <td class="px-6 py-4"> {{ item.products.productName }} </td>
+                                <td class="px-6 py-4"> {{ item.quantity }} </td>
+                                <td class="px-6 py-4">
+                                    <!-- badorder quantity -->
+                                    <div>
+                                        <TextInput 
+                                            class="mt-1 block w-[50%]" 
+                                            v-model="item.badOrderQuantity" 
+                                            type="text" 
+                                            min="0" 
+                                        />
+                                        <InputError :message="form.errors.badOrderQuantity" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="flex justify-end">
+                        <PrimaryButton @click.prevent="submitBadOrders">Confirm</PrimaryButton>
+                    </div>
+                </div>
+            </Modal>
         </article>
     </AuthenticatedLayout>
 </template>

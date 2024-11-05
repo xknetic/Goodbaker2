@@ -38,7 +38,6 @@ class ClientController extends Controller
         $request->validate([
             'clientName' => 'required|string|max:50',
             'clientAddress' => 'required|string|max:100',
-            'clientContact' => 'required|integer',
             // 'clientDate' => 'required|string',
         ]);
 

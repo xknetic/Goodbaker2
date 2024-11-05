@@ -19,11 +19,16 @@ class TruckLoadItem extends Model
 
     public function delivery()
     {
-        return $this->belongsToMany(Delivery::class, 'deliveryID', 'deliveryID');
+        return $this->belongsTo(Delivery::class, 'deliveryID', 'deliveryID');
     }
 
     public function products()
     {
         return $this->belongsTo(Product::class, 'product', 'productID');
+    }
+
+    public function saleitems()
+    {
+    return $this->hasMany(SaleItem::class, 'truckLoadItem', 'truckLoadItemID');
     }
 }

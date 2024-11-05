@@ -65,6 +65,7 @@ const props = defineProps({
                         <tr>
                             <th scope="col" class="px-6 py-3">Delivery Date</th>
                             <th scope="col" class="px-6 py-3">Delivery Type</th>
+                            <th scope="col" class="px-6 py-3">Client/Route</th>
                             <th scope="col" class="px-6 py-3">Truck</th>
                             <th scope="col" class="px-6 py-3">Plate No.</th>
                             <th scope="col" class="px-6 py-3">Truck Driver</th>
@@ -76,6 +77,7 @@ const props = defineProps({
                         <tr v-for="delivery in deliveries" :key="delivery.id" class="border-gray-700">
                             <td class="px-6 py-4"> {{ delivery.salesDate }} </td>
                             <td class="px-6 py-4"> {{ delivery.saletypes.saleTypeName }} </td>
+                            <td class="px-6 py-4"><span v-if="delivery.client">{{ delivery.clients.clientName }}</span>{{ delivery.route }} </td>
                             <td class="px-6 py-4"> {{ delivery.trucks.truckID }} </td>
                             <td class="px-6 py-4"> {{ delivery.trucks.plateNumber }}</td>
                             <td class="px-6 py-4"> {{ delivery.drivers.driverName }} </td>

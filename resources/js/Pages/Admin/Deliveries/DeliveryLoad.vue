@@ -52,9 +52,10 @@ const form = useForm({
     agent: '',
     client: '',
     products: [],
+    route: ''
 });
 
-const newProduct = ref({ productID: '', product: '', quantity: '', price:''});
+const newProduct = ref({ productID:'', product:'', quantity:'', price:''});
 
 const addProduct = () => {
     if (newProduct.value.quantity && newProduct.value.productID) {
@@ -64,6 +65,10 @@ const addProduct = () => {
             if (availableQuantity >= newProduct.value.quantity && newProduct.value.quantity > 0) {
                 form.products.push({ ...newProduct.value });
                 newProduct.value = { productID: '', product: '', quantity: '', price: '' };
+                searchProducts.value = '';
+                filterProducts();
+            }else {
+                alert("Insufficient Products.");
             }
         }
     }
@@ -131,7 +136,7 @@ function selectProduct(products) {
     searchProducts.value = products.productName;
     newProduct.value.productID= products.productID;
     newProduct.value.product= products.productName;
-    newProduct.value.price= products.productsprices[0]?.price;
+    // newProduct.value.price= products.productsprices[0]?.price;
     filteredProducts.value = [];
 }
 
@@ -268,7 +273,7 @@ const a = ref([
                         <InputLabel for="saleType" class="mb-2">Delivery Type</InputLabel>
                         <select v-model="form.saleType" name="state" id="deliveryType" class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                             <option disabled value="">Select Delivery Type</option>
-                            <option v-for="type in saletypes" :key="type.id" :value="type.saleTypeId">{{ type.saleTypeName }}</option>
+                            <option v-for="type in saletypes" :key="type.id" :value="type">{{ type.saleTypeName }}</option>
                         </select>
                     </div>
 
@@ -291,7 +296,7 @@ const a = ref([
                         <InputError :message="form.errors.supplierID" />
                     </div> -->
 
-                    <div class="relative">
+                    <div class="relative" v-if="form.saleType.saleTypeName=='Wholesale'">
                         <InputLabel for="client" class="mb-2">Client</InputLabel>
                         <TextInput id="typecli"
                             type="text" 
@@ -312,6 +317,12 @@ const a = ref([
                                 {{ client.clientName }}
                             </li>
                         </ul>
+                    </div>
+
+                    <div class="mt-4" v-if="form.saleType.saleTypeName=='Extract'">
+                        <InputLabel for="route" class="mb-2">Route</InputLabel>
+                        <TextInput class="mt-1 block w-[50%]" id="route" v-model="form.route" />
+                        <InputError :message="form.errors.route" />
                     </div>
 
                     <!-- <div class="mt-2">

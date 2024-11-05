@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id('productID');
             $table->unsignedBigInteger('productCategory');
-            $table->string('productName', 25);
+            $table->string('productName', 50);
             $table->string('unit', 25);
             $table->integer('quantity');
-            $table->integer('criticalLevel');
+            $table->integer('criticalLevel')->nullable();
 
             $table->foreign('productCategory')->references('categoryID')->on('product_categories')->onDelete('cascade');
         });

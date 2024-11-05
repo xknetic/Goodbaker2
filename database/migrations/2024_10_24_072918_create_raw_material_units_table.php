@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('premix_ingredients', function (Blueprint $table) {
-            $table->id('premixIngredientID');
-            $table->integer('quantity');
-            $table->unsignedBigInteger('premix');
+        Schema::create('raw_material_units', function (Blueprint $table) {
+            $table->id('rawMaterialUnitID');
+            $table->string('unit', 20);
+            $table->float('price');
+            $table->integer('stock');
             $table->unsignedBigInteger('rawMaterial');
-            $table->float('variance')->nullable();
 
-            $table->foreign('premix')->references('premixID')->on('premixes')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('premix_ingredient');
+        Schema::dropIfExists('raw_material_units');
     }
 };
