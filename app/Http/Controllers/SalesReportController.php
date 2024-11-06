@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Branch;
 use App\Models\Client;
 use App\Models\Product;
+use App\Models\SaleType;
 use App\Models\SalesReport;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
@@ -24,6 +25,7 @@ class SalesReportController extends Controller
             'productcategories' => ProductCategory::all(),
             'products' => Product::all(),
             'branches' => Branch::all(),
+            'saletypes' => SaleType::all(),
         ]);
     }
 
@@ -32,7 +34,7 @@ class SalesReportController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -41,6 +43,7 @@ class SalesReportController extends Controller
     public function store(Request $request)
     {
         //
+        
     }
 
     /**

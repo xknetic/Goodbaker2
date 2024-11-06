@@ -73,7 +73,7 @@ function filterDeliveries() {
 }
 
 function selectDelivery(delivery) {
-    searchDeliveries.value = delivery.deliveryID;
+    searchDeliveries.value = delivery.deliveryID + '-' + delivery.trucks.plateNumber + '-' + delivery.saletypes.saleTypeName + '(' + delivery.salesDate + ')';
     form.deliveryID = delivery.deliveryID;
     deliveryType.value = delivery.saletypes.saleTypeName;
     filteredDeliveries.value = [];
@@ -142,7 +142,7 @@ function clearItems() {
                             </Link>
                         </div>
                         <div>
-                            <h3> Delivery Load </h3>
+                            <h3> Create Sale </h3>
                         </div>
                     </div>
                     <div class="space-x-5">

@@ -54,17 +54,18 @@ const props = defineProps({
                             <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td>
                             <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}</tr>
                             </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.quantity }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.quantity }}</tr>
                             </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productprices[0].price }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productprices[0].price }}</tr>
                             </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}</tr>
                             </td>
+                            <td class="px-6 py-4 align-top">{{ sale.salesStatus }} </td>
                         </tr>
                     </tbody>
                 </table>

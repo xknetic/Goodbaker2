@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use Inertia\Inertia;
 use App\Models\Truck;
+use App\Models\Branch;
 use App\Models\Delivery;
 use App\Models\SaleItem;
 use App\Models\SaleType;
@@ -51,11 +52,14 @@ class SaleController extends Controller
             'deliveryID' => 'nullable|exists:deliveries,deliveryID',
         ]);
 
+        $branch = Branch::where('branchName', 'Loakan')->first();
+
         $sales = Sale::create([
             'userName' =>auth()->user()->id,
             'salesDate' =>$request->salesDate,
             'salesStatus'=>$request->salesStatus,
             'deliveryID'=>$request->deliveryID,
+            'branch' => $branch ? $branch->branchID : null, // Use the branch ID if found, otherwise set it to null
         ]);
 
         if (!$sales) {

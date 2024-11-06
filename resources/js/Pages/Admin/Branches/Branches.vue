@@ -57,7 +57,6 @@ const options = props.branches.map(branch => ({
                         <tr>
                             <th scope="col" class="px-6 py-3">Branch</th>
                             <th scope="col" class="px-6 py-3">Available Products</th>
-                            <th scope="col" class="px-6 py-3">Remaining</th>
                             <th scope="col" class="px-6 py-3">Today Sold</th>
                             <th scope="col" class="px-6 py-3">Contact Person</th>
                             <th scope="col" class="px-6 py-3">View Branch</th>
@@ -68,7 +67,7 @@ const options = props.branches.map(branch => ({
                             <td class="px-6 py-4"> {{ branch.branchName }}</td>
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>
-                            <td class="px-6 py-4"></td>
+
                             <td class="px-6 py-4" v-if="branch.users">{{ branch.users.name }} ({{ branch.contact }})</td>
                             <td class="px-6 py-4" v-else> </td>
                             <td class="px-6 py-4 flex items-center space-x-3">
