@@ -6,12 +6,6 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref, computed } from 'vue';
-<<<<<<< HEAD
-=======
-import Multiselect from 'vue-multiselect';
-import { fromJSON } from 'postcss';
-import '@vueform/multiselect/themes/default.css';
->>>>>>> ccf9f6e (8/11)
 
 const props = defineProps({
     users: {
@@ -58,16 +52,10 @@ const form = useForm({
     agent: '',
     client: '',
     products: [],
-<<<<<<< HEAD
     route: ''
 });
 
 const newProduct = ref({ productID:'', product:'', quantity:'', price:''});
-=======
-});
-
-const newProduct = ref({ productID: '', product: '', quantity: '', price:''});
->>>>>>> ccf9f6e (8/11)
 
 const addProduct = () => {
     if (newProduct.value.quantity && newProduct.value.productID) {
@@ -77,13 +65,10 @@ const addProduct = () => {
             if (availableQuantity >= newProduct.value.quantity && newProduct.value.quantity > 0) {
                 form.products.push({ ...newProduct.value });
                 newProduct.value = { productID: '', product: '', quantity: '', price: '' };
-<<<<<<< HEAD
                 searchProducts.value = '';
                 filterProducts();
             }else {
                 alert("Insufficient Products.");
-=======
->>>>>>> ccf9f6e (8/11)
             }
         }
     }
@@ -151,11 +136,7 @@ function selectProduct(products) {
     searchProducts.value = products.productName;
     newProduct.value.productID= products.productID;
     newProduct.value.product= products.productName;
-<<<<<<< HEAD
     // newProduct.value.price= products.productsprices[0]?.price;
-=======
-    newProduct.value.price= products.productsprices[0]?.price;
->>>>>>> ccf9f6e (8/11)
     filteredProducts.value = [];
 }
 
@@ -292,11 +273,7 @@ const a = ref([
                         <InputLabel for="saleType" class="mb-2">Delivery Type</InputLabel>
                         <select v-model="form.saleType" name="state" id="deliveryType" class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                             <option disabled value="">Select Delivery Type</option>
-<<<<<<< HEAD
                             <option v-for="type in saletypes" :key="type.id" :value="type">{{ type.saleTypeName }}</option>
-=======
-                            <option v-for="type in saletypes" :key="type.id" :value="type.saleTypeId">{{ type.saleTypeName }}</option>
->>>>>>> ccf9f6e (8/11)
                         </select>
                     </div>
 
@@ -319,11 +296,7 @@ const a = ref([
                         <InputError :message="form.errors.supplierID" />
                     </div> -->
 
-<<<<<<< HEAD
                     <div class="relative" v-if="form.saleType.saleTypeName=='Wholesale'">
-=======
-                    <div class="relative">
->>>>>>> ccf9f6e (8/11)
                         <InputLabel for="client" class="mb-2">Client</InputLabel>
                         <TextInput id="typecli"
                             type="text" 
@@ -346,7 +319,6 @@ const a = ref([
                         </ul>
                     </div>
 
-<<<<<<< HEAD
                     <div class="mt-4" v-if="form.saleType.saleTypeName=='Extract'">
                         <InputLabel for="route" class="mb-2">Route</InputLabel>
                         <TextInput class="mt-1 block w-[50%]" id="route" v-model="form.route" />
@@ -385,40 +357,6 @@ const a = ref([
                         </ul>
                     </div>
 
-=======
-                    <!-- <div class="mt-2">
-                        <Link :href="route('saleitems.index')" class="btn btn-primary"
-                        :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            <PrimaryButton class="px-5">
-                                Add Product
-                            </PrimaryButton>
-                        </Link>
-                    </div> -->
-
-                    <div class="relative">
-                        <InputLabel for="product" class="mb-2">Product</InputLabel>
-                        <TextInput id="typepro"
-                            type="text" 
-                            v-model="searchProducts" 
-                            @input="filterProducts" 
-                            class="mt-1 block w-[50%]" 
-                            placeholder="Search for product" 
-                        />
-                        <InputError :message="form.errors.supplierID" />
-
-                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] bg-white" >
-                            <li 
-                                v-for="product in filteredProducts" 
-                                :key="product.productID" 
-                                @click="selectProduct(product)" 
-                                class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[50%] pl-5 rounded-lg mt-1"
-                            >
-                                {{ product.productName }}
-                            </li>
-                        </ul>
-                    </div>
-
->>>>>>> ccf9f6e (8/11)
                     <div class="mt-4">
                         <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
                         <TextInput class="mt-1 block w-[50%]" id="quantity" v-model="newProduct.quantity" />

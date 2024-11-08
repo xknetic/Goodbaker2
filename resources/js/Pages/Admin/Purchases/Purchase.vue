@@ -14,7 +14,6 @@ const props = defineProps({
 function calculateTotalQuantity(purchaseitems){
     return purchaseitems.reduce((total, item) => total + item.quantity, 0);
 };
-<<<<<<< HEAD
 
 const completePurchaseForm = useForm({ purchaseID: null });
 
@@ -32,8 +31,6 @@ function completePurchase(purchase) {
         }
     });
 }
-=======
->>>>>>> ccf9f6e (8/11)
 </script>
 
 <template>
@@ -77,15 +74,12 @@ function completePurchase(purchase) {
                                         View More
                                     </PrimaryButton>
                                 </Link>
-<<<<<<< HEAD
                                 <button v-show="purchase.status === 'Pending'" @click="completePurchase(purchase)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
                                         <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
                                     </svg>
                                 </button>
                                 
-=======
->>>>>>> ccf9f6e (8/11)
                                 <!-- <button @click="destroy(product.id)" class="text-red-400 hover:text-red-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>

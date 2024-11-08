@@ -27,14 +27,8 @@ class SaleItem extends Model
         return $this->belongsTo(Product::class, 'product');
     }
 
-<<<<<<< HEAD
     public function truckloaditems()
     {
         return $this->belongsTo(TruckLoadItem::class, 'truckLoadItem', 'truckLoadItemID');
-=======
-    public function truckLoadItem()
-    {
-        return $this->belongsTo(TruckLoadItem::class, 'truckLoadItems');
->>>>>>> ccf9f6e (8/11)
     }
 }

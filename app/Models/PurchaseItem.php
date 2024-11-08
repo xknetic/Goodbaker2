@@ -24,11 +24,8 @@ class PurchaseItem extends Model
     public function rawmaterials(){
         return $this->belongsTo(RawMaterial::class, 'rawMaterialID', 'rawMaterialID');
     }
-<<<<<<< HEAD
 
     public function rawmaterialunits(){
         return $this->belongsTo(RawMaterialUnit::class, 'unit', 'rawMaterialUnitID');
     }
-=======
->>>>>>> ccf9f6e (8/11)
 }

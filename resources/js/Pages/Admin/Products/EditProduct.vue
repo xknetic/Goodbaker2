@@ -47,7 +47,6 @@ const form = useForm({
     ingredients: props.productingredients ? props.productingredients : [],
 });
 
-<<<<<<< HEAD
 const newIngredient = ref({ quantity: '', raw_material: {rawMaterialID:'', rawMaterialName:''}, premix:{premixID:'', premixName: ''}});
 
 const addIngredients = () => {
@@ -86,29 +85,12 @@ const addIngredients = () => {
         newIngredient.value.raw_material.rawMaterialName = '';
         newIngredient.value.premix.premixID = '';
         newIngredient.value.premix.premixName = '';
-=======
-const newIngredient = ref({ quantity: '', rawMaterial: '', rawMaterialName: '', premix: '', premixName: '' });
-
-const addIngredients = () => {
-    if ((newIngredient.value.rawMaterial || newIngredient.value.premix) && newIngredient.value.quantity) {
-        form.ingredients.push({ ...newIngredient.value });
-        newIngredient.value.quantity = '';
-        newIngredient.value.rawMaterial = '';
-        newIngredient.value.rawMaterialName = '';
-        newIngredient.value.premix = '';
-        newIngredient.value.premixName = '';
->>>>>>> ccf9f6e (8/11)
         searchRawMaterials.value = '';
         searchPremixes.value = '';
         filterRawMaterials();
         filterPremixes();
-<<<<<<< HEAD
         }
     };
-=======
-    }
-
->>>>>>> ccf9f6e (8/11)
 };
 
 const removeIngredient = (index) => {
@@ -130,13 +112,8 @@ function filterRawMaterials() {
 
 function selectRawMaterial(rawMaterial) {
     searchRawMaterials.value = rawMaterial.rawMaterialName;
-<<<<<<< HEAD
     newIngredient.value.raw_material.rawMaterialName = rawMaterial.rawMaterialName;
     newIngredient.value.raw_material.rawMaterialID = rawMaterial.rawMaterialID
-=======
-    newIngredient.value.rawMaterialName = rawMaterial.rawMaterialName;
-    newIngredient.value.rawMaterial = rawMaterial.rawMaterialID
->>>>>>> ccf9f6e (8/11)
     filteredRawMaterials.value = [];
 }
 
@@ -151,13 +128,8 @@ function filterPremixes() {
 
 function selectPremix(premix) {
     searchPremixes.value = premix.premixName;
-<<<<<<< HEAD
     newIngredient.value.premix.premixName = premix.premixName;
     newIngredient.value.premix.premixID = premix.premixID
-=======
-    newIngredient.value.premixName = premix.premixName;
-    newIngredient.value.premix = premix.premixID
->>>>>>> ccf9f6e (8/11)
     filteredPremixes.value = [];
 }
 </script>
@@ -338,15 +310,8 @@ function selectPremix(premix) {
                         </thead>
                         <tbody>
                             <tr v-for="(ingredient, index) in form.ingredients" :key="index" class="border-gray-700">
-<<<<<<< HEAD
                                 <td class="px-6 py-4" v-if="ingredient.raw_material">{{ ingredient.raw_material.rawMaterialName }}</td>
                                 <td class="px-6 py-4" v-if="ingredient.premix">{{ ingredient.premix.premixName }}</td>
-=======
-                                <td class="px-6 py-4" v-if="ingredient.rawMaterial.rawMaterialName">{{ ingredient.raw_material.rawMaterialName }}</td>
-                                <td class="px-6 py-4" v-else-if="ingredient.rawMaterial">{{ ingredient.rawMaterialName }}</td>
-                                <td class="px-6 py-4" v-if="ingredient.premix.premixName">{{ ingredient.premix.premixName }}</td>
-                                <td class="px-6 py-4" v-else-if="ingredient.premix">{{ ingredient.premixName }}</td>
->>>>>>> ccf9f6e (8/11)
                                 <td class="px-6 py-4">{{ ingredient.quantity }}</td>
                                 <td class="px-6 py-4 flex items-center space-x-3">
                                     <button @click.prevent="removeIngredient(index)" class="text-red-700 hover:text-red-400">

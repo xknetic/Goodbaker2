@@ -4,15 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Supplier;
 use Illuminate\Database\Seeder;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Hash;
-=======
->>>>>>> ccf9f6e (8/11)
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SupplierSeeder extends Seeder
 {
-<<<<<<< HEAD
 
     protected $suppliers = [
         [
@@ -108,15 +104,12 @@ class SupplierSeeder extends Seeder
         ],
 
     ];
-=======
->>>>>>> ccf9f6e (8/11)
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
         //
-<<<<<<< HEAD
         foreach($this->suppliers as $suppliers) {
             Supplier::create($suppliers);
         }
@@ -124,14 +117,3 @@ class SupplierSeeder extends Seeder
     }
 }
 
-=======
-        Supplier::create([
-            'supplierName' => 'a'
-        ]);
-
-        Supplier::create([
-            'supplierName' => 'b'
-        ]);
-    }
-}
->>>>>>> ccf9f6e (8/11)

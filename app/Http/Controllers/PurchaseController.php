@@ -9,10 +9,7 @@ use App\Models\Supplier;
 use App\Models\RawMaterial;
 use App\Models\PurchaseItem;
 use Illuminate\Http\Request;
-<<<<<<< HEAD
 use App\Models\RawMaterialUnit;
-=======
->>>>>>> ccf9f6e (8/11)
 
 class PurchaseController extends Controller
 {
@@ -23,11 +20,7 @@ class PurchaseController extends Controller
     {
         //
         return Inertia::render('Admin/Purchases/Purchase', [
-<<<<<<< HEAD
             'purchases' => Purchase::with(['suppliers', 'purchaseitems.rawmaterialunits'])->get(),
-=======
-            'purchases' => Purchase::with(['suppliers', 'purchaseitems'])->get(),
->>>>>>> ccf9f6e (8/11)
         ]);
     }
 
@@ -39,11 +32,7 @@ class PurchaseController extends Controller
         //
         return Inertia::render('Admin/Purchases/CreatePurchase', [
             'suppliers' => Supplier::all(),
-<<<<<<< HEAD
             'rawmaterials' => RawMaterial::with('rawmaterialunits')->get()
-=======
-            'rawmaterials' => RawMaterial::all()
->>>>>>> ccf9f6e (8/11)
         ]);
     }
 
@@ -61,12 +50,8 @@ class PurchaseController extends Controller
 
         $purchases = Purchase::create($request->only([
             'purchaseDate',
-<<<<<<< HEAD
             'supplier',
             'status'
-=======
-            'supplier'
->>>>>>> ccf9f6e (8/11)
         ]));
 
         foreach ($request->purchases as $purchaseData) {
@@ -74,10 +59,7 @@ class PurchaseController extends Controller
                 'purchaseID' => $purchases->purchaseID,
                 'rawMaterialID' => $purchaseData['rawMaterialID'],
                 'quantity' => $purchaseData['quantity'],
-<<<<<<< HEAD
                 'unit' => $purchaseData['unit'],
-=======
->>>>>>> ccf9f6e (8/11)
             ]);
         }
     }
@@ -88,20 +70,12 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
          //
-<<<<<<< HEAD
          $purchase->load(['purchaseitems.rawmaterials', 'purchaseitems.rawmaterialunits']);
-=======
-         $purchase->load(['purchaseitems.rawmaterials']);
->>>>>>> ccf9f6e (8/11)
 
          return Inertia::render('Admin/Purchases/PurchaseViewMore', [
             'purchases' => $purchase,
             'purchaseitems' => $purchase->purchaseitems,
         ]);
-<<<<<<< HEAD
-=======
-
->>>>>>> ccf9f6e (8/11)
     }
 
     /**

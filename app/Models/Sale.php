@@ -24,24 +24,16 @@ class Sale extends Model
 
     public function saletype()
     {
-<<<<<<< HEAD
         return $this->belongsTo(SaleType::class);
-=======
-        return $this->belongsTo(SaleType::class, 'saleType');
->>>>>>> ccf9f6e (8/11)
     }
 
     public function truck()
     {
-<<<<<<< HEAD
         return $this->belongsTo(Truck::class);
     }
 
     public function saleitems()
     {
         return $this->hasMany(SaleItem::class, 'salesID', 'salesID');
-=======
-        return $this->belongsTo(Truck::class, 'truck');
->>>>>>> ccf9f6e (8/11)
     }
 }

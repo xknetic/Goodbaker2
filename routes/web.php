@@ -78,11 +78,8 @@ Route::resource('/sales', SaleController::class)
 
 Route::resource('/deliveries', DeliveryController::class)
 ->middleware(['auth', 'role:admin|agent']);
-<<<<<<< HEAD
 
 Route::post('/deliveries/{delivery}/load-in', [DeliveryController::class, 'loadIn'])->name('deliveries.loadIn');
-=======
->>>>>>> ccf9f6e (8/11)
 
 Route::resource('/products', ProductController::class)
 ->middleware(['auth', 'role:admin']);
@@ -104,11 +101,8 @@ Route::resource('/suppliers', SupplierController::class)
 
 Route::resource('/purchases', PurchaseController::class)
 ->middleware(['auth', 'role:admin']);
-<<<<<<< HEAD
 Route::post('/purchases/complete', [PurchaseController::class, 'complete'])->name('purchases.complete');
 
-=======
->>>>>>> ccf9f6e (8/11)
 
 Route::resource('/salesreports', SalesReportController::class)
 ->middleware(['auth', 'role:admin']);

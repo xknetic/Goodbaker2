@@ -6,14 +6,10 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref, computed } from 'vue';
-<<<<<<< HEAD
 import Modal from '@/Components/Modal.vue';
 
 const showModal = ref(false);
 
-=======
-
->>>>>>> ccf9f6e (8/11)
 const props = defineProps({
     deliveries: {
         type: Object,
@@ -52,11 +48,8 @@ const addProduct = () => {
                 searchProducts.value = '';
                 filteredProducts.value = [];
                 filterProducts();
-<<<<<<< HEAD
             }else {
                 alert("Insufficient Products.");
-=======
->>>>>>> ccf9f6e (8/11)
             }
         }
     }
@@ -91,7 +84,6 @@ function addDelete(item) {
 const removeItem = (index) => {
     form.products.splice(index, 1);
 };
-<<<<<<< HEAD
 
 const submitBadOrders = () => {
     const itemsToSubmit = form.items.map(item => ({
@@ -106,8 +98,6 @@ const submitBadOrders = () => {
 };
 
 
-=======
->>>>>>> ccf9f6e (8/11)
 </script>
 <style>
     #selectpro{
@@ -155,7 +145,6 @@ const submitBadOrders = () => {
                         </div>
                     </div>
                     <div class="space-x-5">
-<<<<<<< HEAD
                         <!-- <PrimaryButton @click.prevent="loadIn" class="p-2">
                             Load In
                         </PrimaryButton> -->
@@ -164,8 +153,6 @@ const submitBadOrders = () => {
                             Load In
                         </PrimaryButton>
 
-=======
->>>>>>> ccf9f6e (8/11)
                         <PrimaryButton class="p-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             Update
                         </PrimaryButton>
@@ -186,11 +173,7 @@ const submitBadOrders = () => {
                         />
                         <InputError :message="form.errors.supplierID" />
 
-<<<<<<< HEAD
                         <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] max-h-0 bg-white" >
-=======
-                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] bg-white" >
->>>>>>> ccf9f6e (8/11)
                             <li 
                                 v-for="product in filteredProducts" 
                                 :key="product.productID" 
@@ -238,11 +221,7 @@ const submitBadOrders = () => {
                                 </td>
                             </tr>
                             <tr v-for="item, index in form.products">
-<<<<<<< HEAD
                                 <td class="px-6 py-4">{{ item.product }}</td>
-=======
-                                <td class="px-6 py-4">{{ item.product    }}</td>
->>>>>>> ccf9f6e (8/11)
                                 <td class="px-6 py-4">{{ item.quantity }}</td>
                                 <td class="px-6 py-4">{{ item.price }}</td>
                                 <td class="px-6 py-4">{{ item.price * item.quantity }}</td>
@@ -260,7 +239,6 @@ const submitBadOrders = () => {
                 </div>
             </form>
 
-<<<<<<< HEAD
 
             <Modal
                 :show="showModal" 
@@ -302,12 +280,6 @@ const submitBadOrders = () => {
                     </div>
                 </div>
             </Modal>
-=======
-                <div class="flex mt-5 mr-5 justify-end">
-                </div>
-
-            </form>
->>>>>>> ccf9f6e (8/11)
         </article>
     </AuthenticatedLayout>
 </template>

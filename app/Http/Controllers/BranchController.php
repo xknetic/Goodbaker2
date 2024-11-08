@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Redirect;
 use App\Imports\SalesTransactionDiscountChargeImport;
 use App\Imports\SalesTransactionImport;
 use App\Imports\SalesTransactionJournalImport;
+use App\Models\DailySalesTransaction;
 use App\Models\GuestCount;
 use App\Models\SalesTransaction;
+use App\Models\SalesTransactionCount;
+use App\Models\SalesTransactionDiscountCharge;
 use App\Models\SalesTransactionJournal;
 
 class BranchController extends Controller
@@ -64,10 +67,20 @@ class BranchController extends Controller
     {
         //
         $salesTransactions = SalesTransaction::all();
+        $journals = SalesTransactionJournal::all();
+        $dailysales = DailySalesTransaction::all();
+        $counts = SalesTransactionCount::all();
+        $guestcounts = GuestCount::all();
+        $discountcharges = SalesTransactionDiscountCharge::all();
 
         return Inertia::render('Admin/Branches/BranchSales', [
             'branch' => $branch,
-            'salestransactions' => $salesTransactions
+            'salestransactions' => $salesTransactions,
+            'journals' => $journals,
+            'dailysales' => $dailysales,
+            'counts' => $counts,
+            'guestcounts' => $guestcounts,
+            'discountcharges' => $discountcharges,
         ]);
     }
 

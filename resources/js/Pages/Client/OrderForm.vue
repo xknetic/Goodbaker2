@@ -4,15 +4,11 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import IncrementButton from '@/Components/IncrementButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-<<<<<<< HEAD
 import InputLabel from '@/Components/InputLabel.vue';
 import { ref, computed } from 'vue'
 import Modal from '@/Components/Modal.vue';
 
 const showModal = ref(false);
-=======
-import { ref } from 'vue'
->>>>>>> ccf9f6e (8/11)
 
 const props = defineProps({
     products: {
@@ -26,7 +22,6 @@ const props = defineProps({
     },
 });
 
-<<<<<<< HEAD
 const currentDate = () => {
     const current = new Date();
     return current.toISOString().split('T')[0];
@@ -102,18 +97,6 @@ const total = computed(() => {
 const submit = () => {
     form.products = cart.value;
     form.post(route('orderform.store'));
-=======
-const order = ref(0)
-
-function increment(product) {
-    document.getElementById(product).value++;
-}
-
-function decrement(product) {
-    if(document.getElementById(product).value != 0 ) {
-        document.getElementById(product).value--
-    }
->>>>>>> ccf9f6e (8/11)
 }
 </script>
 
@@ -163,121 +146,12 @@ function decrement(product) {
                                             
                                             <TextInput :id="product.productID" class="w-10 text-center h-8 px-1 bg-[#bfbfbf] border-0" type="text" :value="cart.find(item => item.productID === product.productID)?.quantity || 0" readonly/>
 
-<<<<<<< HEAD
                                             <IncrementButton @click="increment(product)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                                                     <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
                                                 </svg>
                                             </IncrementButton>
                                         </div>
-=======
-                    <!-- Category -->
-                    <h3>Categories</h3>
-                    <div class="bg-[#BFBFBF] rounded-lg">
-                        <div class="p-5">
-                            <div class="flex h-10 overflow-auto space-x-5">
-                                <PrimaryButton>
-                                    <h4>All</h4>
-                                </PrimaryButton>
-                                <PrimaryButton v-for="category in productcategories" :key="category.id">
-                                    <h4>{{ category.categoryName }}</h4>
-                                </PrimaryButton>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- <div v-for="category in productcategory" :key="category.id">
-                    <h3>{{ category.categoryName }}</h3>
-                    <div class="flex overflow-x-scroll">
-                        <div v-for="product in products" :key="product.id" class="bg-[#BFBFBF] rounded-lg">
-                            <div v-if="product.productCategory === category.categoryID" class="p-3">
-                                <h4>{{ product.productName }}</h4>
-                                <h4>P {{ product.products[0]?.price }}</h4>
-                                <div class="flex space-x-4 items-center">
-                                    <IncrementButton @click="decrement(product.productName)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
-                                        </svg>
-                                    </IncrementButton>
-
-                                    <h4 id="quantity">0</h4>
-
-                                    <IncrementButton @click="increment(product.productName)">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                                        </svg>
-                                    </IncrementButton>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div> -->
-
-                    <div v-for="category in productcategories" :key="category.id">
-                        <h3>{{ category.categoryName }}</h3>
-                        <div class="flex overflow-x-scroll">
-                            <div v-for="product in products" :key="product.id">
-                                <div v-if="product.productCategory === category.categoryID">
-                                    <div class="mr-5 bg-[#BFBFBF] rounded-lg p-3">
-                                        <div>
-                                            <h4>{{ product.productName }}</h4>
-                                            <h4>P {{ product.products[0]?.price }}</h4>
-                                            <div class="flex space-x-4 items-center">
-                                                <IncrementButton @click="decrement(product.productID)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                                        <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
-                                                    </svg>
-                                                </IncrementButton>
-                                                
-                                                <TextInput :id="product.productID" class="w-10 text-center h-8 px-1 bg-[#bfbfbf] border-0" type="text" />
-
-                                                <IncrementButton @click="increment(product.productID)">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                                        <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                                                    </svg>
-                                                </IncrementButton>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- SideBar -->
-                <aside class="w-[20%] bg-white p-5 rounded-lg">
-                    <!-- Top -->
-                    <div class="flex justify-between items-center">
-                        <h3>Products</h3>
-                    </div>
-                    <div class="border-b border-gray-700 my-2" />
-
-                    <div class="flex justify-end">
-                        Date
-                    </div>
-
-                    <div class="flex flex-col overflow-auto h-max">
-                        <div class="bg-[#BFBFBF] p-4 rounded-lg">
-                            <div class="bg-[#D9D9D9] rounded-lg">
-                                <div class="p-3">
-                                    <h4>{{ order }}</h4>
-                                    <h4>P 150</h4>
-                                    <div class="flex space-x-4 items-center">
-                                        <IncrementButton>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"/>
-                                            </svg>
-                                        </IncrementButton>
-
-                                        <h4> 1 </h4>
-
-                                        <IncrementButton>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-                                            </svg>
-                                        </IncrementButton>
->>>>>>> ccf9f6e (8/11)
                                     </div>
                                 </div>
                             </div>
@@ -356,7 +230,6 @@ function decrement(product) {
                             </PrimaryButton>
                         </div>
                     </div>
-<<<<<<< HEAD
                     
                     <!-- Check out -->
                     <div class="bg-white p-4 rounded-lg">
@@ -506,10 +379,6 @@ function decrement(product) {
                     <!-- <button @click="showModal = false" class="mt-4">Close</button> -->
                 </div>
             </Modal>
-=======
-                </aside>
-            </main>
->>>>>>> ccf9f6e (8/11)
         </div>
     </GuestLayout>
 </template>

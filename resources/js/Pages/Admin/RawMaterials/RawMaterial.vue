@@ -15,11 +15,7 @@ const props = defineProps({
         default: () => [],
     },
 
-<<<<<<< HEAD
     // amount: Object
-=======
-    amount: Object
->>>>>>> ccf9f6e (8/11)
 });
 
 const form = useForm({});
@@ -30,7 +26,6 @@ function destroy(id) {
     }
 }
 
-<<<<<<< HEAD
 function totalAmount(supplierID) {
     // Ensure to check for valid supplierID
     if (!supplierID) return 0;
@@ -44,8 +39,6 @@ function totalAmount(supplierID) {
         }, 0);
 }
 
-=======
->>>>>>> ccf9f6e (8/11)
 // var last = props.rawmaterials.length;
 // var highest = 0;
 // for (let i = 0;  i < props.rawmaterials.length; i++) {
@@ -106,7 +99,6 @@ function totalAmount(supplierID) {
                     </thead>
                     <tbody>
                         <tr v-for="rawMaterial in rawmaterials" :key="rawMaterial.id">
-<<<<<<< HEAD
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 w-[25%]"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.rawMaterialName }}</span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} {{ rawMaterial.typeQuantity }}</span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 flex flex-col"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.unit }}</div></td>
@@ -114,16 +106,6 @@ function totalAmount(supplierID) {
                             <!-- <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">--</span></td> -->
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.stock }}</div></span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.price*unit.stock }}</div></span></td>
-=======
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.rawMaterialName }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.unit }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} x{{ rawMaterial.typeQuantity }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">--</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.price }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.quantity }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">₱{{ rawMaterial.price * rawMaterial.quantity }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">₱{{ amount }}</span></td>
->>>>>>> ccf9f6e (8/11)
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('rawmaterials.edit', rawMaterial.rawMaterialID)" class="text-blue-400 hover:text-blue-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

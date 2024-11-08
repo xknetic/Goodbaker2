@@ -71,19 +71,11 @@ class DeliveryController extends Controller
             'agent',
             'salesDate',
             'truck',
-<<<<<<< HEAD
             'truckDriver',
             'client',
             'route'
         ])+ [
             'saleType' => $request->input('saleType.saleTypeId'),]);
-=======
-            'saleType',
-            'truckDriver',
-            'client',
-            
-        ]));
->>>>>>> ccf9f6e (8/11)
 
         if (!$deliveries) {
             return redirect()->route('deliveries.index');
@@ -122,7 +114,6 @@ class DeliveryController extends Controller
             'truckloaditems' => $delivery->truckloaditems,
             'products' => Product::with(['productprices'])->get(),
         ]);
-<<<<<<< HEAD
     }
 
     public function loadIn(Request $request, Delivery $delivery)
@@ -160,8 +151,6 @@ class DeliveryController extends Controller
         }
     
         return redirect()->route('deliveries.index');
-=======
->>>>>>> ccf9f6e (8/11)
     }
 
     /**
