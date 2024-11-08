@@ -16,11 +16,17 @@ return new class extends Migration
             $table->unsignedBigInteger('purchaseID');
             $table->unsignedBigInteger('rawMaterialID');
             $table->integer('quantity');
+<<<<<<< HEAD
             $table->unsignedBigInteger('unit');
 
             $table->foreign('purchaseID')->references('purchaseID')->on('purchases')->onDelete('cascade');
             $table->foreign('rawMaterialID')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
             $table->foreign('unit')->references('rawMaterialUnitID')->on('raw_material_units')->onDelete('cascade');
+=======
+
+            $table->foreign('purchaseID')->references('purchaseID')->on('purchases')->onDelete('cascade');
+            $table->foreign('rawMaterialID')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
+>>>>>>> ccf9f6e (8/11)
         });
     }
 

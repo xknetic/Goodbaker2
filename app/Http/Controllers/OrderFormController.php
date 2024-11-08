@@ -8,7 +8,10 @@ use App\Models\OrderForm;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Redirect;
+=======
+>>>>>>> ccf9f6e (8/11)
 
 class OrderFormController extends Controller
 {
@@ -20,7 +23,11 @@ class OrderFormController extends Controller
         //
         return Inertia::render('Client/OrderForm', [
             'orderform' => OrderForm::all(),
+<<<<<<< HEAD
             'products' => Product::with(['productprices', 'productcategories', 'ingredients', 'truckloaditems'])->get(),
+=======
+            'products' => Product::with(['products'])->get(),
+>>>>>>> ccf9f6e (8/11)
             'productcategories' => ProductCategory::all(),
         ]);
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 @import "../../node_modules/vue-multiselect/dist/vue-multiselect.css";
+=======
+@import "../../node_modules/vue-multiselect/dist/vue-multiselect.min.css";
+>>>>>>> ccf9f6e (8/11)
 
 @tailwind base;
 @tailwind components;

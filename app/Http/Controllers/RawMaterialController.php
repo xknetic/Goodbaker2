@@ -17,9 +17,15 @@ class RawMaterialController extends Controller
     {
         //
         return Inertia::render('Admin/RawMaterials/RawMaterial', [
+<<<<<<< HEAD
             'rawmaterials' => RawMaterial::with(['supplier', 'rawmaterialunits'])->get(),
             'suppliers' => Supplier::all(),
             // 'amount' => RawMaterial::max('price')
+=======
+            'rawmaterials' => RawMaterial::with(['supplier'])->get(),
+            'suppliers' => Supplier::all(),
+            'amount' => RawMaterial::max('price')
+>>>>>>> ccf9f6e (8/11)
         ]);
     }
 

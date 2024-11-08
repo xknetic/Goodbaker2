@@ -26,11 +26,18 @@ const currentDate = () => {
 const form = useForm({
     purchaseDate: currentDate(),
     supplier: '',   
+<<<<<<< HEAD
     purchases: [],
     status: 'Pending',
 });
 
 const newPurchase = ref({rawMaterialID: '', purchase: '', unit: '', unitName:'', quantity: ''});
+=======
+    purchases: []
+});
+
+const newPurchase = ref({rawMaterialID: '', purchase: '', unit: '', quantity: ''});
+>>>>>>> ccf9f6e (8/11)
 
 const submit = () => {
     form.post(route('purchases.store'));
@@ -55,8 +62,11 @@ function selectSupplier(supplier) {
 
 const searchRawMaterials = ref('');
 const filteredRawMaterials = ref(props.rawmaterials);
+<<<<<<< HEAD
 const newUnit = ref({unit: ''});
 const selectUnit = ref('');
+=======
+>>>>>>> ccf9f6e (8/11)
 
 function filterRawMaterials() {
     filteredRawMaterials.value = props.rawmaterials.filter(rawmaterial =>
@@ -68,16 +78,25 @@ function selectRawMaterial(rawmaterial) {
     searchRawMaterials.value = rawmaterial.rawMaterialName;
     newPurchase.value.rawMaterialID= rawmaterial.rawMaterialID;
     newPurchase.value.purchase= rawmaterial.rawMaterialName;
+<<<<<<< HEAD
     newUnit.value.unit= rawmaterial.rawmaterialunits;
+=======
+    newPurchase.value.unit= rawmaterial.unit;
+>>>>>>> ccf9f6e (8/11)
     filteredRawMaterials.value = [];
 }
 
 const addPurchase = () => {
     if (newPurchase.value.quantity && newPurchase.value.purchase) {
+<<<<<<< HEAD
         newPurchase.value.unit = selectUnit.value.rawMaterialUnitID;
         newPurchase.value.unitName = selectUnit.value.unit;
         form.purchases.push({ ...newPurchase.value });
         newPurchase.value = {rawMaterialID: '', purchase: '', unit: '', unitName:'', quantity: ''};
+=======
+        form.purchases.push({ ...newPurchase.value });
+        newPurchase.value = {purchase: '', unit: '', quantity: ''};
+>>>>>>> ccf9f6e (8/11)
         searchRawMaterials.value = '';
         filteredRawMaterials.value = [];
         filterRawMaterials();
@@ -201,6 +220,7 @@ const addPurchase = () => {
                     </ul>
                 </div>
 
+<<<<<<< HEAD
                 <div>
                     <InputLabel for="unit" class="mt-5">Unit</InputLabel>
                     <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="unit" v-model="selectUnit" required>
@@ -210,6 +230,8 @@ const addPurchase = () => {
                     <InputError :message="form.errors.productCategory"/>
                 </div>
 
+=======
+>>>>>>> ccf9f6e (8/11)
                 <div class="mt-4">
                     <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="quantity" v-model="newPurchase.quantity" />
@@ -238,7 +260,11 @@ const addPurchase = () => {
                             <tr v-for="(purchase, index) in form.purchases" :key="index">
                                 <td class="px-6 py-4">{{ index + 1 }}</td>
                                 <td class="px-6 py-4">{{ purchase.purchase }}</td>
+<<<<<<< HEAD
                                 <td class="px-6 py-4">{{ purchase.unitName }}</td>
+=======
+                                <td class="px-6 py-4">{{ purchase.unit }}</td>
+>>>>>>> ccf9f6e (8/11)
                                 <td class="px-6 py-4">{{ purchase.quantity }}</td>
                             </tr>
                         </tbody>

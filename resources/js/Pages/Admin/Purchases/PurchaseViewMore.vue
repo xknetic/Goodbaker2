@@ -67,7 +67,11 @@ const props = defineProps({
                         <tbody>
                             <tr v-for="purchase in purchaseitems">
                                 <td class="px-6 py-4">{{ purchase.rawmaterials.rawMaterialName  }}</td>
+<<<<<<< HEAD
                                 <td class="px-6 py-4">{{ purchase.rawmaterialunits.unit }}</td>
+=======
+                                <td class="px-6 py-4">{{ purchase.rawmaterials.unit }}</td>
+>>>>>>> ccf9f6e (8/11)
                                 <td class="px-6 py-4">{{ purchase.quantity }}</td>
                             </tr>
                         </tbody>

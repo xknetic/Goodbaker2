@@ -54,26 +54,16 @@ const props = defineProps({
                             <!-- <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td> -->
                             <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}</tr>
                             </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.quantity }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.quantity }}</tr>
                             </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productprices[0].price }}<td class="px-6 py-4"></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productprices[0].price }}</tr>
                             </td>
                             <td class="px-6 py-4">
-                                <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}<td class="px-6 py-4"></td></tr>
-                            </td>
-                            <td class="px-6 py-4">
-                                <tr>1,600<td class="px-6 py-4"></td></tr>
-                            </td>
-                            <td class="flex items-center justify-center">
-                                <tr>
-                                    <div class="flex px-6 py-4 bg-[#0108EE]">
-                                        Complete
-                                    </div>
-                                    <td ></td></tr>
+                                <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}</tr>
                             </td>
                         </tr>
                     </tbody>

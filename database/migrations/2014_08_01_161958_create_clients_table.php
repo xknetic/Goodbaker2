@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('clientID');
             $table->string('clientName', 50);
             $table->string('clientAddress', 100);
-            $table->dateTime('clientDate')->nullable();
-            $table->unsignedBigInteger('clientContact');
+            $table->date('clientDate')->nullable();
+            $table->string('clientContact');
         });
     }
 
