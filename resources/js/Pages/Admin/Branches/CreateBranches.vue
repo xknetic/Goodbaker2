@@ -96,12 +96,6 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.userContact" />
                 </div>
             </form>
-<<<<<<< HEAD
-
-
-            <!-- CSV HERE -->
-=======
->>>>>>> ccf9f6e (8/11)
         </article>
     </AuthenticatedLayout>
 </template>
