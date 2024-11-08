@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -56,8 +57,18 @@ Route::resource('/orderform', OrderFormController::class);
 Route::resource('/users', UserController::class)
 ->middleware(['auth', 'role:admin']);
 
-Route::resource('/branches', BranchController::class)
-->middleware(['auth', 'role:admin|branch']);
+
+
+Route::middleware('auth')->group(function () {
+    Route::resource('/branches', BranchController::class);
+    Route::get('/csvimports', [BranchController::class, 'csvimports'])->name('branches.csvimports');
+    Route::post('/salestransactiondiscountcharges/import', [BranchController::class, 'importSalesTransactionDiscountCharges'])->name('salestransactiondiscountcharges.import');
+    Route::post('/guestcounts/import', [BranchController::class, 'importGuestCounts'])->name('guestcounts.import');
+    Route::post('/salestransactioncounts/import', [BranchController::class, 'importSalesTransactionCounts'])->name('salestransactioncounts.import');
+    Route::post('/dailysalestransactions/import', [BranchController::class, 'importDailySalesTransactions'])->name('dailysalestransactions.import');
+    Route::post('/salestransactions/import', [BranchController::class, 'importSalesTransactions'])->name('salestransactions.import');
+    Route::post('/salestransactionjournals/import', [BranchController::class, 'importSalesTransactionJournals'])->name('salestransactionjournals.import');
+});
 
 Route::resource('/sales', SaleController::class)
 ->middleware(['auth', 'role:admin|agent']);

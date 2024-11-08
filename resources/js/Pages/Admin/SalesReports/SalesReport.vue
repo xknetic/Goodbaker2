@@ -80,6 +80,19 @@ const filteredClients = computed(() => {
                             </div>
                         </td>
 
+                        <!-- sale Type -->
+                        <td class="align-top">
+                            <h3>Sale Type</h3>
+                            <div  class="flex items-center mb-2">
+                                <input
+                                    class="size-4 rounded border-gray-300"
+                                    type="checkbox"
+                                    v-model="selectedBranches"
+                                />
+                                <label class="px-2">Whole sale</label>
+                            </div>
+                        </td>
+
                         <!-- Clients Column -->
                         <td class="align-top" v-if="isLoakanChecked">
                             <h3>Clients</h3>
