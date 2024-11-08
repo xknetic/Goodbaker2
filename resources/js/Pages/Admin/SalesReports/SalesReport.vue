@@ -3,80 +3,127 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Modal from '@/Components/Modal.vue';
+import VueApexCharts from 'vue3-apexcharts';
+
+const showModal = ref(false);
 
 const props = defineProps({
-    saletypes: {
+    sales: {
         type: Array,
         default: () => [],
     },
-    clients: {
-        type: Array,
-        default: () => [],
-    },
-    productcategories: {
-        type: Array,
-        default: () => [],
-    },
-    products: {
-        type: Array,
-        default: () => [],
-    },
-    branches: {
-        type: Array,
-        default: () => [],
-    },
-
 });
 
 const form = useForm({
-    branches: [],
-    categories: [],
+    date: '2024',
+    month: ''
 });
 
-// Store selected categories
-const selectedCategories = ref([]);
-const selectedBranches = ref([]);
-const selectedSaleTypes = ref([]);
-
-// Computed property to filter products based on selected categories
-const filteredProducts = computed(() => {
-    return props.products.filter(product =>
-        selectedCategories.value.includes(product.productCategory)
-    );
+// Create a computed property to extract unique years from salesDate
+const saleYears = computed(() => {
+    const years = props.sales.map(sale => new Date(sale.salesDate).getFullYear());
+    return [...new Set(years)]; // Convert Set back to an array
+});
+const filteredSales = computed(() => {
+    const selectedYear = parseInt(form.date); // Get the selected year from the form
+    return props.sales.filter(sale => {
+        const saleYear = new Date(sale.salesDate).getFullYear(); // Extract the year from salesDate
+        return saleYear === selectedYear; // Filter sales that match the selected year
+    });
 });
 
-// Computed property to determine if "Loakan" branch is checked
-const isLoakanChecked = computed(() => {
-    return form.branches.includes('Loakan');
+const monthlyTotalSales = computed(() => {
+    // Initialize an array for each month to hold total sales amounts
+    const monthlyTotals = Array.from({ length: 12 }, () => 0); // 12 months initialized to 0
+
+    // Loop through each sale in filteredSales
+    filteredSales.value.forEach(sale => {
+        // Initialize total for the current sale
+        let saleTotal = 0;
+
+        // Loop through each saleitem in the sale
+        sale.saleitems.forEach(saleitem => {
+            // Access the truckloaditem directly (assuming it's a single object)
+            const truckloaditem = saleitem.truckloaditems; // Assuming this is an object
+
+            // Access the product directly from truckloaditem
+            const product = truckloaditem.products; // Assuming this is also an object
+
+            // Get the price from productprices
+            const price = product.productprices[0]?.price || 0; // Use optional chaining to avoid errors
+            const quantity = saleitem.quantity || 0; // Assuming quantity is directly on saleitem
+
+            // Calculate total for this product and add to saleTotal
+            saleTotal += price * quantity;
+        });
+
+        // Get the sales date and determine the month
+        const saleDate = new Date(sale.salesDate);
+        const month = saleDate.getMonth(); // getMonth() returns 0 for January, 1 for February, etc.
+
+        // Add the sale total to the corresponding month's total
+        monthlyTotals[month] += saleTotal;
+    });
+
+    return monthlyTotals; // This will be an array of total sales amounts for each month
 });
 
-const isWholesaleChecked = computed(() => {
-    return selectedSaleTypes.value.includes('Wholesale')
+const filteredSalesForModal = computed(() => {
+    const selectedYear = parseInt(form.date); // Get the selected year from the form
+    const selectedMonth = parseInt(form.month); // Get the selected month from the form
+    return props.sales.filter(sale => {
+        const saleDate = new Date(sale.salesDate);
+        const saleYear = saleDate.getFullYear(); // Extract the year from salesDate
+        const saleMonth = saleDate.getMonth(); // Extract the month from salesDate
+        return saleYear === selectedYear && saleMonth === selectedMonth; // Filter sales that match the selected year and month
+    });
 });
 
-// Computed property to filter clients based on the selected branches
-const filteredClients = computed(() => {
-    return isLoakanChecked.value ? props.clients : [];
+const modalPieData = ref({name:'', quantity:''});
+
+const pieChartOptions = ref({
+    chart: {
+        type: 'pie',
+    },
+    dataLabels: {
+        enabled: true,
+    },
+    series: [12],
+    labels: [12],
+    colors: ['#0108EE', '#F7C849'],
+    legend: {
+        position: 'bottom',
+        horizontalAlign: 'center',
+        offsetX: 0,
+        offsetY: 0,
+    },
 });
 
-function toggle(isChecked, name) {
-    if (name === 'category') {
-        if (isChecked) {
-        // If checked, add all category IDs to selectedCategories
-        selectedCategories.value = props.productcategories.map(category => category.categoryID);
-        } else {
-        // If unchecked, clear the selectedCategories
-        selectedCategories.value = [];
+const barChartOptions = computed(() => ({
+    plotOptions: {
+        bar: {
+            distributed: true
         }
-    }
-    const checkboxes = document.getElementsByName(name);
-    for (let checkbox of checkboxes) {
-        if (checkbox instanceof HTMLInputElement) {
-        checkbox.checked = isChecked;
-        }
-    }
-}
+    },
+    chart: {
+        type: 'bar',
+    },
+    series: [{
+        data: monthlyTotalSales.value.map((total, index) => ({
+            x: new Date(0, index).toLocaleString('default', { month: 'long' }), // Get month name
+            y: total
+        }))
+    }]
+}));
+
 </script>
+
+<style>
+tr:nth-child(even) {
+  background: rgb(234, 235, 234);
+}
+</style>
 
 <template>
     <Head title="Sales Reports" />
@@ -86,134 +133,87 @@ function toggle(isChecked, name) {
             <!-- Top -->
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Sales Reports</h3>
-                <Link href="" class="btn btn-primary">
-                    <PrimaryButton class="p-2">
-                        Generate   
-                    </PrimaryButton>
-                </Link>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
-            <!-- Bottom Table -->
-            <table class="w-full text-sm text-left h-72">
-                <tbody>
-                    <tr>
-                        <td class="align-top">
-                            <h3>Branches</h3>
-                            <div v-for="branch in branches" :key="branch.branchName" class="flex items-center mb-2">
-                                <input
-                                    :id="branch.branchName"
-                                    class="size-4 rounded border-gray-300"
-                                    type="checkbox"
-                                    v-model="form.branches"
-                                    :value="branch.branchName"
-                                    name="branch"
-                                />
-                                <label :for="branch.branchName" class="px-2">{{ branch.branchName }}</label>
-                            </div>
-                        </td>
-
-                        <!-- sale Type -->
-                        <td class="align-top">
-                            <h3>Sale Type</h3>
-                            <div  class="flex items-center mb-2">
-                                <input
-                                    class="size-4 rounded border-gray-300"
-                                    type="checkbox"
-                                    v-model="selectedBranches"
-                                />
-                                <label class="px-2">Whole sale</label>
-                            </div>
-                        </td>
-
-                        <!-- Clients Column -->
-                        <td class="align-top" v-if="isLoakanChecked">
-                            <h3 class="inline pr-4">Sale Type</h3>
-                            <div v-for="type in saletypes" :key="type.id" class="flex items-center mb-2">
-                                <input
-                                    :id="type.saleTypeName"
-                                    class="size-4 rounded border-gray-300"
-                                    type="checkbox"
-                                    v-model="selectedSaleTypes"
-                                    :value="type.saleTypeName"
-                                    name="saleType"
-                                />
-                                <label :for="type.saleTypeName" class="px-2">{{ type.saleTypeName }}</label>
-                            </div>
-                        </td>
-
-                        <!-- Clients Column -->
-                        <td class="align-top" v-if="isWholesaleChecked">
-                            <h3 class="inline pr-4">Clients</h3>
-                            <div v-for="client in filteredClients" :key="client.clientName" class="flex items-center mb-2">
-                                <input
-                                    :id="client.clientName"
-                                    class="size-4 rounded border-gray-300"
-                                    type="checkbox"
-                                    name="client"
-                                />
-                                <label :for="client.clientName" class="px-2">{{ client.clientName }}</label>
-                            </div>
-                        </td>
-
-                        <!-- Product Categories Column -->
-                        <td class="align-top">
-                            <h3 class="inline pr-4">Product Categories</h3><input
-                                        class="size-4 rounded border-gray-300"
-                                        name="selectProduct"
-                                        type="checkbox"
-                                        @click="toggle($event.target.checked, 'category')"
-                                    /><label for="selectProduct" class="px-2">Select All</label>
-                            <div v-for="category in productcategories" :key="category.id" class="flex items-center mb-2">
-                                <input
-                                    :id="category.categoryName"
-                                    v-model="selectedCategories"
-                                    :value="category.categoryID"
-                                    class="size-4 rounded border-gray-300"
-                                    type="checkbox"
-                                    name="category"
-                                />
-                                <label :for="category.categoryName" class="px-2">{{ category.categoryName }}</label>
-                            </div>
-                        </td>
-                        <!-- Products Column - Display filtered products -->
-                        <td class="align-top w-[25%]">
-                            <h3 class="inline pr-4">Products</h3><input
-                                        class="size-4 rounded border-gray-300"
-                                        name="selectProduct"
-                                        type="checkbox"
-                                        @click="toggle($event.target.checked, 'product')"
-                                    /><label for="selectProduct" class="px-2">Select All</label>
-                            <div class="max-h-60 overflow-auto">
-                                <div v-for="product in filteredProducts" :key="product.id" class="flex items-center mb-2">
-                                    <input
-                                        :id="product.productName"
-                                        class="size-4 rounded border-gray-300"
-                                        type="checkbox"
-                                        name="product"
-                                    />
-                                <label :for="product.productName" class="px-2">{{ product.productName }}</label>
-                            </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
             <div>
-                <h3>Filter Date</h3>
-                <div class="flex">
-                    <div>
-                        <h4>From:</h4>
-                        <input class="w-[99%] border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-                        type="date" />
-                    </div>
-                    <div>
-                        <h4>To:</h4>
-                        <input class="w-[99%] border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-                        type="date" />
-                    </div>
-                </div>
+                <InputLabel for="saleType" class="mb-2">Year: </InputLabel>
+                <select v-model="form.date" name="year" id="year" class="mt-1 w-[8%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                    <option v-for="year in saleYears" :value="year">{{ year }}</option>
+                </select>
             </div>
+            
+            <h4>{{ form.date }} Sales Performance</h4>
+
+            <VueApexCharts
+                :options="barChartOptions" 
+                :series="barChartOptions.series"
+                height="400"
+            />
+
+            <table>
+                <tr>
+                    <td>Month</td>
+                    <td>Total</td>
+                    <td>Action</td>
+                </tr>
+                <tr v-for="total,index in monthlyTotalSales">
+                    <td>{{ new Date(0, index).toLocaleString('default', { month: 'long' }) }}</td>
+                    <td>{{ total }}</td>
+                    <td><PrimaryButton class="w-[20%] h-[32%] text-sm" @click.prevent="showModal = true; form.month=index" >View</PrimaryButton></td>
+                </tr>
+            </table>
+
+
+            <Modal
+                :show="showModal" 
+                @close="showModal = false" 
+                :closeable="true"
+                >
+
+                <VueApexCharts
+                    :options="pieChartOptions" 
+                    :series="pieChartOptions.series" 
+                    type="pie" 
+                    height="200"
+                />
+
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Transaction No.</th>
+                            <th scope="col" class="px-6 py-3">Sale Type</th>
+                            <th scope="col" class="px-6 py-3">Date</th>
+                            <!-- <th scope="col" class="px-6 py-3">Invoice</th> -->
+                            <th scope="col" class="px-6 py-3">Product Items</th>
+                            <th scope="col" class="px-6 py-3">Quantity</th>
+                            <th scope="col" class="px-6 py-3">Price</th>
+                            <th scope="col" class="px-6 py-3">Amount</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="sale in filteredSalesForModal" :key="sale.id">
+                            <td class="px-6 py-4 align-top"> {{ sale.salesID }} </td>
+                            <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td>
+                            <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
+                            <td class="px-6 py-4">
+                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}</tr>
+                            </td>
+                            <td class="px-6 py-4">
+                                <tr v-for="item in sale.saleitems">{{ item.quantity }}</tr>
+                            </td>
+                            <td class="px-6 py-4">
+                                <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productprices[0].price }}</tr>
+                            </td>
+                            <td class="px-6 py-4">
+                                <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}</tr>
+                            </td>
+                            <td class="px-6 py-4 align-top">{{ sale.salesStatus }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Modal>
 
         </article>
     </AuthenticatedLayout>
