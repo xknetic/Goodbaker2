@@ -33,7 +33,11 @@ const props = defineProps({
                 <table class="w-full text-sm text-left">
                     <thead class="text-xs uppercase">
                         <tr>
+<<<<<<< HEAD
                             <th scope="col" class="px-6 py-3">#</th>
+=======
+                            <th scope="col" class="px-6 py-3">SN</th>
+>>>>>>> ccf9f6e (8/11)
                             <th scope="col" class="px-6 py-3">Date.</th>
                             <th scope="col" class="px-6 py-3">Transfer To: </th>
                             <th scope="col" class="px-6 py-3 flex justify-center">Actions</th>

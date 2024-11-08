@@ -52,7 +52,15 @@ function destroy(id) {
                         <tr v-for="premix in premixes" :key="premix.id">
                             <td class="px-6 py-4">{{ premix.premixName }}</td>
                             <td class="px-6 py-4">{{ premix.size }}</td>
+<<<<<<< HEAD
                             <td class="px-6 py-4">{{premix.quantity}}</td>
+=======
+                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4">4</td>
+                            <td class="px-6 py-4">3</td>
+                            <td class="px-6 py-4">273</td>
+                            <td class="px-6 py-4">Total</td>
+>>>>>>> ccf9f6e (8/11)
                             <td class="px-6 py-4">₱{{ premix.cost }}</td>
                             <td class="px-6 py-4">{{(premix.quantity * premix.cost).toFixed(2)}}</td>
                             <td class="px-6 py-4 flex items-center space-x-3">

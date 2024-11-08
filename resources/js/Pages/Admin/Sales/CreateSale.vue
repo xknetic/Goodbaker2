@@ -30,6 +30,7 @@ const props = defineProps({
     },
 });
 
+<<<<<<< HEAD
 const currentDateTime = () => {
     const current = new Date();
     return current.toISOString().replace('T', ' ').split('.')[0];
@@ -43,6 +44,18 @@ const form = useForm({
     deliveryID: '',
     products: [],
     deliveryType: computed(() => deliveryType.value)
+=======
+const currentDate = () => {
+    const current = new Date();
+    return current.toISOString().split('T')[0];
+};
+
+const form = useForm({
+    salesDate: currentDate(),
+    salesStatus: '',
+    deliveryID: '',
+    products: [],
+>>>>>>> ccf9f6e (8/11)
 });
 
 const newProduct = ref({quantity: '', truckLoadItems:'', itemID:''});
@@ -65,7 +78,10 @@ const submit = () => {
 const searchDeliveries = ref('');
 const filteredDeliveries = ref(props.deliveries);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> ccf9f6e (8/11)
 function filterDeliveries() {
     filteredDeliveries.value = props.deliveries.filter(delivery =>
     delivery.deliveryID.toString().toLowerCase().includes(searchDeliveries.value.toLowerCase())
@@ -73,9 +89,14 @@ function filterDeliveries() {
 }
 
 function selectDelivery(delivery) {
+<<<<<<< HEAD
     searchDeliveries.value = delivery.deliveryID + '-' + delivery.trucks.plateNumber + '-' + delivery.saletypes.saleTypeName + '(' + delivery.salesDate + ')';
     form.deliveryID = delivery.deliveryID;
     deliveryType.value = delivery.saletypes.saleTypeName;
+=======
+    searchDeliveries.value = delivery.deliveryID;
+    form.deliveryID = delivery.deliveryID;
+>>>>>>> ccf9f6e (8/11)
     filteredDeliveries.value = [];
     filterItems()
 }
@@ -142,7 +163,7 @@ function clearItems() {
                             </Link>
                         </div>
                         <div>
-                            <h3> Create Sale </h3>
+                            <h3> Delivery Load </h3>
                         </div>
                     </div>
                     <div class="space-x-5">
@@ -180,7 +201,11 @@ function clearItems() {
                                 @click="selectDelivery(delivery)" 
                                 class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[50%] pl-5 rounded-lg mt-1"
                             >
+<<<<<<< HEAD
                                 {{ delivery.deliveryID }}-{{ delivery.trucks.plateNumber }}-{{ delivery.saletypes.saleTypeName }} ({{ delivery.salesDate }}) 
+=======
+                                {{ delivery.deliveryID }}-{{ delivery.trucks.plateNumber }} ({{ delivery.salesDate }}) 
+>>>>>>> ccf9f6e (8/11)
                             </li>
                         </ul>
                     </div>
@@ -193,7 +218,11 @@ function clearItems() {
                 </div>
 
                 <!-- Bottom Table for Ingredients -->
+<<<<<<< HEAD
                 <div v-if="deliveryType=='Extract'">
+=======
+                <div>
+>>>>>>> ccf9f6e (8/11)
                     <h4>Items</h4>
 
                     <div class="flex gap-5 mb-3">
@@ -251,6 +280,7 @@ function clearItems() {
                     </table>
                 </div>
 
+<<<<<<< HEAD
                 <div v-if="deliveryType=='Wholesale'">
                     <table class="w-[50%] text-sm text-left">
                         <thead class="text-xs uppercase">
@@ -268,6 +298,8 @@ function clearItems() {
                     </table>
                 </div>
 
+=======
+>>>>>>> ccf9f6e (8/11)
                 <!-- <div class="flex mt-5 mr-5 justify-end">
                     <table class="text-sm text-left">
                         <thead class="text-xs uppercase">

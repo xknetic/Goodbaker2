@@ -42,9 +42,15 @@ const options = props.branches.map(branch => ({
             <div class="mb-5">
                 <label for="branch-select" class="block text-sm font-medium text-gray-700">Select Branches:</label>
                 <Multiselect
+<<<<<<< HEAD
                     v-model="selectedBranches"
                     :options="options"
                     label="name"
+=======
+                    v-model="selectedBranch"
+                    :options="props.branches"
+                    label="branchName"
+>>>>>>> ccf9f6e (8/11)
                     :close-on-select="true"
                     :searchable="true"
                 />
@@ -67,9 +73,14 @@ const options = props.branches.map(branch => ({
                             <td class="px-6 py-4"> {{ branch.branchName }}</td>
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>
+<<<<<<< HEAD
 
                             <td class="px-6 py-4" v-if="branch.users">{{ branch.users.name }} ({{ branch.contact }})</td>
                             <td class="px-6 py-4" v-else> </td>
+=======
+                            <td class="px-6 py-4"></td>
+                            <td class="px-6 py-4">{{ branch.users.name }} ({{ branch.contact }})</td>
+>>>>>>> ccf9f6e (8/11)
                             <td class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('branches.show', branch.branchID)" class="text-[#0109F4] hover:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

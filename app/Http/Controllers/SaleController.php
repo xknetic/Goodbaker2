@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Sale;
 use Inertia\Inertia;
 use App\Models\Truck;
+<<<<<<< HEAD
 use App\Models\Branch;
+=======
+>>>>>>> ccf9f6e (8/11)
 use App\Models\Delivery;
 use App\Models\SaleItem;
 use App\Models\SaleType;
@@ -36,8 +39,13 @@ class SaleController extends Controller
         return Inertia::render('Admin/Sales/CreateSale', [
             'saletypes' => SaleType::all(),
             'trucks' => Truck::all(),
+<<<<<<< HEAD
             'deliveries' => Delivery::with('trucks', 'saletypes')->get(),
             'truckloaditems' => TruckLoadItem::with('products', 'delivery')->get()
+=======
+            'deliveries' => Delivery::with('trucks')->get(),
+            'truckloaditems' => TruckLoadItem::with('products')->get()
+>>>>>>> ccf9f6e (8/11)
         ]);
     }
 
@@ -49,17 +57,27 @@ class SaleController extends Controller
         //
         $request->validate([
             'salesDate' => 'required|date',
+<<<<<<< HEAD
             'deliveryID' => 'nullable|exists:deliveries,deliveryID',
         ]);
 
         $branch = Branch::where('branchName', 'Loakan')->first();
 
+=======
+            'salesStatus' => 'required|string|max:15',
+            'deliveryID' => 'nullable|exists:deliveries,deliveryID',
+        ]);
+
+>>>>>>> ccf9f6e (8/11)
         $sales = Sale::create([
             'userName' =>auth()->user()->id,
             'salesDate' =>$request->salesDate,
             'salesStatus'=>$request->salesStatus,
             'deliveryID'=>$request->deliveryID,
+<<<<<<< HEAD
             'branch' => $branch ? $branch->branchID : null, // Use the branch ID if found, otherwise set it to null
+=======
+>>>>>>> ccf9f6e (8/11)
         ]);
 
         if (!$sales) {
@@ -67,6 +85,7 @@ class SaleController extends Controller
         }
 
         // Loop through each product and create TruckLoadItem entries
+<<<<<<< HEAD
         if ($request->input('deliveryType') === 'Extract') {
             foreach ($request->products as $productData) {
                 SaleItem::create([
@@ -95,6 +114,24 @@ class SaleController extends Controller
 
         return Redirect::route('sales.index');
         }
+=======
+        foreach ($request->products as $productData) {
+            SaleItem::create([
+                'salesID' => $sales->salesID,
+                'quantity' => $productData['quantity'],
+                'truckLoadItem' => $productData['truckLoadItems'],
+            ]);
+
+            // Deduct the ingredient quantity from raw materials
+            $product = TruckLoadItem::find($productData['truckLoadItems']); // Ensure this is the correct model name
+            if ($product) {
+                $product->quantity -= $productData['quantity']; // Subtracting the quantity
+                $product->save(); // Save the adjusted quantity back to the database
+            }
+        }
+
+        return Redirect::route('sales.index');
+>>>>>>> ccf9f6e (8/11)
     }
 
     /**

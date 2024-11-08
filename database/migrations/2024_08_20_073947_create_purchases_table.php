@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id('purchaseID');
             $table->date('purchaseDate');
             $table->unsignedBigInteger('supplier');
+<<<<<<< HEAD
             $table->string('status', 25);
+=======
+>>>>>>> ccf9f6e (8/11)
 
             $table->foreign('supplier')->references('supplierID')->on('suppliers')->onDelete('cascade');
         });
