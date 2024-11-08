@@ -51,7 +51,7 @@ const props = defineProps({
                     <tbody>
                         <tr v-for="sale in sales" :key="sale.id">
                             <td class="px-6 py-4 align-top"> {{ sale.salesID }} </td>
-                            <!-- <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td> -->
+                            <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td>
                             <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
                             <td class="px-6 py-4">
                                 <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}</tr>
@@ -65,6 +65,7 @@ const props = defineProps({
                             <td class="px-6 py-4">
                                 <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}</tr>
                             </td>
+                            <td class="px-6 py-4 align-top">{{ sale.salesStatus }} </td>
                         </tr>
                     </tbody>
                 </table>
