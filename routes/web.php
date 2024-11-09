@@ -106,6 +106,7 @@ Route::post('/purchases/complete', [PurchaseController::class, 'complete'])->nam
 
 Route::resource('/salesreports', SalesReportController::class)
 ->middleware(['auth', 'role:admin']);
+Route::get('/sales-reports/export', [SalesReportController::class, 'export'])->name('salesreports.export');
 
 Route::resource('/inventoryreports', InventoryReportController::class)
 ->middleware(['auth', 'role:admin']);

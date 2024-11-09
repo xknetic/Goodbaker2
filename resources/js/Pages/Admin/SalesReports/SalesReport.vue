@@ -133,6 +133,16 @@ tr:nth-child(even) {
             <!-- Top -->
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Sales Reports</h3>
+
+                <!-- Export Button -->
+                <Link
+                    href="/sales-reports/export"
+                    target="_blank" 
+                >
+                    <PrimaryButton>
+                        Export
+                    </PrimaryButton>
+                </Link>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 

@@ -10,6 +10,8 @@ use App\Models\SaleType;
 use App\Models\SalesReport;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
+use App\Exports\SalesReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SalesReportController extends Controller
 {
@@ -76,5 +78,10 @@ class SalesReportController extends Controller
     public function destroy(SalesReport $salesReport)
     {
         //
+    }
+
+    public function export()
+    {
+        return Excel::download(new SalesReportExport, 'sales_reports.xlsx');
     }
 }
