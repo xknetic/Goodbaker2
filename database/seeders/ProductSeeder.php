@@ -28,11 +28,10 @@ class ProductSeeder extends Seeder
         ],
 
         [
-            'productCategory' => '2',
+            'productCategory' => '1',
             'productName' => 'Cheese Buns',
             'unit' => 'Pack x8',
             'quantity'=> '50',
-            
         ],
 
         [
@@ -488,6 +487,121 @@ class ProductSeeder extends Seeder
             'quantity'=> '30',
             
         ],
+
+        //5
+        [//56
+            'productCategory' => '5',
+            'productName' => 'Cheese Roll',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Cheese Pandesal',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Cinnamon Twist',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Hotbaked Ensaymada',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Long John',
+            'unit' => 'Piece',
+            'quantity'=> '38',
+            
+        ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Monay Patok',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Fresh Pandesal',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Fresh Pandecoco',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Fresh Spanish Bread',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '5',
+            'productName' => 'Ube Keso Pandesal',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        //6
+        [
+            'productCategory' => '6',
+            'productName' => 'Cream Bread',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '6',
+            'productName' => 'Raisin Bread',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '6',
+            'productName' => 'Sandwich Bread',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '6',
+            'productName' => 'Healthy Wheat Bread',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '6',
+            'productName' => 'Milk Loaf',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
+
+        [
+            'productCategory' => '6',
+            'productName' => 'Ube Keso Loaf',
+            'unit' => 'Piece',
+            'quantity'=> '0',
+                   ],
     ];
     
     public function run(): void

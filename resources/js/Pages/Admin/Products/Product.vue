@@ -3,6 +3,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { ref, computed } from 'vue';
+import Modal from '@/Components/Modal.vue';
+import TextInput from '@/Components/TextInput.vue';
+
+const showModal = ref(false);
 
 const props = defineProps({
     products: {
@@ -11,14 +16,73 @@ const props = defineProps({
     },
 });
 
-const form = useForm({});
+const form = useForm({
+    product:'',
+    quantity: '',
+    productID:'',
+});
+
+const positiveQuantity = computed({
+    get: () => form.quantity,
+    set: (value) => {
+        // Only set the value if it's a positive number or empty
+        if (value === '' || Number(value) > 0) {
+            form.quantity = value;
+        }
+    }
+});
+
+function replenish(product) {
+    form.productID = product.productID;
+    form.quantity = positiveQuantity;
+    form.post(route('products.replenish'), {
+        onSuccess: () => {
+            alert('Replenish completed successfully, and items have been added to products.');
+        },
+        onError: () => {
+            alert('There was an error completing the replenishment.');
+        }
+    });
+}
 
 function destroy(id) {
     if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
         form.delete(route('products.destroy', id));
     }
 }
+
+const searchProducts = ref('');
+const filteredProducts = ref(props.products);
+
+function filterProducts () {
+    filteredProducts.value = props.products.filter(product =>
+    product.productName.toString().toLowerCase().includes(searchProducts.value.toLowerCase())
+    );
+}
+
+function selectProduct(product) {
+    searchProducts.value = product.productName;
+    form.product = product;
+    filteredProducts.value = [];
+}
+
 </script>
+<style>
+    #selectpro {
+        visibility: hidden;
+        position: absolute;
+        z-index: 1;
+    }
+
+    #typepro:focus~#selectpro {
+        visibility: visible;
+    }
+
+    #selectpro:hover {
+        visibility: visible;
+    }
+
+</style>
 
 <template>
     <Head title="Products" />
@@ -29,7 +93,7 @@ function destroy(id) {
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Product</h3>
                 <div class="flex gap-5">
-                    <Link :href="route('categories.index')" class="btn btn-primary">
+                    <!-- <Link :href="route('categories.index')" class="btn btn-primary">
                         <PrimaryButton class="p-2">
                             Category
                         </PrimaryButton>
@@ -38,7 +102,11 @@ function destroy(id) {
                         <PrimaryButton class="p-2">
                             Area
                         </PrimaryButton>
-                    </Link>
+                    </Link> -->
+                    <PrimaryButton @click.prevent="showModal = true" class="p-2">
+                        Replenish
+                    </PrimaryButton>
+
                     <Link :href="route('products.create')" class="btn btn-primary">
                         <PrimaryButton class="p-2">
                             Create
@@ -89,6 +157,63 @@ function destroy(id) {
                     </tbody>
                 </table>
             </div>
+
+            <Modal
+                :show="showModal" 
+                @close="showModal = false" 
+                :closeable="true"
+                >
+                <div class="overflow-auto max-h-svh p-8">
+                    <div class="size-full p-8 flex items-start">
+
+                        <div class="relative">
+                            <InputLabel for="product" class="mb-2">Product</InputLabel>
+                            <TextInput id="typepro"
+                                type="text" 
+                                v-model="searchProducts" 
+                                @input="filterProducts" 
+                                class="mt-1 block w-[100%]" 
+                                placeholder="Search for product" 
+                            />
+                            <InputError :message="form.errors.supplierID" />
+
+                            <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[100%] bg-white max-h-40 overflow-y-auto" >
+                                <li 
+                                    v-for="product in filteredProducts" 
+                                    :key="product.productID" 
+                                    @click="selectProduct(product)" 
+                                    class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[100%] pl-5 rounded-lg mt-1"
+                                >
+                                    {{ product.productName }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <div class="w-[50%]">
+                                <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
+                                <TextInput class="mt-1 block w-[100%]" id="quantity" v-model="positiveQuantity" />
+                                <InputError :message="form.errors.quantity" />
+                            </div>
+                            <PrimaryButton class="self-end" @click="replenish(form.product)">
+                                Add
+                            </PrimaryButton>
+                        </div>
+
+                    </div>
+                    <table class="w-full">
+                        <tr>
+                            <td>Ingredient</td>
+                            <td>Quantity Produced</td>
+                        </tr>
+                        <tr v-for="ingredient in form.product.productingredients">
+                            <td>{{ ingredient.premix.premixName }}</td>
+                            <td>{{ ingredient.quantity }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </Modal>
         </article>
     </AuthenticatedLayout>
 </template>

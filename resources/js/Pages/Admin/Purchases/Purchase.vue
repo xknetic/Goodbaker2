@@ -58,7 +58,7 @@ function completePurchase(purchase) {
                             <th scope="col" class="px-6 py-3">Date</th>
                             <th scope="col" class="px-6 py-3">Supplier</th>
                             <th scope="col" class="px-6 py-3">Quantity</th>
-                            <th scope="col" class="px-6 py-3">Action</th>
+                            <th scope="col" class="px-6 py-3 pl-6">Action</th>
                             <th scope="col" class="px-6 py-3">Status</th>
                         </tr>
                     </thead>

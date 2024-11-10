@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('premix_ingredients', function (Blueprint $table) {
             $table->id('premixIngredientID');
-            $table->integer('quantity');
-            $table->unsignedBigInteger('premix');
+            $table->float('unitQuantity');
+            $table->string('unit',6);
+            $table->float('variance');
             $table->unsignedBigInteger('rawMaterial');
-            $table->float('variance')->nullable();
-
+            $table->unsignedBigInteger('premix');
+            
             $table->foreign('premix')->references('premixID')->on('premixes')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');
         });

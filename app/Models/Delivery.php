@@ -49,4 +49,9 @@ class Delivery extends Model
     {
         return $this->hasMany(TruckLoadItem::class, 'deliveryID', 'deliveryID');
     }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class, 'deliveryID', 'deliveryID');
+    }
 }

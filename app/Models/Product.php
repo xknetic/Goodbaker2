@@ -26,7 +26,7 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'productCategory', 'categoryID');
     }
 
-    public function ingredients()
+    public function productingredients()
     {
         return $this->hasMany(ProductIngredient::class, 'product', 'productID');
     }

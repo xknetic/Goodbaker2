@@ -126,14 +126,14 @@ const { hasRole } = usePermission();
                                 </ResponsiveNavLink>
 
                                 <!-- Transfer Products -->
-                                <ResponsiveNavLink
+                                <!-- <ResponsiveNavLink
                                     v-if="hasRole('admin')"
                                     :href="route('transfers.index')"
                                     :active="route().current('transfers.index') || route().current('transfers.create')"
                                     class="flex items-center mb-1 text-sm"
                                 >
                                     Transfer Items
-                                </ResponsiveNavLink>
+                                </ResponsiveNavLink> -->
                             </div>
                         </template>
                     </Dropdown2nd>

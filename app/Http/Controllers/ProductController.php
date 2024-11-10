@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
 
         return Inertia::render('Admin/Products/Product', [
-            'products' => Product::with(['productprices', 'productcategories'])->get(),
+            'products' => Product::with(['productprices', 'productcategories', 'productingredients.premixes'])->get(),
         ]);
     }
 
@@ -103,6 +103,40 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function replenish(Request $request)
+    {
+        $product = Product::with('productingredients.premixes')->find($request->productID);
+        $quantityToAdd = $request->quantity;
+    
+    
+        // Check if there are product ingredients
+        $productIngredient = $product->productingredients[0] ?? null;
+    
+    
+        // Check if premix is an object and contains quantity
+        $premix = $productIngredient->premixes ?? null;
+    
+    
+    
+        // Check if premix quantity is sufficient
+        if ($premix->quantity >= $quantityToAdd) {
+            $ingredientQuantity = $productIngredient->quantity;
+    
+            // Increment product quantity based on ingredient quantity
+            $product->increment('quantity', $quantityToAdd * $ingredientQuantity);
+    
+            // Decrement the premix quantity
+            $premix->decrement('quantity', $quantityToAdd);
+    
+        }
+    }
+    
+
+
+    
+    
+
 
     /**
      * Show the form for editing the specified resource.

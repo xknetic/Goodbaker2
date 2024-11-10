@@ -60,7 +60,6 @@ const props = defineProps({
                                 <th scope="col" class="px-6 py-3">#</th>
                                 <th scope="col" class="px-6 py-3">Item</th>
                                 <th scope="col" class="px-6 py-3">Quantity</th>
-                                <th scope="col" class="px-6 py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody v-for="item, index in transferItems" :key="item.transferItemID">

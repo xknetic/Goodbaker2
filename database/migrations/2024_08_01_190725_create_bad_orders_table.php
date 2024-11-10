@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bad_orders', function (Blueprint $table) {
             $table->id('bOID');
             $table->string('bOName', 25);
-
+            $table->integer('quantity');
         });
     }
 

@@ -164,36 +164,6 @@ class RawMaterialUnitSeeder extends Seeder
             'stock' => 0
         ],
 
-        //rm 10
-        [
-            'rawMaterial' => '10',
-            'unit' => 'Kgs',
-            'price' => '5250.00',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '10',
-            'unit' => 'Kg',
-            'price' => '210.00',
-            'stock' => 0
-        ],
-
-        //rm 11
-        [
-            'rawMaterial' => '11',
-            'unit' => 'Kgs',
-            'price' => '890.00',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '11',
-            'unit' => 'Kg',
-            'price' => '35.60',
-            'stock' => 0
-        ],
-
         //rm 11
         [
             'rawMaterial' => '11',
@@ -219,14 +189,7 @@ class RawMaterialUnitSeeder extends Seeder
 
         [
             'rawMaterial' => '12',
-            'unit' => '2 Kgs',
-            'price' => '902.30',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '12',
-            'unit' => '1000 g',
+            'unit' => 'kg',
             'price' => '451.10',
             'stock' => 0
         ],
@@ -295,14 +258,14 @@ class RawMaterialUnitSeeder extends Seeder
         //rm17
         [
             'rawMaterial' => '17',
-            'unit' => 'Case',
+            'unit' => 'kgs',
             'price' => '1650.00',
             'stock' => 0
         ],
 
         [
             'rawMaterial' => '17',
-            'unit' => '225g',
+            'unit' => 'kg',
             'price' => '45.83',
             'stock' => 0
         ],
@@ -340,7 +303,7 @@ class RawMaterialUnitSeeder extends Seeder
         //rm20
         [
             'rawMaterial' => '20',
-            'unit' => 'Case',
+            'unit' => 'kgs',
             'price' => '2510.00',
             'stock' => 0
         ],
@@ -466,13 +429,6 @@ class RawMaterialUnitSeeder extends Seeder
             'stock' => 0
         ],
 
-        [
-            'rawMaterial' => '28',
-            'unit' => 'Kg',
-            'price' => '64.05',
-            'stock' => 0
-        ],
-
         //rm29 Raisins
         [
             'rawMaterial' => '29',
@@ -548,21 +504,6 @@ class RawMaterialUnitSeeder extends Seeder
             'stock' => 0
         ],
 
-        //rm34 Sugar, Brown
-        [
-            'rawMaterial' => '34',
-            'unit' => 'Kgs',
-            'price' => '3040.00',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '34',
-            'unit' => 'Kg',
-            'price' => '60.80',
-            'stock' => 0
-        ],
-
         //rm35 Vanilla, Panadero
         [
             'rawMaterial' => '35',
@@ -605,51 +546,6 @@ class RawMaterialUnitSeeder extends Seeder
             'rawMaterial' => '34',
             'unit' => 'Kg',
             'price' => '60.80',
-            'stock' => 0
-        ],
-
-        //rm35 Vanilla,Panadero
-        [
-            'rawMaterial' => '35',
-            'unit' => 'Gals',
-            'price' => '370.00',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '35',
-            'unit' => 'Gals',
-            'price' => '92.50',
-            'stock' => 0
-        ],
-
-        //rm36 Yeast
-        [
-            'rawMaterial' => '36',
-            'unit' => 'Kgs',
-            'price' => '2232.00',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '36',
-            'unit' => 'Kg',
-            'price' => '111.60',
-            'stock' => 0
-        ],
-
-        //rm36 Yeast
-        [
-            'rawMaterial' => '36',
-            'unit' => 'Kgs',
-            'price' => '2232.00',
-            'stock' => 0
-        ],
-
-        [
-            'rawMaterial' => '36',
-            'unit' => 'Kg',
-            'price' => '111.60',
             'stock' => 0
         ],
 
@@ -711,7 +607,7 @@ class RawMaterialUnitSeeder extends Seeder
         //rm43 Medium
         [
             'rawMaterial' => '43',
-            'unit' => 'trays',
+            'unit' => 'kgs',
             'price' => '1800.00',
             'stock' => 0
         ],
@@ -764,30 +660,30 @@ class RawMaterialUnitSeeder extends Seeder
         //rm 47 large gold eggs
         [
             'rawMaterial' => '47',
-            'unit' => 'trays',
+            'unit' => 'pieces',
             'price' => '2880.00',
             'stock' => 0
         ],
 
         [
             'rawMaterial' => '47',
-            'unit' => 'tray',
-            'price' => '240.00',
+            'unit' => 'piece',
+            'price' => '20.00',
             'stock' => 0
         ],
 
         //rm 48 Xlarge gold eggs
         [
             'rawMaterial' => '48',
-            'unit' => 'trays',
+            'unit' => 'pieces',
             'price' => '3000.00',
             'stock' => 0
         ],
 
         [
             'rawMaterial' => '48',
-            'unit' => 'tray',
-            'price' => '250.00',
+            'unit' => 'piece',
+            'price' => '20.83',
             'stock' => 0
         ],
 
@@ -1183,15 +1079,15 @@ class RawMaterialUnitSeeder extends Seeder
         //rm79
         [
             'rawMaterial' => '79',
-            'unit' => '500 g',
+            'unit' => 'kgs',
             'price' => '2524.00',
             'stock' => 0
         ],
 
         [
             'rawMaterial' => '79',
-            'unit' => '500 g',
-            'price' => '63.11',
+            'unit' => 'kg',
+            'price' => '100.96',
             'stock' => 0
         ],
 
@@ -1268,6 +1164,44 @@ class RawMaterialUnitSeeder extends Seeder
             'rawMaterial' => '85',
             'unit' => 'kg',
             'price' => '355.00',
+            'stock' => 0
+        ],
+
+        //rm86
+        [
+            'rawMaterial' => '86',
+            'unit' => 'kg',
+            'price' => '3550.00',
+            'stock' => 0
+        ],
+
+        //rm87
+        [
+            'rawMaterial' => '87',
+            'unit' => 'kgs',
+            'price' => '2475.00',
+            'stock' => 0
+        ],
+
+        [
+            'rawMaterial' => '87',
+            'unit' => 'kgs',
+            'price' => '165.00',
+            'stock' => 0
+        ],
+
+        //rm88
+        [
+            'rawMaterial' => '88',
+            'unit' => 'kgs',
+            'price' => '1500.00',
+            'stock' => 0
+        ],
+
+        [
+            'rawMaterial' => '88',
+            'unit' => 'kg',
+            'price' => '60.00',
             'stock' => 0
         ],
 

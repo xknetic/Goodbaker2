@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sale;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Branch;
 use App\Models\Client;
 use App\Models\Product;
+use App\Models\Delivery;
 use App\Models\SaleType;
 use App\Models\SalesReport;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
-use App\Exports\SalesReportExport;
-use Illuminate\Support\Facades\Log;
-use Maatwebsite\Excel\Facades\Excel;
 
-class SalesReportController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +22,7 @@ class SalesReportController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Admin/SalesReports/SalesReport', [
+        return Inertia::render('Dashboard', [
             'salesreports' => SalesReport::all(),
             'clients' => Client::all(),
             'productcategories' => ProductCategory::all(),
@@ -31,6 +30,8 @@ class SalesReportController extends Controller
             'branches' => Branch::all(),
             'saletypes' => SaleType::all(),
             'sales' => Sale::with(['delivery.saletypes', 'delivery.users', 'saletype', 'truck', 'saleitems.truckloaditems.products.productprices'])->get(),
+            'deliveries' => Delivery::with(['trucks', 'drivers', 'clients', 'saletypes', 'truckloaditems', 'users'])->get(),
+            'users' => User::all()
         ]);
     }
 
@@ -39,7 +40,7 @@ class SalesReportController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -48,13 +49,12 @@ class SalesReportController extends Controller
     public function store(Request $request)
     {
         //
-        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(SalesReport $salesReport)
+    public function show(string $id)
     {
         //
     }
@@ -62,7 +62,7 @@ class SalesReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SalesReport $salesReport)
+    public function edit(string $id)
     {
         //
     }
@@ -70,7 +70,7 @@ class SalesReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SalesReport $salesReport)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -78,14 +78,8 @@ class SalesReportController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SalesReport $salesReport)
+    public function destroy(string $id)
     {
         //
-    }
-
-    public function export()
-    {
-        // dd('Export function hit');
-        return Excel::download(new SalesReportExport, 'sales_report.xlsx');
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('premixes', function (Blueprint $table) {
             $table->id('premixID');
-            $table->string('premixName', 25);
+            $table->string('premixName', 50);
             $table->string('category', 25)->nullable();
             $table->string('size', 25)->nullable();
             $table->integer('quantity')->nullable();

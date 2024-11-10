@@ -10,6 +10,7 @@ use App\Models\Transfer;
 use App\Models\RawMaterial;
 use App\Models\TransferItem;
 use Illuminate\Http\Request;
+use App\Models\RawMaterialUnit;
 use Illuminate\Support\Facades\Redirect;
 
 class TransferController extends Controller
@@ -57,6 +58,7 @@ class TransferController extends Controller
         $transfers = Transfer::create($request->only([
             'transferDate',
             'branch',
+            'status',
         ]));
 
         foreach ($request->items as $itemData) {
@@ -96,6 +98,39 @@ class TransferController extends Controller
             'transfer' => $transfer,
             'transferItems' => $transfer->transferitems
         ]);
+    }
+
+    public function complete(Request $request)
+    {
+
+        $transfer = Transfer::with('transferitems.products', 'transferitems.rawmaterials.rawmaterialunits', 'transferitems.premixes')->find($request->transferID);
+
+        if (!$transfer) {
+            return back()->withErrors(['message' => 'Purchase not found.']);
+        }
+
+        // Add each item from purchase items to the raw material table
+        foreach ($transfer->transferitems as $item) {
+            if ($item->product) {
+                if($item->quantity < $item->products->quantity) {
+                    Product::where('productID', $item->product)
+                        ->decrement('quantity', $item->quantity);
+                }
+            }else if ($item->premix) {
+                if($item->quantity < $item->premixes->quantity) {
+                    Premix::where('premixID', $item->premix)
+                        ->decrement('quantity', $item->quantity);
+                }
+            }else if ($item->rawmaterial) {
+                if($item->quantity < $item->rawmaterials->rawmaterialunits->first()->quantity) {
+                RawMaterialUnit::where('rawMaterial', $item->rawmaterial)-first()
+                    ->decrement('quantity', $item->quantity);
+                }
+            }
+        }
+
+        Transfer::where('transferID', $request->transferID)
+        ->update(['status' => 'Completed']);
     }
 
     /**
