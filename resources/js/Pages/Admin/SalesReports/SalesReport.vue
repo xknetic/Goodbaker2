@@ -17,6 +17,14 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    productcategories: {
+        type: Array,
+        default: () => [],
+    },
+    clients: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 const form = useForm({
@@ -471,6 +479,113 @@ const lineChartData = computed(() => {
 
     return data;
 });
+
+const filteredSalesWithTotal = computed(() => {
+    return filteredSalesForModal.value.map(sale => {
+        const totalAmount = sale.saleitems.reduce((acc, item) => {
+            const price = item.truckloaditems.products.productprices[0]?.price || 0;
+            const quantity = item.quantity || 0;
+            return acc + (price * quantity);
+        }, 0);
+        
+        return {
+            ...sale,
+            totalAmount // Add the total amount to the sale object
+        };
+    });
+});
+
+const getCategoryName = (categoryID) => {
+    const category = props.productcategories.find(cat => cat.categoryID === parseInt(categoryID));
+    return category ? category.categoryName : 'Unknown Category';
+};
+
+
+// Function to calculate sales by month and day
+const calculateDailySales = (sales) => {
+  const dailySales = {};
+
+  // Loop through each sale and calculate the total for the day
+  sales.forEach(sale => {
+    const saleDatetime = sale.salesDate; // Get the full datetime
+    const saleDate = saleDatetime.split(' ')[0]; // Extract only the date part (yyyy-mm-dd)
+
+    // Initialize the daily total if it doesn't exist
+    if (!dailySales[saleDate]) {
+      dailySales[saleDate] = 0;
+    }
+
+    // Loop through saleitems and aggregate sales by product
+    sale.saleitems.forEach(item => {
+      const product = props.products.find(p => p.productID === item.truckloaditems.product);
+
+      if (product) {
+        const productPrice = product.productprices[0]?.price; // Use the first price if available
+        if (productPrice) {
+          // Add the total for this product on this day
+          dailySales[saleDate] += item.quantity * productPrice;
+        } else {
+          console.warn(`Price not found for productID ${item.truckloaditems.product.productID}`);
+        }
+      } else {
+        alert(`Product not found for productID ${item.truckloaditems.product.productID}`);
+      }
+    });
+  });
+
+  return dailySales;
+};
+
+const dailySales = props.clients.reduce((acc, client) => {
+  const clientSales = props.sales.filter(sale => sale.delivery?.client === client.clientID);
+  const dailyClientSales = calculateDailySales(clientSales);
+
+  // Now save the aggregated sales data for each day
+  acc[client.clientName] = dailyClientSales;
+  return acc;
+}, {});
+
+// To display the sales data for each client
+Object.keys(dailySales).forEach(clientName => {
+  console.log(`Sales data for ${clientName}:`, dailySales[clientName]);
+});
+
+// Function to filter the sales data based on form.month
+const filterSalesByMonth = (salesData, monthNumber) => {
+  const monthString = monthNumber.toString().padStart(2, '0'); // Ensure 2 digits for the month (e.g., "01", "11")
+  const filteredData = {};
+
+  // Iterate over each client sales data
+  for (const clientName in salesData) {
+    if (salesData.hasOwnProperty(clientName)) {
+      const clientSales = salesData[clientName];
+      if (clientSales[monthString]) {
+        filteredData[clientName] = {
+          [monthString]: clientSales[monthString],
+        };
+      }
+    }
+  }
+
+  return filteredData;
+};
+
+const getDaysInMonth = (month) => {
+  // Create a new Date object with the first day of the next month and set the date to 0, which gives us the last day of the current month
+  return new Date(2024, month + 1, 0).getDate();
+};
+
+const getSalesForDay = (clientName, day) => {
+  const dayString = `2024-11-${String(day).padStart(2, '0')}`;
+  console.log(`Getting sales for ${clientName} on ${dayString}`);
+
+  const clientSales = salesByMonth[clientName];
+  if (clientSales) {
+    console.log(`Sales data for ${clientName}:`, clientSales);
+    return clientSales[dayString] || '';  // Return sales for that day, or empty string if no sales
+  }
+  return '';
+};
 </script>
 
 <style>
@@ -518,12 +633,12 @@ const lineChartData = computed(() => {
             
             <h4>{{ form.date }} Sales Performance</h4>
 
-            <div class="flex">
+            <div class="flex overflow-auto">
                 <VueApexCharts
                     :options="pieChartOptions" 
                     :series="pieChartOptions.series" 
                     type="pie" 
-                    height="400"
+                    height="350"
                 />
 
                 <VueApexCharts
@@ -583,10 +698,10 @@ const lineChartData = computed(() => {
                 </tr>
             </table>
 
-            <div>
+            <div class="w-[91%]">
                 <h4>Sales by Product Category</h4>
                 <div v-for="(chartData, category) in lineChartData" :key="category">
-                    <h5>{{ category }}</h5>
+                    <h5>{{ getCategoryName(category) }}</h5>
                     <VueApexCharts
                         :options="{
                             chart: { type: 'line' },
@@ -605,83 +720,111 @@ const lineChartData = computed(() => {
                 :show="showModal" 
                 @close="showModal = false" 
                 :closeable="true"
-                class="p-8"
                 >
 
-                <VueApexCharts
-                    :options="modalPieChartOptions" 
-                    :series="modalPieChartOptions.series" 
-                    type="pie" 
-                    height="200"
-                />
+                <div class="overflow-auto max-h-svh p-8">
+                    <VueApexCharts
+                        :options="modalPieChartOptions" 
+                        :series="modalPieChartOptions.series" 
+                        type="pie" 
+                        height="200"
+                    />
 
-                <table class="w-full">
-                    <tr>
-                        <td>Highest Selling Products</td>
-                        <td>Lowest Selling Products</td>
-                    </tr>
-                    <tr>
-                        <td class="align-top">
-                            <ul>
-                                <li v-for="product in monthlyProductsData[form.month].highestSelling" :key="product.productName">
-                                    {{ product.productName }}: {{ product.quantity }}
-                                </li>
-                            </ul>
-                        </td>
-                        <td class="align-top">
-                            <ul>
-                                <li v-for="product in monthlyProductsData[form.month]   .lowestSelling" :key="product.productName">
-                                    {{ product.productName }}: {{ product.quantity }}
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </table>
+                    <table class="w-full">
+                        <tr>
+                            <td>Highest Selling Products</td>
+                            <td>Lowest Selling Products</td>
+                        </tr>
+                        <tr>
+                            <td class="align-top">
+                                <ul>
+                                    <li v-for="product in monthlyProductsData[form.month].highestSelling" :key="product.productName">
+                                        {{ product.productName }}: {{ product.quantity }}
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="align-top">
+                                <ul>
+                                    <li v-for="product in monthlyProductsData[form.month]   .lowestSelling" :key="product.productName">
+                                        {{ product.productName }}: {{ product.quantity }}
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
 
-                <h4 class="pt-6">Sales Agent Perfomance</h4>
-                <table class="w-full striped">
-                    <tr>
-                        <td>Agent Name</td>
-                        <td>Total Sales</td>
-                    </tr>
-                    <tr v-for="agent in agentSalesPerMonth[form.month]">
-                        <td>{{ agent.agentName }}</td>
-                        <td>{{ agent.totalSales }}</td>
-                    </tr>
-                </table>
+                    <h4 class="pt-6">Sales Agent Perfomance</h4>
+                    <table class="w-full striped">
+                        <tr>
+                            <td>Agent Name</td>
+                            <td>Total Sales</td>
+                        </tr>
+                        <tr v-for="agent in agentSalesPerMonth[form.month]">
+                            <td>{{ agent.agentName }}</td>
+                            <td>{{ agent.totalSales }}</td>
+                        </tr>
+                    </table>
 
-                <h4 class="pt-6">Sales</h4>
-                <table class="w-full text-sm text-left striped">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">Transaction No.</th>
-                        <th scope="col" class="px-6 py-3">Sale Type</th>
-                        <th scope="col" class="px-6 py-3">Date/Time</th>
-                        <!-- <th scope="col" class="px-6 py-3">Invoice</th> -->
-                        <th scope="col" class="px-6 py-3">Product Items</th>
-                        <th scope="col" class="px-6 py-3">Quantity</th>
-                        <th scope="col" class="px-6 py-3">Price</th>
-                        <th scope="col" class="px-6 py-3">Amount</th>
-                        <th scope="col" class="px-6 py-3">Status</th>
-                    </tr>
-                    <tr v-for="sale in filteredSalesForModal" :key="sale.id">
-                        <td class="px-6 py-4 align-top"> {{ sale.salesID }} </td>
-                        <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td>
-                        <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
-                        <td class="px-6 py-4 align-top">
-                            <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productName }}</tr>
-                        </td>
-                        <td class="px-6 py-4 align-top">
-                            <tr v-for="item in sale.saleitems">{{ item.quantity }}</tr>
-                        </td>
-                        <td class="px-6 py-4 align-top">
-                            <tr v-for="item in sale.saleitems">{{ item.truckloaditems.products.productprices[0].price }}</tr>
-                        </td>
-                        <td class="px-6 py-4 align-top">
-                            <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}</tr>
-                        </td>
-                        <td class="px-6 py-4 align-top">{{ sale.salesStatus }} </td>
-                    </tr>
-                </table>
+                    <h4 class="pt-6">Daily Sales by Client</h4>
+                    <div class="table-container" style="max-width: 100%; overflow-x: auto;">
+                        <table class="w-full text-sm text-left striped">
+                            <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th v-for="(sales, clientName) in dailySales" :key="clientName">{{ clientName }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="day in 31" :key="day">
+                                <td>{{ day }}</td>
+                                <td v-for="(sales, clientName) in dailySales" :key="clientName">
+                                {{ sales[`2024-${(form.month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`] || 0 }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4 class="pt-6">Sales</h4>
+                    <table class="w-full text-sm text-left striped">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Transaction No.</th>
+                            <th scope="col" class="px-6 py-3">Sale Type</th>
+                            <th scope="col" class="px-6 py-3">Date/Time</th>
+                            <!-- <th scope="col" class="px-6 py-3">Invoice</th> -->
+                            <th scope="col" class="px-6 py-3">Product Items</th>
+                            <th scope="col" class="px-6 py-3">Quantity</th>
+                            <th scope="col" class="px-6 py-3">Price</th>
+                            <th scope="col" class="px-6 py-3">Amount</th>
+                            <th scope="col" class="px-6 py-3">Total</th>
+                            <th scope="col" class="px-6 py-3">Status</th>
+                        </tr>
+                        <tr v-for="sale in filteredSalesWithTotal" :key="sale.id">
+                            <td class="px-6 py-4 align-top"> {{ sale.salesID }} </td>
+                            <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td>
+                            <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
+                            <td class="px-6 py-4" colspan="4">
+                                <div class="grid grid-cols-4" v-for="item in sale.saleitems">
+                                    <div>{{ item.truckloaditems.products.productName }}</div>
+                                    <div class="text-center">{{ item.quantity }}</div>
+                                    <div class="text-center">{{ item.truckloaditems.products.productprices[0].price }}</div>
+                                    <div class="text-center">{{ item.quantity * item.truckloaditems.products.productprices[0].price }}</div>
+                                </div>
+                            </td>
+                            <!-- <td class="px-6 py-4">
+                                <tr v-for="item in sale.saleitems">{{ item.quantity }}</tr>
+                            </td>
+                            <td class="px-6 py-4">
+                                <li v-for="item in sale.saleitems" class="list-none">{{ item.truckloaditems.products.productprices[0].price }}</li>
+                            </td>
+                            <td class="px-6 py-4">
+                                <tr v-for="item in sale.saleitems">{{ item.quantity * item.truckloaditems.products.productprices[0].price }}</tr>
+                            </td> -->
+                            <td class="px-6 py-4 align-top">{{ sale.totalAmount }}</td>
+                            <td class="px-6 py-4 align-top">{{ sale.salesStatus }}</td>
+                        </tr>
+                    </table>
+                </div>
             </Modal>
 
         </article>

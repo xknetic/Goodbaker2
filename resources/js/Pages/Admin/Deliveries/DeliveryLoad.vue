@@ -108,6 +108,14 @@ function selectAgent(agent) {
     filteredAgents.value = [];
 }
 
+function notAvailable(truck) {
+    if (truck.deliveries.some(delivery => delivery.salesDate === form.salesDate)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const searchClients = ref('');
 const filteredClients = ref(props.clients);
 
@@ -136,14 +144,14 @@ function selectProduct(products) {
     searchProducts.value = products.productName;
     newProduct.value.productID= products.productID;
     newProduct.value.product= products.productName;
-    // newProduct.value.price= products.productsprices[0]?.price;
+    newProduct.value.price= products.productprices[0]?.price;
     filteredProducts.value = [];
 }
 
-const a = ref([
-    {id:1,name:'dsf'},
-    {id:2,name:'asd'}
-])
+const removeItem = (index) => {
+    form.products.splice(index, 1);
+};
+
 
 </script>
 <style>
@@ -204,7 +212,7 @@ const a = ref([
                 <div>
                     <div>
                         <InputLabel for="salesDate" class="mb-2">Delivery Date</InputLabel>
-                        <TextInput class="mt-1 block w-[50%]" id="salesDate" type="text" v-model="form.salesDate" />
+                        <TextInput class="mt-1 block w-[50%]" id="salesDate" type="date" v-model="form.salesDate" />
                     </div>
 
                     <div class="relative">
@@ -263,9 +271,9 @@ const a = ref([
 
                     <div>
                         <InputLabel for="truckID" class="mb-2">Truck</InputLabel>
-                        <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="truckID" v-model="form.truck" required>
+                        <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="truckID" v-model="form.truck" @click="filterTrucks" required>
                             <option disabled value="">Select Truck</option>
-                            <option v-for="truck in trucks" :key="truck.id" :value="truck.truckID">Truck {{ truck.truckID }} ({{ truck.plateNumber }})</option>
+                            <option v-for="truck in trucks" :disabled="notAvailable(truck)" :key="truck.id" :value="truck.truckID">Truck {{ truck.truckID }}-{{ truck.plateNumber }}<span v-if="notAvailable(truck)"> (Not Available)</span></option>
                         </select>
                     </div>
 
@@ -345,7 +353,7 @@ const a = ref([
                         />
                         <InputError :message="form.errors.supplierID" />
 
-                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] bg-white" >
+                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] bg-white h-60 overflow-auto" >
                             <li 
                                 v-for="product in filteredProducts" 
                                 :key="product.productID" 
@@ -388,12 +396,20 @@ const a = ref([
                                 <td class="px-6 py-4">{{ product.product }}</td>
                                 <td class="px-6 py-4">{{ product.quantity }}</td>
                                 <td class="px-6 py-4">{{ product.price }}</td>
+                                <td class="px-6 py-4 flex items-center space-x-3">
+                                    <button @click.prevent="removeItem(index)" class="text-red-700 hover:text-red-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                        </svg>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="flex mt-5 mr-5 justify-end">
+                <!-- <div class="flex mt-5 mr-5 justify-end">
                     <table class="text-sm text-left">
                         <thead class="text-xs uppercase">
                             <tr>
@@ -426,7 +442,7 @@ const a = ref([
                             </tr>
                         </thead>
                     </table>
-                </div>
+                </div> -->
             </form>
         </article>
     </AuthenticatedLayout>

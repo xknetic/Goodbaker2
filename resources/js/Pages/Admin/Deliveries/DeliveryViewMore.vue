@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link,useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -28,14 +28,14 @@ const props = defineProps({
 const form = useForm({
     items: props.truckloaditems,
     products: [],
-    itemDelete: []
+    itemDelete: [],
 });
 
 const submit = () => {
     form.put(route('deliveries.update', props.deliveries.deliveryID));
-}
+};
 
-const newProduct = ref({ productID: '', product: '', quantity: '', price:''});
+const newProduct = ref({ productID: '', product: '', quantity: '', price: '' });
 
 const addProduct = () => {
     if (newProduct.value.quantity && newProduct.value.productID) {
@@ -48,7 +48,7 @@ const addProduct = () => {
                 searchProducts.value = '';
                 filteredProducts.value = [];
                 filterProducts();
-            }else {
+            } else {
                 alert("Insufficient Products.");
             }
         }
@@ -58,17 +58,17 @@ const addProduct = () => {
 const searchProducts = ref('');
 const filteredProducts = ref(props.products);
 
-function filterProducts () {
+function filterProducts() {
     filteredProducts.value = props.products.filter(product =>
-    product.productName.toString().toLowerCase().includes(searchProducts.value.toLowerCase())
+        product.productName.toString().toLowerCase().includes(searchProducts.value.toLowerCase())
     );
 }
 
 function selectProduct(products) {
     searchProducts.value = products.productName;
-    newProduct.value.productID= products.productID;
-    newProduct.value.product= products.productName;
-    newProduct.value.price= products.productprices[0]?.price;
+    newProduct.value.productID = products.productID;
+    newProduct.value.product = products.productName;
+    newProduct.value.price = products.productprices[0]?.price;
     filteredProducts.value = [];
 }
 
@@ -77,8 +77,8 @@ var deleteIndex = -1;
 function addDelete(item) {
     form.itemDelete.push(item.truckLoadItemID);
     deleteIndex = form.items.indexOf(item);
-    if (deleteIndex > -1) { // only splice array when item is found
-        form.items.splice(deleteIndex, 1); // 2nd parameter means remove one item only
+    if (deleteIndex > -1) {
+        form.items.splice(deleteIndex, 1);
     }
 }
 const removeItem = (index) => {
@@ -88,17 +88,33 @@ const removeItem = (index) => {
 const submitBadOrders = () => {
     const itemsToSubmit = form.items.map(item => ({
         truckLoadItemID: item.truckLoadItemID,
-        badOrderQuantity: item.badOrderQuantity || 0 // Use 0 if not defined
+        badOrderQuantity: item.badOrderQuantity || 0,
+        bOName: item.bOName || 0,
     }));
 
-    // Send the request to loadIn with the items
+    console.log(itemsToSubmit);
+
     form.post(route('deliveries.loadIn', props.deliveries.deliveryID), {
         items: itemsToSubmit
     });
 };
 
+// New reactive variable to store bad orders data
+const badOrders = ref(props.truckloaditems.map(item => ({
+    truckLoadItemID: item.truckLoadItemID,
+    badOrderQuantity: item.badOrderQuantity || '',
+    bOName: item.bOName || ''
+})));
 
+const addAnotherBadOrder = (index) => {
+    badOrders.value.push({
+        truckLoadItemID: form.items[index].truckLoadItemID,
+        badOrderQuantity: '',
+        bOName: ''
+    });
+};
 </script>
+
 <style>
     #selectpro{
         visibility: hidden;
@@ -253,6 +269,7 @@ const submitBadOrders = () => {
                                 <th scope="col" class="px-6 py-3">Products</th>
                                 <th scope="col" class="px-6 py-3">Good Orders</th>
                                 <th scope="col" class="px-6 py-3">Bad Orders</th>
+                                <th scope="col" class="px-6 py-3">Remarks</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -263,12 +280,30 @@ const submitBadOrders = () => {
                                     <!-- badorder quantity -->
                                     <div>
                                         <TextInput 
-                                            class="mt-1 block w-[50%]" 
+                                            class="mt-1 block w-[10vh]" 
                                             v-model="item.badOrderQuantity" 
                                             type="text" 
                                             min="0" 
                                         />
                                         <InputError :message="form.errors.badOrderQuantity" />
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <!-- BO Name -->
+                                    <div>
+                                        <TextInput 
+                                            class="mt-1 block w-[20vh]"
+                                            v-model="item.bOName" 
+                                            type="text" 
+                                            min="0" 
+                                        />
+                                        <InputError :message="form.errors.bOName" />
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <!-- BO Name -->
+                                    <div>
+                                        <PrimaryButton> Add Another </PrimaryButton>
                                     </div>
                                 </td>
                             </tr>

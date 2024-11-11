@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('product_ingredients', function (Blueprint $table) {
             $table->id('productIngredientID');
             $table->integer('quantity');
+            $table->string('unit',10);
             $table->unsignedBigInteger('product');
             $table->unsignedBigInteger('rawMaterial')->nullable();
             $table->unsignedBigInteger('premix')->nullable();
-            $table->float('variance')->nullable();
 
             $table->foreign('product')->references('productID')->on('products')->onDelete('cascade');
             $table->foreign('rawMaterial')->references('rawMaterialID')->on('raw_materials')->onDelete('cascade');

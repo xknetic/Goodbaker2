@@ -26,4 +26,9 @@ class RawMaterial extends Model
     {
         return $this->hasMany(RawMaterialUnit::class, 'rawMaterial', 'rawMaterialID');
     }
+
+    public function premixingredients()
+    {
+        return $this->hasMany(PremixIngredient::class, 'rawMaterial', 'rawMaterialID');
+    }
 }

@@ -20,4 +20,14 @@ class Premix extends Model
     public function premixes(){
         return $this->belongsToMany(Premix::class);
     }
+
+    public function premixingredients()
+    {
+        return $this->hasMany(PremixIngredient::class, 'premix', 'premixID');
+    }
+
+    public function productingredients()
+    {
+        return $this->hasMany(ProductIngredient::class, 'premix', 'premixID');
+    }
 }

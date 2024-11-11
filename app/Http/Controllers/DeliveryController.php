@@ -7,7 +7,9 @@ use Inertia\Inertia;
 use App\Models\Truck;
 use App\Models\Client;
 use App\Models\Driver;
+use App\Models\LoadIn;
 use App\Models\Product;
+use App\Models\BadOrder;
 use App\Models\Delivery;
 use App\Models\SaleType;
 use Illuminate\Http\Request;
@@ -43,7 +45,7 @@ class DeliveryController extends Controller
 
         return Inertia::render('Admin/Deliveries/DeliveryLoad', [
             'saletypes' => SaleType::all(),
-            'trucks' => Truck::all(),
+            'trucks' => Truck::with(['deliveries'])->get(),
             'drivers' => Driver::all(),
             'clients' => Client::all(),
             'products' => Product::with(['productprices'])->get(),
@@ -122,6 +124,7 @@ class DeliveryController extends Controller
             'items' => 'required|array',
             'items.*.truckLoadItemID' => 'required|exists:truck_load_items,truckLoadItemID',
             'items.*.badOrderQuantity' => 'required|integer|min:0',
+            'items.*.bOName' => 'nullable|string|max:255',
         ]);
     
         foreach ($request->items as $item) {
@@ -130,24 +133,50 @@ class DeliveryController extends Controller
             
             // Deduct the bad order quantity from the TruckLoadItem
             if ($truckLoadItem) {
-                // Deduct the bad order quantity
-                $truckLoadItem->quantity -= $item['badOrderQuantity'];
-                // Store the original quantity before deduction
-                $originalQuantity = $truckLoadItem->quantity;
-                $truckLoadItem->save();
-    
-                // Find the corresponding product
-                $product = Product::find($truckLoadItem->product); // Adjust this if the relation is different
+                // Calculate remaining quantity after deducting the bad order quantity
+                $remainingQuantity = $truckLoadItem->quantity - $item['badOrderQuantity'];
+
+                // Save the bad order quantity in the `bad_orders` table
+                BadOrder::create([
+                    'bOName' => $item['bOName'], // Assuming you have a product relation in TruckLoadItem
+                    'quantity' => $item['badOrderQuantity'],
+                ]);
                 
-                // Add the current quantity of the TruckLoadItem to the product's quantity
+                // Deduct the bad order quantity from the TruckLoadItem
+                $truckLoadItem->quantity = $remainingQuantity;
+                $truckLoadItem->save();
+
+                LoadIn::create([
+                    'deliveryID' => $delivery->deliveryID,
+                    'product' => $truckLoadItem->product,
+                    'quantity' => $remainingQuantity,
+                ]);
+                
+                // Adjust the product stock (if needed)
+                $product = Product::find($truckLoadItem->product);
                 if ($product) {
-                    $product->quantity += $originalQuantity; // Add the original quantity (before deduction)
+                    $product->quantity += $remainingQuantity; // Add bad order quantity back to product stock
                     $product->save();
                 }
+
+                // // Deduct the bad order quantity
+                // $truckLoadItem->quantity -= $item['badOrderQuantity'];
+                // // Store the original quantity before deduction
+                // $originalQuantity = $truckLoadItem->quantity;
+                // $truckLoadItem->save();
+    
+                // // Find the corresponding product
+                // $product = Product::find($truckLoadItem->product); // Adjust this if the relation is different
+                
+                // // Add the current quantity of the TruckLoadItem to the product's quantity
+                // if ($product) {
+                //     $product->quantity += $originalQuantity; // Add the original quantity (before deduction)
+                //     $product->save();
+                // }
             }
     
             // Now delete all truck load items for this delivery
-            TruckLoadItem::where('deliveryID', $delivery->deliveryID)->delete();
+            // TruckLoadItem::where('deliveryID', $delivery->deliveryID)->delete();
         }
     
         return redirect()->route('deliveries.index');

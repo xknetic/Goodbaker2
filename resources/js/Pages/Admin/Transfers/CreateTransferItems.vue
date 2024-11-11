@@ -38,7 +38,8 @@ const form = useForm({
     transferDate: currentDate(),
     branch: '',
     transferType: 'Product',
-    items: []
+    items: [],
+    status: 'Pending',
 });
 
 const submit = () => {

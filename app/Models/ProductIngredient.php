@@ -27,7 +27,7 @@ class ProductIngredient extends Model
         return $this->belongsTo(RawMaterial::class, 'rawMaterial', 'rawMaterialID');
     }
 
-    public function premix()
+    public function premixes()
     {
         return $this->belongsTo(Premix::class, 'premix', 'premixID');
     }

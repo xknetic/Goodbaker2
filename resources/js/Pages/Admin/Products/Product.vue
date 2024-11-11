@@ -3,22 +3,99 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { ref, computed } from 'vue';
+import Modal from '@/Components/Modal.vue';
+import TextInput from '@/Components/TextInput.vue';
+
+const showModal = ref(false);
 
 const props = defineProps({
     products: {
         type: Array,
         default: () => [],
     },
+    productcategories: {
+        type: Array,
+        default: () => [],
+    },
 });
 
-const form = useForm({});
+const form = useForm({
+    product:'',
+    quantity: '',
+    productID:'',
+    productCategory: 'All',
+});
+
+const categoryFilter = ref(props.products)
+function filterCategory () {
+    if (form.productCategory == 'All') {
+        categoryFilter.value = props.products;
+    } else {
+        categoryFilter.value = props.products.filter(product => product.productCategory === form.productCategory);
+    }
+}
+
+function replenish(product) {
+    form.productID = product.productID;
+    let isSufficient = true;
+    product.productingredients.filter(ingredient => ingredient.product === form.productID).forEach(ingredient => {
+        const premixQuantity = ingredient.premixes.quantity
+        
+        if (premixQuantity < form.quantity) {
+            isSufficient = false;
+        }
+    })
+    if (form.quantity > 0) {
+        if (isSufficient) {
+            form.post(route('products.replenish'));
+            alert("Product has been successfully replenished");
+        } else {
+            alert("Not enough premixes to replenish product");
+        }
+    } else {
+        alert("Invalid quantity")
+    }
+}
 
 function destroy(id) {
     if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
         form.delete(route('products.destroy', id));
     }
 }
+
+const searchProducts = ref('');
+const filteredProducts = ref(props.products);
+
+function filterProducts () {
+    filteredProducts.value = props.products.filter(product =>
+    product.productName.toString().toLowerCase().includes(searchProducts.value.toLowerCase())
+    );
+}
+
+function selectProduct(product) {
+    searchProducts.value = product.productName;
+    form.product = product;
+    filteredProducts.value = [];
+}
+
 </script>
+<style>
+    #selectpro {
+        visibility: hidden;
+        position: absolute;
+        z-index: 1;
+    }
+
+    #typepro:focus~#selectpro {
+        visibility: visible;
+    }
+
+    #selectpro:hover {
+        visibility: visible;
+    }
+
+</style>
 
 <template>
     <Head title="Products" />
@@ -27,9 +104,17 @@ function destroy(id) {
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h3 class="font-bold">Product</h3>
+                <div>
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-bold">Products</h3>
+                        <select class="mt-1 w-[60%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="category" v-model="form.productCategory" required @change="filterCategory">
+                            <option value="All" selected>All</option>
+                            <option v-for="category in productcategories" :key="category.id" :value="category.categoryID">{{ category.categoryName }}</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="flex gap-5">
-                    <Link :href="route('categories.index')" class="btn btn-primary">
+                    <!-- <Link :href="route('categories.index')" class="btn btn-primary">
                         <PrimaryButton class="p-2">
                             Category
                         </PrimaryButton>
@@ -38,7 +123,11 @@ function destroy(id) {
                         <PrimaryButton class="p-2">
                             Area
                         </PrimaryButton>
-                    </Link>
+                    </Link> -->
+                    <PrimaryButton @click.prevent="showModal = true" class="p-2">
+                        Replenish
+                    </PrimaryButton>
+
                     <Link :href="route('products.create')" class="btn btn-primary">
                         <PrimaryButton class="p-2">
                             Create
@@ -64,7 +153,7 @@ function destroy(id) {
                     </thead>
                     <tbody>
                         <!--       Variable         Model                 Variable     relationship -->
-                        <tr v-for="product in products" :key="product.id">
+                        <tr v-for="product in categoryFilter" :key="product.id">
                             <td class="px-6 py-4">{{ product.productcategories.categoryName }}</td>
                             <td class="px-6 py-4">{{ product.productName }}</td>
                             <td class="px-6 py-4">{{ product.unit }}</td>
@@ -89,6 +178,63 @@ function destroy(id) {
                     </tbody>
                 </table>
             </div>
+
+            <Modal
+                :show="showModal" 
+                @close="showModal = false" 
+                :closeable="true"
+                >
+                <div class="overflow-auto max-h-svh p-8">
+                    <div class="size-full p-8 flex items-start">
+
+                        <div class="relative">
+                            <InputLabel for="product" class="mb-2">Product</InputLabel>
+                            <TextInput id="typepro"
+                                type="text" 
+                                v-model="searchProducts" 
+                                @input="filterProducts" 
+                                class="mt-1 block w-[100%]" 
+                                placeholder="Search for product" 
+                            />
+                            <InputError :message="form.errors.supplierID" />
+
+                            <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[100%] bg-white max-h-40 overflow-y-auto" >
+                                <li 
+                                    v-for="product in filteredProducts" 
+                                    :key="product.productID" 
+                                    @click="selectProduct(product)" 
+                                    class="cursor-pointer hover:text-white hover:bg-[#0108EE] w-[100%] pl-5 rounded-lg mt-1"
+                                >
+                                    {{ product.productName }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <div class="w-[50%]">
+                                <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
+                                <TextInput class="mt-1 block w-[100%]" id="quantity" v-model="form.quantity" />
+                                <InputError :message="form.errors.quantity" />
+                            </div>
+                            <PrimaryButton class="self-end" @click="replenish(form.product)">
+                                Add
+                            </PrimaryButton>
+                        </div>
+
+                    </div>
+                    <table class="w-full">
+                        <tr>
+                            <td>Ingredient</td>
+                            <td>Quantity Produced</td>
+                        </tr>
+                        <tr v-for="ingredient in form.product.productingredients">
+                            <td>{{ ingredient.premixes.premixName }}</td>
+                            <td v-if="form.quantity > 0">{{ ingredient.quantity * form.quantity }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </Modal>
         </article>
     </AuthenticatedLayout>
 </template>

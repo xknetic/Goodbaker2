@@ -83,9 +83,11 @@ Route::post('/deliveries/{delivery}/load-in', [DeliveryController::class, 'loadI
 
 Route::resource('/products', ProductController::class)
 ->middleware(['auth', 'role:admin']);
+Route::post('/products/replenish', [ProductController::class, 'replenish'])->name('products.replenish');
 
 Route::resource('/premixes', PremixController::class)
 ->middleware(['auth', 'role:admin']);
+Route::post('/premixes/replenish', [PremixController::class, 'replenish'])->name('premixes.replenish');
 
 Route::resource('/beverage', BeverageController::class)
 ->middleware(['auth', 'role:admin']);
@@ -116,6 +118,7 @@ Route::resource('/purchasereturns', PurchaseReturnController::class)
 
 Route::resource('/transfers', TransferController::class)
 ->middleware(['auth', 'verified']);
+Route::post('/transfers/complete', [TransferController::class, 'complete'])->name('transfers.complete');
 
 
 

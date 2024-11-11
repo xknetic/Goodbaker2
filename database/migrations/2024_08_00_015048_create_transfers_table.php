@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch');
             $table->date('transferDate');
             $table->timestamps();
+            $table->string('status', 30);
 
             $table->foreign('branch')->references('branchID')->on('branches')->onDelete('cascade');
         });

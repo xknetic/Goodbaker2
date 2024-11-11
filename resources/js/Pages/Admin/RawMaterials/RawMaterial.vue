@@ -3,6 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { ref, computed } from 'vue';
+import Modal from '@/Components/Modal.vue';
+
+const showModal = ref(false);
 
 const props = defineProps({
     rawmaterials: {
@@ -18,7 +22,9 @@ const props = defineProps({
     // amount: Object
 });
 
-const form = useForm({});
+const form = useForm({
+    rawmaterial: '',
+});
 
 function destroy(id) {
     if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
@@ -54,6 +60,35 @@ function totalAmount(supplierID) {
 //         total += props.rawmaterials[i].price * props.rawmaterials[i].quantity
 //     }
 // }
+
+function calculateRaw(typeQuantity, unit, quantity) {
+    if (unit === 'gms') {
+        return typeQuantity*quantity / 1000;
+    } else {
+        return typeQuantity*quantity;
+    }
+}
+
+function calculateUnit(unit, quantity, variance) {
+    if (unit === 'g') {
+        return (quantity / 1000);
+    } else {
+        return quantity;
+    }
+}
+
+function calculateVariance(unit, quantity, variance) {
+    if (unit === 'g') {
+        return (quantity / 1000) * variance;
+    } else {
+        return quantity * variance;
+    }
+}
+
+function formatNumber(value) {
+    if (value === null || value === undefined) return '0.00'; // Handle null or undefined
+    return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
 </script>
 
 <template>
@@ -100,12 +135,12 @@ function totalAmount(supplierID) {
                     <tbody>
                         <tr v-for="rawMaterial in rawmaterials" :key="rawMaterial.id">
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 w-[25%]"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.rawMaterialName }}</span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} {{ rawMaterial.typeQuantity }}</span></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} x {{ rawMaterial.typeQuantity }}</span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 flex flex-col"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.unit }}</div></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.price }}</div></span></td>
                             <!-- <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">--</span></td> -->
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.stock }}</div></span></td>
-                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ unit.price*unit.stock }}</div></span></td>
+                            <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID"><div v-for="unit in rawMaterial.rawmaterialunits">{{ formatNumber(unit.price*unit.stock) }}</div></span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 flex items-center space-x-3">
                                 <Link :href="route('rawmaterials.edit', rawMaterial.rawMaterialID)" class="text-blue-400 hover:text-blue-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -119,17 +154,46 @@ function totalAmount(supplierID) {
                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                     </svg>
                                 </button>
+                                    <button @click.prevent="showModal = true; form.rawmaterial=rawMaterial">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-right" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1 11.5a.5.5 0 0 0 .5.5h11.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 11H1.5a.5.5 0 0 0-.5.5m14-7a.5.5 0 0 1-.5.5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H14.5a.5.5 0 0 1 .5.5"/>
+                                    </svg>
+                                </button>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="4"></td>
                             <td class="px-6 py-4">Total</td>
-                            <td class="px-6 py-4">{{ totalAmount(supplier.supplierID) }}</td>
+                            <td class="px-6 py-4">{{ formatNumber(totalAmount(supplier.supplierID)) }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             </div>
+
+            <Modal
+                :show="showModal" 
+                @close="showModal = false" 
+                :closeable="true"
+                >
+            
+                <table class="w-full text-left">
+                    <tr>
+                        <td class="px-6 py-4">Premix</td>
+                        <td class="px-6 py-4">Needs</td>
+                        <td class="px-6 py-4">Can Make</td>
+                        <td class="px-6 py-4">Variance</td>
+                    </tr>
+                    <tr v-for="ingredient in form.rawmaterial.premixingredients">
+                        <td class="px-6 py-4">{{ ingredient.premix.premixName }}</td>
+                        <td class="px-6 py-4">{{ ingredient.unitQuantity }} {{ ingredient.unit }}</td>
+                        <td class="px-6 py-4">{{ parseInt(calculateRaw(form.rawmaterial.typeQuantity, form.rawmaterial.rawmaterialunits[0].unit, form.rawmaterial.rawmaterialunits[0].stock) / (calculateUnit(ingredient.unit, ingredient.unitQuantity, ingredient.variance)+calculateVariance(ingredient.unit, ingredient.unitQuantity, ingredient.variance))).toLocaleString() }}</td>
+                        <td class="px-6 py-4">{{ (calculateRaw(form.rawmaterial.typeQuantity, form.rawmaterial.rawmaterialunits[0].unit, form.rawmaterial.rawmaterialunits[0].stock) / calculateUnit(ingredient.unit, ingredient.unitQuantity, ingredient.variance)) * calculateVariance(ingredient.unit, ingredient.unitQuantity, ingredient.variance) }} {{ ingredient.unit }} ({{ ingredient.variance * 100 }}%)</td>
+                    </tr>
+                </table>
+            
+            
+            </Modal>
         </article>
     </AuthenticatedLayout>
 </template>

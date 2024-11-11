@@ -59,7 +59,7 @@ class SaleController extends Controller
             'salesDate' =>$request->salesDate,
             'salesStatus'=>$request->salesStatus,
             'deliveryID'=>$request->deliveryID,
-            'branch' => $branch ? $branch->branchID : null, // Use the branch ID if found, otherwise set it to null
+            // 'branch' => $branch ? $branch->branchID : null, // Use the branch ID if found, otherwise set it to null
         ]);
 
         if (!$sales) {

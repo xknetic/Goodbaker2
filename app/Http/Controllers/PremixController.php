@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use App\Models\Premix;
-use App\Models\PremixIngredient;
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
+use App\Models\RawMaterialUnit;
+use App\Models\PremixIngredient;
 use Illuminate\Support\Facades\Redirect;
 
 class PremixController extends Controller
@@ -18,7 +19,7 @@ class PremixController extends Controller
     {
         //
         return Inertia::render('Admin/Premixes/Premix', [
-            'premixes' => Premix::all()
+            'premixes' => Premix::with(['premixingredients.rawmaterial.rawmaterialunits'])->get(),
         ]);
     }
 
@@ -77,6 +78,55 @@ class PremixController extends Controller
 
         return Redirect::route('premixes.index');
     }
+
+    public function replenish(Request $request)
+    {
+        // Retrieve the premix with ingredients and associated raw materials
+        $premix = Premix::with('premixingredients.rawmaterial.rawmaterialunits')->find($request->premixID);
+
+        $quantityToAdd = $request->quantity;
+
+        // Update the premix quantity
+        $premix->increment('quantity', $quantityToAdd);
+
+        $allIngredientsSufficient = true;
+
+        // Check if there is enough stock for each ingredient
+        foreach ($premix->premixingredients as $ingredient) {
+            $stock = $ingredient->rawmaterial->typeQuantity * $ingredient->rawmaterial->rawmaterialunits->first()->stock;
+            $totalQuantityUsed = ($ingredient->unitQuantity + ($ingredient->unitQuantity * $ingredient->variance)) * $quantityToAdd;
+            
+            if ($ingredient->unit == 'g') {
+                $totalQuantityUsed /= 1000;
+            }
+
+            if ($stock < $totalQuantityUsed) {
+                $allIngredientsSufficient = false;
+                break; // No need to continue checking if one ingredient doesn't have enough stock
+            }
+        }
+
+
+        // If all ingredients have sufficient stock, update the raw material stock
+        foreach ($premix->premixingredients as $ingredient) {
+            $stock = $ingredient->rawmaterial->typeQuantity * $ingredient->rawmaterial->rawmaterialunits->first()->stock;
+            $totalQuantityUsed = ($ingredient->unitQuantity + ($ingredient->unitQuantity * $ingredient->variance)) * $quantityToAdd;
+
+            if ($ingredient->unit == 'g') {
+                $totalQuantityUsed /= 1000;
+            }
+
+            $stock -= $totalQuantityUsed;
+            // ->skip(1)->take(1)->get()->first();
+            $stock /= $ingredient->rawmaterial->typeQuantity;
+            if ((($stock - floor($stock)) * $ingredient->rawmaterial->typeQuantity) > 1 && (RawMaterialUnit::where('rawMaterial', $ingredient->rawMaterial)->count() > 1)) {
+                $nextStock = floor(($stock - floor($stock)) * $ingredient->rawmaterial->typeQuantity);
+                RawMaterialUnit::where('rawMaterial', $ingredient->rawMaterial)->skip(1)->take(1)->get()->first()->update(['stock' => $nextStock]);
+            }
+            RawMaterialUnit::where('rawMaterial', $ingredient->rawMaterial)->first()->update(['stock' => floor($stock)]);
+        }
+    }
+
 
     /**
      * Display the specified resource.

@@ -28,6 +28,7 @@ const form = useForm({
     supplier: '',   
     purchases: [],
     status: 'Pending',
+    selectedRaw: '',
 });
 
 const newPurchase = ref({rawMaterialID: '', purchase: '', unit: '', unitName:'', quantity: ''});
@@ -70,12 +71,13 @@ function selectRawMaterial(rawmaterial) {
     newPurchase.value.purchase= rawmaterial.rawMaterialName;
     newUnit.value.unit= rawmaterial.rawmaterialunits;
     filteredRawMaterials.value = [];
+    form.selectedRaw = rawmaterial;
 }
 
 const addPurchase = () => {
     if (newPurchase.value.quantity && newPurchase.value.purchase) {
-        newPurchase.value.unit = selectUnit.value.rawMaterialUnitID;
-        newPurchase.value.unitName = selectUnit.value.unit;
+        newPurchase.value.unit = form.selectedRaw.rawmaterialunits[0].rawMaterialUnitID;
+        newPurchase.value.unitName = form.selectedRaw.rawmaterialunits[0].unit;
         form.purchases.push({ ...newPurchase.value });
         newPurchase.value = {rawMaterialID: '', purchase: '', unit: '', unitName:'', quantity: ''};
         searchRawMaterials.value = '';
@@ -205,7 +207,7 @@ const addPurchase = () => {
                     <InputLabel for="unit" class="mt-5">Unit</InputLabel>
                     <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="unit" v-model="selectUnit" required>
                         <option disabled value="">Select Unit</option>
-                        <option v-for="unit in newUnit.unit" :key="unit.id" :value="unit">{{ unit.unit }}</option>
+                        <option v-if="form.selectedRaw">{{ form.selectedRaw.type }} x{{ form.selectedRaw.typeQuantity }}  {{ form.selectedRaw.rawmaterialunits[0].unit }}</option>
                     </select>
                     <InputError :message="form.errors.productCategory"/>
                 </div>

@@ -18,7 +18,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 1
             'rawMaterialName' => 'B.O.S.',
-            'type' => 'Pail x',
+            'type' => 'Pail',
             'typeQuantity' => '18',
             'supplierID' => '1'
         ],
@@ -26,7 +26,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 2
             'rawMaterialName' => 'Canyon Baking Powder',
-            'type' => 'Pail x',
+            'type' => 'Pail',
             'typeQuantity' => '15',
             'supplierID' => '1'
         ],
@@ -34,7 +34,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 3
             'rawMaterialName' => 'Glucose',
-            'type' => 'Pail x',
+            'type' => 'Pail',
             'typeQuantity' => '20',
             'supplierID' => '1'
         ],
@@ -42,7 +42,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 4
             'rawMaterialName' => 'Luster Dust ALL FLAVORS',
-            'type' => 'Pail x',
+            'type' => 'Pail',
             'typeQuantity' => '6',
             'supplierID' => '1'
         ],
@@ -50,7 +50,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 5
             'rawMaterialName' => 'Malunggay Flakes',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '5',
             'supplierID' => '1'
         ],
@@ -58,7 +58,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 6
             'rawMaterialName' => 'Nether C Preservative',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '10',
             'supplierID' => '1'
         ],
@@ -66,7 +66,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 7
             'rawMaterialName' => 'Skim Milk Powder for Torta',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '1'
         ],
@@ -75,7 +75,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 8
             'rawMaterialName' => 'Calcium Proprionate (Niacet)',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '2'
         ], 
@@ -83,7 +83,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 9
             'rawMaterialName' => 'Potassium Sorbate (preservative)',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '2'
         ],
@@ -91,7 +91,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 10
             'rawMaterialName' => 'V-Ester SSL-S150',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '25',
             'supplierID' => '2'
         ],
@@ -100,7 +100,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 11
             'rawMaterialName' => 'Naga Rossa Flour',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '3'
         ],
@@ -109,7 +109,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 12
             'rawMaterialName' => 'Apito UBE Paste',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '16',
             'supplierID' => '4'
         ],
@@ -118,7 +118,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 13
             'rawMaterialName' => 'Baking Powder, Panadero',
-            'type' => 'Pail x',
+            'type' => 'Pail',
             'typeQuantity' => '15',
             'supplierID' => '4'  
         ],
@@ -126,7 +126,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 14
             'rawMaterialName' => 'Baking Soda',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4' 
         ],
@@ -134,7 +134,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 15
             'rawMaterialName' => 'Brown Paper',
-            'type' => 'Bail x',
+            'type' => 'Bail',
             'typeQuantity' => '100',
             'supplierID' => '4' 
         ],
@@ -142,7 +142,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 16
             'rawMaterialName' => 'Bread Improver, Magimix',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '36',
             'supplierID' => '4' 
         ],
@@ -150,7 +150,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 17
             'rawMaterialName' => 'Butter, Marvelous',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '36',
             'supplierID' => '4' 
         ],
@@ -158,7 +158,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 18
             'rawMaterialName' => 'Cinnamon Powder',
-            'type' => 'Drum x',
+            'type' => 'Drum',
             'typeQuantity' => '30',
             'supplierID' => '4' 
         ],
@@ -166,7 +166,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 19
             'rawMaterialName' => 'Cornstarch, Farola',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4' 
         ],
@@ -174,7 +174,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 20
             'rawMaterialName' => 'Condensed Milk',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '24',
             'supplierID' => '4' 
         ],
@@ -182,7 +182,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 21
             'rawMaterialName' => 'Cracked Wheat',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '10',
             'supplierID' => '4' 
         ],
@@ -190,7 +190,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 22
             'rawMaterialName' => 'Dessicated Coconut',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '50',
             'supplierID' => '4' 
         ],
@@ -198,7 +198,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 23
             'rawMaterialName' => 'FLOUR - 3rd Class Cinderella',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4' 
         ],
@@ -206,7 +206,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 24
             'rawMaterialName' => 'FLOUR - 1st Class Kabayan',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4' 
         ],
@@ -214,7 +214,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 25
             'rawMaterialName' => 'Freeto Oil',
-            'type' => 'Tin x',
+            'type' => 'Tin',
             'typeQuantity' => '17',
             'supplierID' => '4' 
         ],
@@ -222,7 +222,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 26
             'rawMaterialName' => 'Iodised Salt',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4' 
         ],
@@ -230,7 +230,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 27
             'rawMaterialName' => 'Margarine Spring',
-            'type' => 'Drum x',
+            'type' => 'Drum',
             'typeQuantity' => '45',
             'supplierID' => '4' 
         ],
@@ -238,7 +238,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 28
             'rawMaterialName' => 'Powdered Sugar, Peotraco',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4' 
         ],
@@ -246,7 +246,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 29
             'rawMaterialName' => 'Raisins, Eversweet',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '10',
             'supplierID' => '4' 
         ],
@@ -254,7 +254,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 31
             'rawMaterialName' => 'Sesame Seeds',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '4'
         ],
@@ -262,7 +262,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 32
             'rawMaterialName' => 'Shortening, Spring',
-            'type' => 'Drum x',
+            'type' => 'Drum',
             'typeQuantity' => '50',
             'supplierID' => '4'
         ],
@@ -270,7 +270,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 33
             'rawMaterialName' => 'Skim Milk Brown',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '50',
             'supplierID' => '4' 
         ],
@@ -278,7 +278,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 34
             'rawMaterialName' => 'Sugar, White',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '50',
             'supplierID' => '4'
         ],
@@ -286,7 +286,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 35
             'rawMaterialName' => 'Sugar, Brown',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '50',
             'supplierID' => '4'
         ],
@@ -294,7 +294,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 36
             'rawMaterialName' => 'Vanilla, Penedero',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '4',
             'supplierID' => '4'
         ],
@@ -302,7 +302,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 37
             'rawMaterialName' => 'Yeast, Instant Success',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '20',
             'supplierID' => '4'
         ],
@@ -312,7 +312,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 38
             'rawMaterialName' => 'Apito Strawberry Paste',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '1',
             'supplierID' => '5'
         ],
@@ -320,7 +320,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 39
             'rawMaterialName' => 'Apito UBE Paste',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '2',
             'supplierID' => '5'
         ],
@@ -328,7 +328,15 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 40
             'rawMaterialName' => 'Apito Pandan Paste',
-            'type' => 'Jug x',
+            'type' => 'Jug',
+            'typeQuantity' => '1',
+            'supplierID' => '5'
+        ],
+
+        [
+            //rm 40
+            'rawMaterialName' => 'Apito Pandan Paste',
+            'type' => 'Jug',
             'typeQuantity' => '1',
             'supplierID' => '5'
         ],
@@ -338,7 +346,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 41
             'rawMaterialName' => 'White Chocolate Deluxe',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '40',
             'supplierID' => '6'
         ],
@@ -346,7 +354,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 42
             'rawMaterialName' => 'Dark Chocolate Deluxe',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '40',
             'supplierID' => '6'
         ],
@@ -355,7 +363,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 43
             'rawMaterialName' => 'Medium',
-            'type' => 'Case x',
+            'type' => 'Case',
             'typeQuantity' => '12',
             'supplierID' => '7'
         ],
@@ -364,7 +372,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 44
             'rawMaterialName' => 'Farmland Milk Powder',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '8'
         ],
@@ -372,7 +380,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 45
             'rawMaterialName' => 'Milkboy Powder',
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '8'
         ],
@@ -381,7 +389,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 46
             'rawMaterialName' => 'Housin Sauce',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '4',
             'supplierID' => '9'
         ],
@@ -390,16 +398,16 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 47
             'rawMaterialName' => 'Large',
-            'type' => 'Case x',
-            'typeQuantity' => '12',
+            'type' => 'Case',
+            'typeQuantity' => '144',
             'supplierID' => '10'
         ],
 
         [
             //rm 48
             'rawMaterialName' => 'Extra Large',
-            'type' => 'Case x',
-            'typeQuantity' => '12',
+            'type' => 'Case',
+            'typeQuantity' => '144',
             'supplierID' => '10'
         ],
 
@@ -407,8 +415,8 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 49
             'rawMaterialName' => 'Magnolia Filled Cheese',
-            'type' => 'Box x',
-            'typeQuantity' => '6',
+            'type' => 'Box',
+            'typeQuantity' => '72',
             'supplierID' => '11'
         ],
 
@@ -416,7 +424,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 50
             'rawMaterialName' => 'Marca Leon Soya Oil',
-            'type' => 'Tin x',
+            'type' => 'Tin',
             'typeQuantity' => '17',
             'supplierID' => '12'
         ],
@@ -425,7 +433,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 51
             'rawMaterialName' => 'Neco Color, ORANGE',
-            'type' => 'Jar x',
+            'type' => 'Jar',
             'typeQuantity' => '500',
             'supplierID' => '13'
         ],
@@ -433,7 +441,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 52
             'rawMaterialName' => 'Neco Color, STRAW RED',
-            'type' => 'Jar x',
+            'type' => 'Jar',
             'typeQuantity' => '500',
             'supplierID' => '13'
         ],
@@ -441,7 +449,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 53
             'rawMaterialName' => 'Neco Color, Egg YELLOW',
-            'type' => 'Jar x',
+            'type' => 'Jar',
             'typeQuantity' => '500',
             'supplierID' => '13'
         ],
@@ -449,7 +457,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 54
             'rawMaterialName' => 'Neco Color, UBE',
-            'type' => 'Jar x',
+            'type' => 'Jar',
             'typeQuantity' => '500',
             'supplierID' => '13'
         ],
@@ -457,7 +465,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 55
             'rawMaterialName' => 'Neco Color, APPLE GREEN',
-            'type' => 'Jar x',
+            'type' => 'Jar',
             'typeQuantity' => '500',
             'supplierID' => '13'
         ],
@@ -465,7 +473,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 56
             'rawMaterialName' => 'Neco Color, CHOCO BROWN',
-            'type' => 'Jar x',
+            'type' => 'Jar',
             'typeQuantity' => '500',
             'supplierID' => '13'
         ],
@@ -474,7 +482,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 57
             'rawMaterialName' => 'Instant Nescafe',
-            'type' => 'Pouch x',
+            'type' => 'Pouch',
             'typeQuantity' => '500',
             'supplierID' => '14'
         ],
@@ -483,7 +491,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 58
             'rawMaterialName' => 'Buttercreame Refrigerated Margarine (225 g)',
-            'type' => 'Case x',
+            'type' => 'Case',
             'typeQuantity' => '24',
             'supplierID' => '15'
         ],
@@ -491,7 +499,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 59
             'rawMaterialName' => 'Butter Creme 100',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '10',
             'supplierID' => '15'
         ],
@@ -499,7 +507,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 60
             'rawMaterialName' => "Baker's Choice Margarine",
-            'type' => 'Drum x',
+            'type' => 'Drum',
             'typeQuantity' => '40',
             'supplierID' => '15'
         ],
@@ -507,7 +515,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 61
             'rawMaterialName' => 'Bake Plus Shortening',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '10',
             'supplierID' => '15'
         ],
@@ -515,7 +523,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 62
             'rawMaterialName' => 'Soya Oil',
-            'type' => 'Tin x',
+            'type' => 'Tin',
             'typeQuantity' => '17',
             'supplierID' => '15'
         ],
@@ -524,7 +532,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 63
             'rawMaterialName' => 'Magnifier CHOCO',
-            'type' => 'Bucket x',
+            'type' => 'Bucket',
             'typeQuantity' => '5',
             'supplierID' => '16'
         ],
@@ -533,7 +541,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 64
             'rawMaterialName' => 'Alaska Evaporated 370mL',
-            'type' => 'Bucket x',
+            'type' => 'Bucket',
             'typeQuantity' => '5',
             'supplierID' => '17'
         ],
@@ -541,7 +549,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 65
             'rawMaterialName' => 'Brown Paper',
-            'type' => 'Bail x',
+            'type' => 'Bail',
             'typeQuantity' => '100',
             'supplierID' => '17'
         ],
@@ -549,7 +557,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 66
             'rawMaterialName' => 'Silver Swan Soy Sauce',
-            'type' => 'Bail x',
+            'type' => 'Bail',
             'typeQuantity' => '4',
             'supplierID' => '17'
         ],
@@ -557,7 +565,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 67
             'rawMaterialName' => 'Rose Cane Vinegar',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '4',
             'supplierID' => '17'
         ],
@@ -565,7 +573,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 68
             'rawMaterialName' => 'Raisins',
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '8',
             'supplierID' => '17'
         ],
@@ -573,7 +581,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 69
             'rawMaterialName' => "Today Pineapple Crushed (3 Kg)",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '6',
             'supplierID' => '17'
         ],
@@ -581,7 +589,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 70
             'rawMaterialName' => "Air-Brush Colors, All Flavors",
-            'type' => 'Bottle x',
+            'type' => 'Bottle',
             'typeQuantity' => '255',
             'supplierID' => '17'
         ],
@@ -589,7 +597,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 71
             'rawMaterialName' => "Skinless Peanut",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '25',
             'supplierID' => '17'
         ],
@@ -598,7 +606,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 72
             'rawMaterialName' => "Favorish Light Brown GP 390-11",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '18'
         ],
@@ -606,7 +614,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 73
             'rawMaterialName' => "Favorish Dark Black GP 960-11",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '18'
         ],
@@ -615,7 +623,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 74
             'rawMaterialName' => "Additional Supplies",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '72',
             'supplierID' => '19'
         ],
@@ -624,7 +632,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 75
             'rawMaterialName' => "Cocoa Light",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '72',
             'supplierID' => '20'
         ],
@@ -633,7 +641,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 76
             'rawMaterialName' => "Bake Best Platinum Bread",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '25',
             'supplierID' => '21'
         ],
@@ -641,7 +649,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 77
             'rawMaterialName' => "Baron ALL-PURPOSE Flour",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '21'
         ],
@@ -649,7 +657,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 78
             'rawMaterialName' => "Hard Flour EMPEROR",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '21'
         ],
@@ -657,7 +665,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 79
             'rawMaterialName' => "Instant Yeast Emperor",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '20',
             'supplierID' => '21'
         ],
@@ -665,7 +673,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 80
             'rawMaterialName' => "3rd Class COUNTESS",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '21'
         ],
@@ -673,7 +681,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 81
             'rawMaterialName' => "Cake Flour",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '21'
         ],
@@ -682,7 +690,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 82
             'rawMaterialName' => "Medium",
-            'type' => 'Case x',
+            'type' => 'Case',
             'typeQuantity' => '12',
             'supplierID' => '22'
         ],
@@ -690,7 +698,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 83
             'rawMaterialName' => "Large",
-            'type' => 'Case x',
+            'type' => 'Case',
             'typeQuantity' => '12',
             'supplierID' => '22'
         ],
@@ -699,7 +707,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 84
             'rawMaterialName' => "Red Beans",
-            'type' => 'Sack x',
+            'type' => 'Sack',
             'typeQuantity' => '10',
             'supplierID' => '23'
         ],
@@ -707,7 +715,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 85
             'rawMaterialName' => "White Beans",
-            'type' => 'Sack x',
+            'type' => 'Sack',
             'typeQuantity' => '10',
             'supplierID' => '23'
         ],
@@ -715,7 +723,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 86
             'rawMaterialName' => "Molasses",
-            'type' => 'Pail x',
+            'type' => 'Pail',
             'typeQuantity' => '1',
             'supplierID' => '23'
         ],
@@ -723,7 +731,7 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 87
             'rawMaterialName' => "Kuya TONY Tongue Root",
-            'type' => 'Box x',
+            'type' => 'Box',
             'typeQuantity' => '15',
             'supplierID' => '23'
         ],
@@ -731,10 +739,28 @@ class RawMaterialSeeder extends Seeder
         [
             //rm 88
             'rawMaterialName' => "TVP",
-            'type' => 'Bag x',
+            'type' => 'Bag',
             'typeQuantity' => '25',
             'supplierID' => '23'
         ],
+
+        [
+            //rm 88
+            'rawMaterialName' => "Cream of Tartar",
+            'type' => 'Jar',
+            'typeQuantity' => '20',
+            'supplierID' => '23'
+        ],
+
+        [
+            //rm 90
+            'rawMaterialName' => "Mongo Seeds",
+            'type' => 'Jar',
+            'typeQuantity' => '20',
+            'supplierID' => '23'
+        ],
+
+
     ];
 
     public function run(): void

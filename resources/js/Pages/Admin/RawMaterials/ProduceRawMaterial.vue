@@ -1,3 +1,4 @@
+
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
@@ -17,7 +18,7 @@ const props = defineProps({
 const form = useForm({});
 
 function destroy(id) {
-    if (confirm("Sure ka ba idedelete mo? Di na to mababalik tanginamo ahh")) {
+    if (confirm("Sure ka ba idedelete mo?")) {
         form.delete(route('products.destroy', id));
     }
 }

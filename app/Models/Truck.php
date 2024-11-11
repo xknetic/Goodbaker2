@@ -20,4 +20,8 @@ class Truck extends Model
     public function trucks(){
         return $this->belongsToMany(Truck::class);
     }
+
+    public function deliveries(){
+        return $this->hasMany(Delivery::class, 'truck', 'truckID');
+    }
 }

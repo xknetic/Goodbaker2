@@ -20,4 +20,8 @@ class Client extends Model
     public function clients(){
         return $this->belongsToMany(Client::class);
     }
+
+    public function deliveries(){
+        return $this->hasMany(Delivery::class, 'client', 'clientID');
+    }
 }
