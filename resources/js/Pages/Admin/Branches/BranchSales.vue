@@ -180,7 +180,7 @@ const prevPage = () => {
                             </thead>
                             <tbody>
                                 <tr v-for="(journal, index) in paginatedJournals" :key="journal.id">
-                                    <td class="px-6 py-4">{{ (currentPage.value - 1) * itemsPerPage + index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
                                     <td class="px-6 py-4">{{ journal.StoreCode }}</td>
                                     <td class="px-6 py-4">{{ journal.SalesDate }}</td>
                                     <td class="px-6 py-4">{{ journal.CustomerName }}</td>
@@ -234,7 +234,7 @@ const prevPage = () => {
                             </thead>
                             <tbody>
                                 <tr v-for="(dailysale, index) in dailysales" :key="dailysale.id">
-                                    <td class="px-6 py-4">{{ (currentPage.value - 1) * itemsPerPage + index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
                                     <td class="px-6 py-4">{{ dailysale.StoreName }}</td>
                                     <td class="px-6 py-4">{{ dailysale.LogDate }}</td>
                                     <td class="px-6 py-4">{{ dailysale.LogDay }}</td>

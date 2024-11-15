@@ -2,7 +2,7 @@
 import {ref} from 'vue';
 
 // Dropdown
-const Content = ref(true)
+const Content = ref(false)
 
 function invdrop(){
     Content.value = !Content.value
