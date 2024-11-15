@@ -17,8 +17,8 @@ const toggleSidebar = () => {
 </script>
 
 <template>
-    <div class="h-screen p-5 bg-[#D9D9D9]">
-        <div class="flex h-full gap-5">
+    <div class="h-screen w-screen p-5 bg-[#D9D9D9]">
+        <div class="flex h-full w-full gap-5">
             <!-- Sidebar -->
             <aside
                 :class="isSidebarOpen ? 'w-[20%] min-w-[17rem]' : 'w-[7%] 2xl:w-[5%] xl:visible xl:block hidden pt-10'"
@@ -365,7 +365,9 @@ const toggleSidebar = () => {
                         </div>
                     </nav>
 
-                    <div class="h-full overflow-y-auto">
+                    <div
+                    :class="isSidebarOpen ? 'h-full max-w-[20rem] sm:max-w-[20rem] md:max-w-[28rem] lg:max-w-[44rem] xl:max-w-[65rem] 2xl:max-w-[100rem]' : 'h-full max-w-[21rem] sm:max-w-[38rem] md:max-w-[46rem] lg:max-w-[62rem] xl:max-w-[76rem] 2xl:max-w-[111rem]'"
+                    class="h-full w-full">
                         <slot />
                     </div>
                 </div>

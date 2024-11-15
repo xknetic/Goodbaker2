@@ -43,34 +43,11 @@ const props = defineProps({
 
 // State to track the selected category for the table
 const activeCategory = ref('sale');
-const currentPage = ref(1); // Track the current page
-const itemsPerPage = 10; // Define how many items per page
-
 
 // Method to change the active category
 const showCategory = (category) => {
     activeCategory.value = category;
     currentPage.value = 1; // Reset to first page whenever category changes
-};
-
-// Computed property to get the current page items
-const paginatedJournals = computed(() => {
-    const startIndex = (currentPage.value - 1) * itemsPerPage;
-    return props.journals.slice(startIndex, startIndex + itemsPerPage);
-});
-
-// Method to go to the next page
-const nextPage = () => {
-    if (currentPage.value * itemsPerPage < props.journals.length) {
-        currentPage.value++;
-    }
-};
-
-// Method to go to the previous page
-const prevPage = () => {
-    if (currentPage.value > 1) {
-        currentPage.value--;
-    }
 };
 </script>
 
@@ -86,7 +63,7 @@ const prevPage = () => {
             <div class="border-b border-gray-700 my-2 mb-5" />
 
             <!-- Bottom Table -->
-            <div class="overflow-x-auto max-w-full">
+            <div class="overflow-auto max-w-full">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-5">
                         <div>
@@ -130,34 +107,48 @@ const prevPage = () => {
                 <!-- Conditional Rendering of Tables Based on Active Category -->
                 <!-- Sale Transactions Table -->
                 <div v-if="activeCategory === 'sale'">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Terminal</th>
-                                <th scope="col" class="px-6 py-3">Username</th>
-                                <th scope="col" class="px-6 py-3">Transaction Date</th>
-                                <th scope="col" class="px-6 py-3">Transaction Number</th>
-                                <th scope="col" class="px-6 py-3">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(transaction, index) in salestransactions" :key="transaction.id">
-                                <td class="px-6 py-4">{{ index + 1 }}</td>
-                                <td class="px-6 py-4">{{ transaction.Terminal }}</td>
-                                <td class="px-6 py-4">{{ transaction.UserName }}</td>
-                                <td class="px-6 py-4">{{ transaction.TranDate }}</td>
-                                <td class="px-6 py-4">{{ transaction.TranNo }}</td>
-                                <td class="px-6 py-4">{{ transaction.Amount }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
+                            <thead class="text-xs uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Terminal</th>
+                                    <th scope="col" class="px-6 py-3">Username</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Date</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(transaction, index) in salestransactions" :key="transaction.id">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ transaction.Terminal }}</td>
+                                    <td class="px-6 py-4">{{ transaction.UserName }}</td>
+                                    <td class="px-6 py-4">{{ transaction.TranDate }}</td>
+                                    <td class="px-6 py-4">{{ transaction.TranNo }}</td>
+                                    <td class="px-6 py-4">{{ transaction.Amount }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Journal Table with Pagination -->
                 <div v-if="activeCategory === 'journals'">
-                    <div class="overflowx-x-auto max-w-[10vh]">
-                        <table class="text-sm text-left">
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
                             <thead class="text-xs uppercase">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
@@ -204,8 +195,8 @@ const prevPage = () => {
 
                 <!-- Daily Table with Pagination -->
                 <div v-if="activeCategory === 'dailysales'">
-                    <div class="overflowx-x-auto max-w-[10vh]">
-                        <table class="text-sm text-left">
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
                             <thead class="text-xs uppercase">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
@@ -264,30 +255,32 @@ const prevPage = () => {
 
                 <!-- Transaction Counts Table with Pagination -->
                 <div v-if="activeCategory === 'counts'">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Terminal</th>
-                                <th scope="col" class="px-6 py-3">Amount</th>
-                                <th scope="col" class="px-6 py-3">Sales Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(count, index) in counts" :key="count.id">
-                                <td class="px-6 py-4">{{ index + 1 }}</td>
-                                <td class="px-6 py-4">{{ count.Terminal }}</td>
-                                <td class="px-6 py-4">{{ count.Amount }}</td>
-                                <td class="px-6 py-4">{{ count.SalesCount }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
+                            <thead class="text-xs uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Terminal</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Sales Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(count, index) in counts" :key="count.id">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ count.Terminal }}</td>
+                                    <td class="px-6 py-4">{{ count.Amount }}</td>
+                                    <td class="px-6 py-4">{{ count.SalesCount }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Guest Counts Table with Pagination -->
                 <div v-if="activeCategory === 'guestcounts'">
-                    <div class="overflowx-x-auto max-w-[10vh]">
-                        <table class="text-sm text-left">
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
                             <thead class="text-xs uppercase">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
@@ -328,36 +321,41 @@ const prevPage = () => {
                     </div>
                 </div>
 
+                <!-- Discount Charges Table -->
                 <div v-if="activeCategory === 'discountcharges'">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Terminal</th>
-                                <th scope="col" class="px-6 py-3">UserName</th>
-                                <th scope="col" class="px-6 py-3">TranDate</th>
-                                <th scope="col" class="px-6 py-3">TranNo</th>
-                                <th scope="col" class="px-6 py-3">Discount</th>
-                                <th scope="col" class="px-6 py-3">Allowance</th>
-                                <th scope="col" class="px-6 py-3">Charge</th>
-                                <th scope="col" class="px-6 py-3">PesoCharge</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(discountcharge, index) in discountcharges" :key="discountcharge.id">
-                                <td class="px-6 py-4">{{ index + 1 }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Terminal }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.UserName }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.TranDate }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.TranNo }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Discount }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Allowance }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Charge }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.PesoCharge }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
+                            <thead class="text-xs uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Terminal</th>
+                                    <th scope="col" class="px-6 py-3">UserName</th>
+                                    <th scope="col" class="px-6 py-3">TranDate</th>
+                                    <th scope="col" class="px-6 py-3">TranNo</th>
+                                    <th scope="col" class="px-6 py-3">Discount</th>
+                                    <th scope="col" class="px-6 py-3">Allowance</th>
+                                    <th scope="col" class="px-6 py-3">Charge</th>
+                                    <th scope="col" class="px-6 py-3">PesoCharge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(discountcharge, index) in discountcharges" :key="discountcharge.id">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Terminal }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.UserName }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.TranDate }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.TranNo }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Discount }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Allowance }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Charge }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.PesoCharge }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                
             </div>
         </article>
     </AuthenticatedLayout>
