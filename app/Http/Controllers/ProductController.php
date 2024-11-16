@@ -11,6 +11,7 @@ use App\Models\ProductPrice;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Models\PremixIngredient;
+use App\Models\ReplenishProduct;
 use App\Models\ProductIngredient;
 use Illuminate\Support\Facades\Redirect;
 
@@ -118,13 +119,18 @@ class ProductController extends Controller
     
         // Check if premix quantity is sufficient
         if ($premix->quantity >= $quantityToAdd) {
-            $ingredientQuantity = $productIngredient->quantity;
+        $ingredientQuantity = $productIngredient->quantity;
     
             // Increment product quantity based on ingredient quantity
             $product->increment('quantity', $quantityToAdd * $ingredientQuantity);
     
             // Decrement the premix quantity
             $premix->decrement('quantity', $quantityToAdd);
+
+            ReplenishProduct::create([
+                'quantity' => $request->quantity,
+                'productIngredient' => $productIngredient->productIngredientID
+            ]);
     
         }
     }

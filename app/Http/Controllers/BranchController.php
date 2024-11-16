@@ -74,7 +74,7 @@ class BranchController extends Controller
         $discountcharges = SalesTransactionDiscountCharge::all();
 
         return Inertia::render('Admin/Branches/BranchSales', [
-            'branch' => $branch,
+            'branches' => $branch,
             'salestransactions' => $salesTransactions,
             'journals' => $journals,
             'dailysales' => $dailysales,
@@ -138,8 +138,10 @@ class BranchController extends Controller
 
         $path = $request->file('file')->store('temp');
 
+        $branch = Branch::find($request->branch);
+
         // Import the data
-        Excel::import(new SalesTransactionDiscountChargeImport, storage_path('app/'.$path));
+        Excel::import(new SalesTransactionDiscountChargeImport($branch->branchID), storage_path('app/'.$path));
 
         return redirect()->route('branches.index')->with('success', 'Branches imported successfully!');
     }
@@ -153,8 +155,10 @@ class BranchController extends Controller
 
         $path = $request->file('file')->store('temp');
 
+        $branch = Branch::find($request->branch);
+
         // Import the data
-        Excel::import(new GuestCountImport(), storage_path('app/'.$path));
+        Excel::import(new GuestCountImport($branch->branchID), storage_path('app/'.$path));
 
         return redirect()->route('branches.index')->with('success', 'Branches imported successfully!');
     }
@@ -168,8 +172,10 @@ class BranchController extends Controller
 
         $path = $request->file('file')->store('temp');
 
+        $branch = Branch::find($request->branch);
+
         // Import the data
-        Excel::import(new SalesTransactionCountImport(), storage_path('app/'.$path));
+        Excel::import(new SalesTransactionCountImport($branch->branchID), storage_path('app/'.$path));
 
         return redirect()->route('branches.index')->with('success', 'Branches imported successfully!');
     }
@@ -183,8 +189,10 @@ class BranchController extends Controller
 
         $path = $request->file('file')->store('temp');
 
+        $branch = Branch::find($request->branch);
+
         // Import the data
-        Excel::import(new DailySalesTransactionImport(), storage_path('app/'.$path));
+        Excel::import(new DailySalesTransactionImport($branch->branchID), storage_path('app/'.$path));
 
         return redirect()->route('branches.index')->with('success', 'Branches imported successfully!');
     }
@@ -198,8 +206,10 @@ class BranchController extends Controller
 
         $path = $request->file('file')->store('temp');
 
+        $branch = Branch::find($request->branch);
+
         // Import the data
-        Excel::import(new SalesTransactionImport(), storage_path('app/'.$path));
+        Excel::import(new SalesTransactionImport($branch->branchID), storage_path('app/'.$path));
 
         return redirect()->route('branches.index')->with('success', 'Branches imported successfully!');
     }
@@ -213,8 +223,10 @@ class BranchController extends Controller
 
         $path = $request->file('file')->store('temp');
 
+        $branch = Branch::find($request->branch);
+
         // Import the data
-        Excel::import(new SalesTransactionJournalImport(), storage_path('app/'.$path));
+        Excel::import(new SalesTransactionJournalImport($branch->branchID), storage_path('app/'.$path));
 
         return redirect()->route('branches.index')->with('success', 'Branches imported successfully!');
     }

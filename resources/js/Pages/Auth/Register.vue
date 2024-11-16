@@ -104,7 +104,7 @@ const submit = () => {
                             id="userContact"
                             type="text"
                             pattern="\d*"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, this.maxLength);"
+                            
                             class="mt-1 block w-[50%]"
                             v-model="form.userContact"
                             required

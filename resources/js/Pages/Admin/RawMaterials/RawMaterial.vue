@@ -90,7 +90,19 @@ function formatNumber(value) {
     return value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 </script>
+<style>
+    .striped {
+        border: 1px solid #ddd;
+    }
+    
+    .striped > tr:nth-child(odd) {
+        background: rgb(234, 235, 234);
+    }
 
+    .striped td > tr {
+        background: transparent; /* Ensure nested <tr> do not get the striped background */
+    }
+</style>
 <template>
     <Head title="Raw Materials" />
 
@@ -132,7 +144,7 @@ function formatNumber(value) {
 
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="striped">
                         <tr v-for="rawMaterial in rawmaterials" :key="rawMaterial.id">
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4 w-[25%]"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.rawMaterialName }}</span></td>
                             <td v-show="rawMaterial.supplierID===supplier.supplierID" class="px-6 py-4"><span v-show="rawMaterial.supplierID===supplier.supplierID">{{ rawMaterial.type }} x {{ rawMaterial.typeQuantity }}</span></td>
@@ -161,7 +173,7 @@ function formatNumber(value) {
                                 </button>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="background-color: transparent;">
                             <td colspan="4"></td>
                             <td class="px-6 py-4">Total</td>
                             <td class="px-6 py-4">{{ formatNumber(totalAmount(supplier.supplierID)) }}</td>

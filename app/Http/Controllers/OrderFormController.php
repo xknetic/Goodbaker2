@@ -20,7 +20,7 @@ class OrderFormController extends Controller
         //
         return Inertia::render('Client/OrderForm', [
             'orderform' => OrderForm::all(),
-            'products' => Product::with(['productprices', 'productcategories', 'ingredients', 'truckloaditems'])->get(),
+            'products' => Product::with(['productprices', 'productcategories', 'productingredients', 'truckloaditems'])->get(),
             'productcategories' => ProductCategory::all(),
         ]);
 

@@ -153,7 +153,7 @@ const addPurchase = () => {
 
                 <div>
                     <InputLabel for="purchaseDate" class="mb-2">Purchase Date</InputLabel>
-                    <TextInput class="mt-1 block w-[50%]" id="purchaseDate" type="text" v-model="form.purchaseDate" />
+                    <TextInput class="mt-1 block w-[50%]" id="purchaseDate" type="date" v-model="form.purchaseDate" />
                 </div>
 
                 <div class="relative">
@@ -167,7 +167,7 @@ const addPurchase = () => {
                     />
                     <InputError :message="form.errors.supplierID" />
 
-                    <ul id="selectsup" v-if="filteredSuppliers.length > 0" class="w-[50%] bg-white">
+                    <ul id="selectsup" v-if="filteredSuppliers.length > 0" class="w-[50%] bg-white max-h-60 overflow-auto">
                         <li 
                             v-for="supplier in filteredSuppliers" 
                             :key="supplier.supplierID" 
@@ -191,7 +191,7 @@ const addPurchase = () => {
                     />
                     <InputError :message="form.errors.supplierID" />
 
-                    <ul id="selectraw" v-if="filteredRawMaterials.length > 0" class="w-[50%] bg-white" >
+                    <ul id="selectraw" v-if="filteredRawMaterials.length > 0" class="w-[50%] bg-white max-h-60 overflow-auto" >
                         <li 
                             v-for="rawMaterial in filteredRawMaterials" 
                             :key="rawMaterial.rawMaterialID" 
@@ -226,7 +226,7 @@ const addPurchase = () => {
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs uppercase">
                             <tr>
-                                <th scope="col" class="px-6 py-3">SL.</th>
+                                <th scope="col" class="px-6 py-3">#</th>
                                 <th scope="col" class="px-6 py-3">Purchase Item</th>
                                 <th scope="col" class="px-6 py-3">Unit</th>
                                 <th scope="col" class="px-6 py-3">Quantity</th>

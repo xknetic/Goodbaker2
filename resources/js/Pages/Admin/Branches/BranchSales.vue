@@ -1,8 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
 
 const props = defineProps({
     branches: {
@@ -43,9 +45,6 @@ const props = defineProps({
 
 // State to track the selected category for the table
 const activeCategory = ref('sale');
-const currentPage = ref(1); // Track the current page
-const itemsPerPage = 10; // Define how many items per page
-
 
 // Method to change the active category
 const showCategory = (category) => {
@@ -53,23 +52,29 @@ const showCategory = (category) => {
     currentPage.value = 1; // Reset to first page whenever category changes
 };
 
-// Computed property to get the current page items
-const paginatedJournals = computed(() => {
-    const startIndex = (currentPage.value - 1) * itemsPerPage;
-    return props.journals.slice(startIndex, startIndex + itemsPerPage);
+const form = useForm({
+    file: null,
+    selectedRoute: '', // Track which import route to use
+    branch: props.branches.branchID
 });
 
-// Method to go to the next page
-const nextPage = () => {
-    if (currentPage.value * itemsPerPage < props.journals.length) {
-        currentPage.value++;
-    }
+// Handle file input change and assign the route based on selection
+const handleFileChange = (event, route) => {
+    form.file = event.target.files[0];
+    form.selectedRoute = route;
 };
 
-// Method to go to the previous page
-const prevPage = () => {
-    if (currentPage.value > 1) {
-        currentPage.value--;
+const submit = () => {
+    if (form.file && form.selectedRoute) {
+        const formData = new FormData();
+        formData.append('file', form.file);
+        form.post(route(form.selectedRoute), {
+            data: formData,
+            onFinish: () => {
+                form.file = null;
+                form.selectedRoute = '';
+            }
+        });
     }
 };
 </script>
@@ -86,7 +91,7 @@ const prevPage = () => {
             <div class="border-b border-gray-700 my-2 mb-5" />
 
             <!-- Bottom Table -->
-            <div class="overflow-x-auto max-w-full">
+            <div class="overflow-auto max-w-full">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-5">
                         <div>
@@ -130,34 +135,74 @@ const prevPage = () => {
                 <!-- Conditional Rendering of Tables Based on Active Category -->
                 <!-- Sale Transactions Table -->
                 <div v-if="activeCategory === 'sale'">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Terminal</th>
-                                <th scope="col" class="px-6 py-3">Username</th>
-                                <th scope="col" class="px-6 py-3">Transaction Date</th>
-                                <th scope="col" class="px-6 py-3">Transaction Number</th>
-                                <th scope="col" class="px-6 py-3">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(transaction, index) in salestransactions" :key="transaction.id">
-                                <td class="px-6 py-4">{{ index + 1 }}</td>
-                                <td class="px-6 py-4">{{ transaction.Terminal }}</td>
-                                <td class="px-6 py-4">{{ transaction.UserName }}</td>
-                                <td class="px-6 py-4">{{ transaction.TranDate }}</td>
-                                <td class="px-6 py-4">{{ transaction.TranNo }}</td>
-                                <td class="px-6 py-4">{{ transaction.Amount }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form @submit.prevent="submit"
+                        class="flex items-center"
+                    >
+                        <div class="mb-2">
+                            <InputLabel for="transactionsFile" class="mb-2">Sales Transaction CSV</InputLabel>
+                            <input type="file" id="transactionsFile" @change="event => handleFileChange(event, 'salestransactions.import')" accept=".csv" class="file-input" />
+                            <InputError :message="form.errors.file" />
+                        </div>
+
+                        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Import
+                        </PrimaryButton>
+                    </form>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
+                            <thead class="text-xs uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Terminal</th>
+                                    <th scope="col" class="px-6 py-3">Username</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Date</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Transaction Number</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(transaction, index) in salestransactions" :key="transaction.id">
+                                <tr v-if="branches.branchID === transaction.branch">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ transaction.Terminal }}</td>
+                                    <td class="px-6 py-4">{{ transaction.UserName }}</td>
+                                    <td class="px-6 py-4">{{ transaction.TranDate }}</td>
+                                    <td class="px-6 py-4">{{ transaction.TranNo }}</td>
+                                    <td class="px-6 py-4">{{ transaction.Amount }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Journal Table with Pagination -->
                 <div v-if="activeCategory === 'journals'">
-                    <div class="overflowx-x-auto max-w-[10vh]">
-                        <table class="text-sm text-left">
+                    <form @submit.prevent="submit"
+                        class="flex items-center"
+                    >
+                        <div class="mb-2">
+                            <InputLabel for="transactionJournalsFile" class="mb-2">Sales Transaction Journal CSV</InputLabel>
+                            <input type="file" id="transactionJournalsFile" @change="event => handleFileChange(event, 'salestransactionjournals.import')" accept=".csv" class="file-input" />
+                            <InputError :message="form.errors.file" />
+                        </div>
+
+                        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Import
+                        </PrimaryButton>
+                    </form>
+                    <div class="overflow-y-auto" style="max-height: 400px;">
+                        <table>
                             <thead class="text-xs uppercase">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
@@ -178,9 +223,9 @@ const prevPage = () => {
                                     <th scope="col" class="px-6 py-3">Net Amount</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="(journal, index) in paginatedJournals" :key="journal.id">
-                                    <td class="px-6 py-4">{{ (currentPage.value - 1) * itemsPerPage + index + 1 }}</td>
+                            <tbody v-for="(journal, index) in paginatedJournals" :key="journal.id">
+                                <tr v-if="branches.branchID === journal.branch">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
                                     <td class="px-6 py-4">{{ journal.StoreCode }}</td>
                                     <td class="px-6 py-4">{{ journal.SalesDate }}</td>
                                     <td class="px-6 py-4">{{ journal.CustomerName }}</td>
@@ -204,8 +249,21 @@ const prevPage = () => {
 
                 <!-- Daily Table with Pagination -->
                 <div v-if="activeCategory === 'dailysales'">
-                    <div class="overflowx-x-auto max-w-[10vh]">
-                        <table class="text-sm text-left">
+                    <form @submit.prevent="submit"
+                        class="flex items-center"
+                    >
+                        <div class="mb-2">
+                            <InputLabel for="dailyTransactionsFile" class="mb-2">Daily Sales Transaction CSV</InputLabel>
+                            <input type="file" id="dailyTransactionsFile" @change="event => handleFileChange(event, 'dailysalestransactions.import')" accept=".csv" class="file-input" />
+                            <InputError :message="form.errors.file" />
+                        </div>
+
+                        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Import
+                        </PrimaryButton>
+                    </form>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
                             <thead class="text-xs uppercase">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
@@ -232,9 +290,9 @@ const prevPage = () => {
                                     <th scope="col" class="px-6 py-3">VAT Non-VAT</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="(dailysale, index) in dailysales" :key="dailysale.id">
-                                    <td class="px-6 py-4">{{ (currentPage.value - 1) * itemsPerPage + index + 1 }}</td>
+                            <tbody v-for="(dailysale, index) in dailysales" :key="dailysale.id">
+                                <tr v-if="branches.branchID === dailysale.branch">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
                                     <td class="px-6 py-4">{{ dailysale.StoreName }}</td>
                                     <td class="px-6 py-4">{{ dailysale.LogDate }}</td>
                                     <td class="px-6 py-4">{{ dailysale.LogDay }}</td>
@@ -264,30 +322,58 @@ const prevPage = () => {
 
                 <!-- Transaction Counts Table with Pagination -->
                 <div v-if="activeCategory === 'counts'">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Terminal</th>
-                                <th scope="col" class="px-6 py-3">Amount</th>
-                                <th scope="col" class="px-6 py-3">Sales Count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(count, index) in counts" :key="count.id">
-                                <td class="px-6 py-4">{{ index + 1 }}</td>
-                                <td class="px-6 py-4">{{ count.Terminal }}</td>
-                                <td class="px-6 py-4">{{ count.Amount }}</td>
-                                <td class="px-6 py-4">{{ count.SalesCount }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form @submit.prevent="submit"
+                        class="flex items-center"
+                    >
+                        <div class="mb-2">
+                            <InputLabel for="transactionCountsFile" class="mb-2">Sales Transaction Counts CSV</InputLabel>
+                            <input type="file" id="transactionCountsFile" @change="event => handleFileChange(event, 'salestransactioncounts.import')" accept=".csv" class="file-input" />
+                            <InputError :message="form.errors.file" />
+                        </div>
+
+                        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Import
+                        </PrimaryButton>
+                    </form>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
+                            <thead class="text-xs uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Terminal</th>
+                                    <th scope="col" class="px-6 py-3">Amount</th>
+                                    <th scope="col" class="px-6 py-3">Sales Count</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(count, index) in counts" :key="count.id">
+                                <tr v-if="branches.branchID === count.branch">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ count.Terminal }}</td>
+                                    <td class="px-6 py-4">{{ count.Amount }}</td>
+                                    <td class="px-6 py-4">{{ count.SalesCount }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Guest Counts Table with Pagination -->
                 <div v-if="activeCategory === 'guestcounts'">
-                    <div class="overflowx-x-auto max-w-[10vh]">
-                        <table class="text-sm text-left">
+                    <form @submit.prevent="submit"
+                        class="flex items-center"
+                    >
+                        <div class="mb-2">
+                            <InputLabel for="guestCountsFile" class="mb-2">Guest Counts CSV</InputLabel>
+                            <input type="file" id="guestCountsFile" @change="event => handleFileChange(event, 'guestcounts.import')" accept=".csv" class="file-input" />
+                            <InputError :message="form.errors.file" />
+                        </div>
+
+                        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Import
+                        </PrimaryButton>
+                    </form>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
                             <thead class="text-xs uppercase">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">#</th>
@@ -306,8 +392,8 @@ const prevPage = () => {
                                     <th scope="col" class="px-6 py-3">Net Sales</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr v-for="(guestcount, index) in guestcounts" :key="guestcount.id">
+                            <tbody v-for="(guestcount, index) in guestcounts" :key="guestcount.id">
+                                <tr v-if="branches.branchID === guestcount.branch">
                                     <td class="px-6 py-4">{{ index + 1 }}</td>
                                     <td class="px-6 py-4">{{ guestcount.StoreName }}</td>
                                     <td class="px-6 py-4">{{ guestcount.Date }}</td>
@@ -328,35 +414,51 @@ const prevPage = () => {
                     </div>
                 </div>
 
+                <!-- Discount Charges Table -->
                 <div v-if="activeCategory === 'discountcharges'">
-                    <table class="w-full text-sm text-left">
-                        <thead class="text-xs uppercase">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">#</th>
-                                <th scope="col" class="px-6 py-3">Terminal</th>
-                                <th scope="col" class="px-6 py-3">UserName</th>
-                                <th scope="col" class="px-6 py-3">TranDate</th>
-                                <th scope="col" class="px-6 py-3">TranNo</th>
-                                <th scope="col" class="px-6 py-3">Discount</th>
-                                <th scope="col" class="px-6 py-3">Allowance</th>
-                                <th scope="col" class="px-6 py-3">Charge</th>
-                                <th scope="col" class="px-6 py-3">PesoCharge</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(discountcharge, index) in discountcharges" :key="discountcharge.id">
-                                <td class="px-6 py-4">{{ index + 1 }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Terminal }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.UserName }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.TranDate }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.TranNo }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Discount }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Allowance }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.Charge }}</td>
-                                <td class="px-6 py-4">{{ discountcharge.PesoCharge }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <form @submit.prevent="submit"
+                        class="flex items-center"
+                    >
+                        <div class="mb-2">
+                            <InputLabel for="discountChargesFile" class="mb-2">Sales Transaction Discount Charges CSV</InputLabel>
+                            <input type="file" id="discountChargesFile" @change="event => handleFileChange(event, 'salestransactiondiscountcharges.import')" accept=".csv" class="file-input" />
+                            <InputError :message="form.errors.file" />
+                        </div>
+
+                        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                            Import
+                        </PrimaryButton>
+                    </form>
+                    <div class="overflow-y-auto" style="max-height: 200px;">
+                        <table>
+                            <thead class="text-xs uppercase">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">#</th>
+                                    <th scope="col" class="px-6 py-3">Terminal</th>
+                                    <th scope="col" class="px-6 py-3">UserName</th>
+                                    <th scope="col" class="px-6 py-3">TranDate</th>
+                                    <th scope="col" class="px-6 py-3">TranNo</th>
+                                    <th scope="col" class="px-6 py-3">Discount</th>
+                                    <th scope="col" class="px-6 py-3">Allowance</th>
+                                    <th scope="col" class="px-6 py-3">Charge</th>
+                                    <th scope="col" class="px-6 py-3">PesoCharge</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(discountcharge, index) in discountcharges" :key="discountcharge.id">
+                                <tr v-if="branches.branchID === discountcharge.branch">
+                                    <td class="px-6 py-4">{{ index + 1 }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Terminal }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.UserName }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.TranDate }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.TranNo }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Discount }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Allowance }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.Charge }}</td>
+                                    <td class="px-6 py-4">{{ discountcharge.PesoCharge }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </article>

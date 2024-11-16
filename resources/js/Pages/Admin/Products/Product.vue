@@ -95,6 +95,18 @@ function selectProduct(product) {
         visibility: visible;
     }
 
+    .striped {
+        border: 1px solid #ddd;
+    }
+
+    .striped > tr:nth-child(odd) {
+        background: rgb(234, 235, 234);
+    }
+
+    .striped td > tr {
+        background: transparent; /* Ensure nested <tr> do not get the striped background */
+    }
+
 </style>
 
 <template>
@@ -151,7 +163,7 @@ function selectProduct(product) {
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="striped">
                         <!--       Variable         Model                 Variable     relationship -->
                         <tr v-for="product in categoryFilter" :key="product.id">
                             <td class="px-6 py-4">{{ product.productcategories.categoryName }}</td>

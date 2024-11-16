@@ -14,6 +14,12 @@ class SalesTransactionDiscountChargeImport implements ToModel, WithHeadingRow
      * 
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+    protected $branchID;
+
+    public function __construct($branchID)
+    {
+        $this->branchID = $branchID;
+    }
     public function model(array $row)
     {
         $tranDate = Carbon::createFromFormat('d-M-y H:i:s', trim($row['tran_date_time']))
@@ -29,6 +35,7 @@ class SalesTransactionDiscountChargeImport implements ToModel, WithHeadingRow
             'Allowance'    => $row['allowance'],
             'Charge'       => $row['charge'],
             'PesoCharge'   => $row['peso_charge'],
+            'branch' => $this->branchID,
         ]);
     }
 }

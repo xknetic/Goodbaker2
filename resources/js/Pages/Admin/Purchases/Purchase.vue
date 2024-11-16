@@ -32,6 +32,21 @@ function completePurchase(purchase) {
     });
 }
 </script>
+<style>
+.striped {
+    border: 1px solid #ddd;
+}
+
+.striped > tr:nth-child(odd) {
+    background: rgb(234, 235, 234);
+}
+
+.striped td > tr {
+    background: transparent; /* Ensure nested <tr> do not get the striped background */
+}
+
+</style>
+
 
 <template>
     <Head title="Purchases" />
@@ -62,8 +77,8 @@ function completePurchase(purchase) {
                             <th scope="col" class="px-6 py-3">Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="purchase in purchases" :key="purchase.id" class="border-t border-gray-700">
+                    <tbody class="striped">
+                        <tr v-for="purchase in purchases" :key="purchase.id">
                             <td class="px-6 py-4">{{ purchase.purchaseID }}</td>
                             <td class="px-6 py-4">{{ purchase.purchaseDate }}</td>
                             <td class="px-6 py-4">{{ purchase.suppliers.supplierName }}</td>
@@ -74,11 +89,6 @@ function completePurchase(purchase) {
                                         View More
                                     </PrimaryButton>
                                 </Link>
-                                <button v-show="purchase.status === 'Pending'" @click="completePurchase(purchase)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                                    </svg>
-                                </button>
                                 
                                 <!-- <button @click="destroy(product.id)" class="text-red-400 hover:text-red-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">

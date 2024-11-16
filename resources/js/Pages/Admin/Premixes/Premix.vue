@@ -87,7 +87,17 @@ function formatNumber(value) {
     #selectpre:hover {
         visibility: visible;
     }
+    .striped {
+        border: 1px solid #ddd;
+    }
 
+    .striped > tr:nth-child(odd) {
+        background: rgb(234, 235, 234);
+    }
+
+    .striped td > tr {
+        background: transparent; /* Ensure nested <tr> do not get the striped background */
+    }
 </style>
 
 <template>
@@ -97,7 +107,7 @@ function formatNumber(value) {
         <article class="min-h-full p-5 bg-white rounded-lg flex flex-col">
             <!-- Top -->
             <div class="flex justify-between items-center">
-                <h3 class="font-bold">Premixes</h3>
+               <h3 class="font-bold">Premixes</h3>
                 <div class="flex gap-5">
                     <PrimaryButton @click.prevent="showModal = true" class="p-2">
                         Replenish
@@ -125,7 +135,7 @@ function formatNumber(value) {
                             <th scope="col" class="px-6 py-3">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="striped">
                         <tr v-for="premix in premixes" :key="premix.id">
                             <td class="px-6 py-4">{{ premix.premixName }}</td>
                             <td class="px-6 py-4">{{ premix.size }}</td>

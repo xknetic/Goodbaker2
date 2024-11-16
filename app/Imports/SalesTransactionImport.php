@@ -14,6 +14,13 @@ class SalesTransactionImport implements ToModel, WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+    protected $branchID;
+
+    // Constructor to accept branchID
+    public function __construct($branchID)
+    {
+        $this->branchID = $branchID;
+    }
     public function model(array $row)
     {
 
@@ -27,6 +34,7 @@ class SalesTransactionImport implements ToModel, WithHeadingRow
             'TranDate'   => $date,
             'TranNo'     => $row['tran_no'],
             'Amount'     => $row['amount'],
+            'branch' => $this->branchID,
         ]);
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('purchaseID');
             $table->unsignedBigInteger('rawMaterialID');
             $table->integer('quantity');
+            $table->integer('quantityReceived')->default(0);
             $table->unsignedBigInteger('unit');
 
             $table->foreign('purchaseID')->references('purchaseID')->on('purchases')->onDelete('cascade');

@@ -63,7 +63,6 @@ const submit = () => {
 
                 <div class="border-b border-gray-700 my-5" />
 
-                <!-- Form Fields with individual route assignments -->
                 <div class="mb-2">
                     <InputLabel for="discountChargesFile" class="mb-2">Sales Transaction Discount Charges CSV</InputLabel>
                     <input type="file" id="discountChargesFile" @change="event => handleFileChange(event, 'salestransactiondiscountcharges.import')" accept=".csv" class="file-input" />

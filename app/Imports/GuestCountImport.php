@@ -14,6 +14,13 @@ class GuestCountImport implements ToModel, WithHeadingRow
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+    protected $branchID;
+
+    // Constructor to accept branchID
+    public function __construct($branchID)
+    {
+        $this->branchID = $branchID;
+    }
     public function model(array $row)
     {
         // // Convert the date to the correct format
@@ -38,6 +45,7 @@ class GuestCountImport implements ToModel, WithHeadingRow
             'PWDDiscount'      => $row['pwd_discount'],
             'VatExempt'        => $row['vat_exempt'],
             'NetAmount'        => $row['net_amount'],
+            'branch' => $this->branchID,
         ]);
     }
 }

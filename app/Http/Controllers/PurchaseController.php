@@ -70,7 +70,7 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
          //
-         $purchase->load(['purchaseitems.rawmaterials', 'purchaseitems.rawmaterialunits']);
+         $purchase->load(['purchaseitems.rawmaterials', 'purchaseitems.rawmaterialunits', 'suppliers']);
 
          return Inertia::render('Admin/Purchases/PurchaseViewMore', [
             'purchases' => $purchase,
@@ -89,33 +89,52 @@ class PurchaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Purchase $purchase)
+    public function update(Request $request, $purchaseID)
     {
         //
+        $purchase = Purchase::with(['purchaseitems'])->find($purchaseID);
+        if(!$purchase){
+            return response()->json(['error' => 'undefined']);
+        }
+        $purchase->update($request->only([
+            'status',
+            'remarks',
+        ]));
+
+        if (($request->status == 'Completed') || ($request->status == 'Incomplete')) {
+            foreach ($request->received as $key => $item) {
+                $purchase = PurchaseItem::where('purchaseItemID', $key)->first();
+                $raw = $purchase->rawMaterialID;
+                PurchaseItem::where('purchaseItemID', $key)
+                    ->update(['quantityReceived' => $item['quantityReceived']]);
+                RawMaterialUnit::where('rawMaterial', $raw)->first()
+                    ->increment('stock', $item['quantityReceived']-$purchase->quantityReceived);
+            }
+        }
     }
 
-    public function complete(Request $request)
-    {
-    $purchase = Purchase::with('purchaseitems')->find($request->purchaseID);
+    // public function complete(Request $request)
+    // {
+    // $purchase = Purchase::with('purchaseitems')->find($request->purchaseID);
 
-    if (!$purchase) {
-        return back()->withErrors(['message' => 'Purchase not found.']);
-    }
+    // if (!$purchase) {
+    //     return back()->withErrors(['message' => 'Purchase not found.']);
+    // }
 
-    // Add each item from purchase items to the raw material table
-    foreach ($purchase->purchaseitems as $item) {
-        RawMaterialUnit::where('rawMaterial', $item->rawMaterialID)
-            ->where('rawMaterialUnitID', $item->unit)
-            ->increment('stock', $item->quantity);
+    // // Add each item from purchase items to the raw material table
+    // foreach ($purchase->purchaseitems as $item) {
+    //     RawMaterialUnit::where('rawMaterial', $item->rawMaterialID)
+    //         ->where('rawMaterialUnitID', $item->unit)
+    //         ->increment('stock', $item->quantity);
 
-    }
+    // }
 
-    Purchase::where('purchaseID', $request->purchaseID)
-        ->update(['status' => 'Completed']);
+    // Purchase::where('purchaseID', $request->purchaseID)
+    //     ->update(['status' => 'Completed']);
     
 
-    return back()->with('success', 'Purchase completed successfully.');
-    }
+    // return back()->with('success', 'Purchase completed successfully.');
+    // }
 
     /**
      * Remove the specified resource from storage.

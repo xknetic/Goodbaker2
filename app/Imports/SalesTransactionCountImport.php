@@ -13,12 +13,20 @@ class SalesTransactionCountImport implements ToModel,  WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+    protected $branchID;
+
+    // Constructor to accept branchID
+    public function __construct($branchID)
+    {
+        $this->branchID = $branchID;
+    }
     public function model(array $row)
     {
         return new SalesTransactionCount([
             'Terminal' => $row['terminal'],
             'Amount' => $row['amount'],
             'SalesCount' => $row['count'],
+            'branch' => $this->branchID,
         ]);
     }
 }
