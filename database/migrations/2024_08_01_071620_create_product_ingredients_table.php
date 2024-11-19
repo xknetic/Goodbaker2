@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_ingredients', function (Blueprint $table) {
             $table->id('productIngredientID');
             $table->integer('quantity');
-            $table->string('unit',10);
+            $table->string('unit',10)->nullable();
             $table->unsignedBigInteger('product');
             $table->unsignedBigInteger('rawMaterial')->nullable();
             $table->unsignedBigInteger('premix')->nullable();

@@ -79,22 +79,22 @@ class ProductController extends Controller
             ProductIngredient::create([
                 'product' => $product->productID,
                 'quantity' => $ingredientData['quantity'],
-                'rawMaterial' => $ingredientData['rawMaterial'],
+                // 'rawMaterial' => $ingredientData['rawMaterial'],
                 'premix' => $ingredientData['premix'],
             ]);
 
             // Deduct the ingredient quantity from raw materials
-            $rawMaterial = RawMaterial::find($ingredientData['rawMaterial']); // Ensure this is the correct model name
-            if ($rawMaterial) {
-                $rawMaterial->quantity -= $ingredientData['quantity']; // Subtracting the quantity
-                $rawMaterial->save(); // Save the adjusted quantity back to the database
-            }
+            // $rawMaterial = RawMaterial::find($ingredientData['rawMaterial']); // Ensure this is the correct model name
+            // if ($rawMaterial) {
+            //     $rawMaterial->quantity -= $ingredientData['quantity']; // Subtracting the quantity
+            //     $rawMaterial->save(); // Save the adjusted quantity back to the database
+            // }
 
-            $premix = PremixIngredient::find($ingredientData['premix']);
-            if ($premix) {
-                $premix->quantity -= $ingredientData['quantity'];
-                $premix->save();
-            }
+            // $premix = PremixIngredient::find($ingredientData['premix']);
+            // if ($premix) {
+            //     $premix->quantity -= $ingredientData['quantity'];
+            //     $premix->save();
+            // }
         }
 
         return Redirect::route('products.index');
@@ -140,17 +140,17 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load(['productingredients.premixes']);
         $productPrice = ProductPrice::where('product', $product->productID)->first();
         return Inertia::render('Admin/Products/EditProduct', [
             'product' => $product,
             'areas' => Area::all(),
             'productPrices' => $productPrice ? $productPrice->price : null,
             'area' => $productPrice ? $productPrice->area : null,
-            'productIngredients' => ProductIngredient::all(),
+            'productingredients' => $product->productingredients,
             'rawmaterials' => RawMaterial::all(),
             'premixes' => Premix::all(),
             'productcategories' => ProductCategory::all(),
-            'productingredients' => ProductIngredient::with('premixes', 'rawMaterial')->get(),
             
         ]);
     }

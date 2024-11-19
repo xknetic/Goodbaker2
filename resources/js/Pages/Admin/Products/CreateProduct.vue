@@ -250,7 +250,7 @@ function disable() {
                             />
                             <InputError :message="form.errors.supplierID" />
 
-                            <ul id="selectpre" v-if="filteredPremixes.length > 0" class="w-[100%] bg-white" >
+                            <ul id="selectpre" v-if="filteredPremixes.length > 0" class="w-[100%] bg-white max-h-60 overflow-auto" >
                                 <li 
                                     v-for="premix in filteredPremixes" 
                                     :key="premix.id" 
@@ -262,7 +262,7 @@ function disable() {
                             </ul>
                         </div>
 
-                        <div class="relative">
+                        <!-- <div class="relative">
                             <TextInput id="typeraw"
                                 type="text"
                                 v-model="searchRawMaterials" 
@@ -283,7 +283,7 @@ function disable() {
                                     {{ rawMaterial.rawMaterialName }}
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
 
                         <TextInput v-model="newIngredient.quantity" class="mt-1 block w-[20%]" type="text" placeholder="Quantity" />
                         <PrimaryButton @click.prevent="addIngredients" class="px-5">
@@ -294,7 +294,7 @@ function disable() {
                     <table class="w-[50%] text-sm text-left">
                         <thead class="text-xs uppercase">
                             <tr>
-                                <th scope="col" class="px-6 py-3">Premix / Raw Material</th>
+                                <th scope="col" class="px-6 py-3">Premix</th>
                                 <th scope="col" class="px-6 py-3">Quantity</th>
                                 <th scope="col" class="px-6 py-3">Action</th>
                             </tr>

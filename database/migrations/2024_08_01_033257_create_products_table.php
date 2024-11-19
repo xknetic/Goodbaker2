@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('productID');
             $table->unsignedBigInteger('productCategory');
             $table->string('productName', 50);
-            $table->string('productCode', 50);
+            $table->string('productCode', 50)->nullable();
             $table->string('unit', 25);
             $table->integer('quantity');
             $table->integer('criticalLevel')->nullable();
