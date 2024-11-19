@@ -38,7 +38,7 @@ class ProductSeeder extends Seeder
         [   
             'productCode' => '00166',
             'productCategory' => '1',
-            'productName' => 'Coco Nuggets',
+            'productName' => 'Coco Nuggets (Pack)',
             'unit' => 'Pack x30',
             'quantity' => '10',
         ],
@@ -49,7 +49,7 @@ class ProductSeeder extends Seeder
             'productCategory' => '1',
             'productName' => 'Coco Nuggets',
             'unit' => 'Piece',
-            'quantity' => '89',
+            'quantity' => '30',
         ],
 
         [
@@ -163,7 +163,7 @@ class ProductSeeder extends Seeder
             'productCategory' => '1',
             'productName' => 'Spanish Bread',
             'unit' => 'Pack x5',
-            'quantity'=> '20',
+            'quantity'=> '11',
         ],
 
         [
@@ -171,7 +171,7 @@ class ProductSeeder extends Seeder
             'productCategory' => '1',
             'productName' => 'Spanish Bread (Choco)',
             'unit' => 'Pack x5',
-            'quantity'=> '19',
+            'quantity'=> '11',
         ],
 
         [
@@ -179,7 +179,7 @@ class ProductSeeder extends Seeder
             'productCategory' => '1',
             'productName' => 'Spanish Bread (Ube)',
             'unit' => 'Pack x5',
-            'quantity'=> '21',
+            'quantity'=> '11',
         ],
 
         [
@@ -239,6 +239,100 @@ class ProductSeeder extends Seeder
         ],
 
         //cake
+        //6 round
+        [
+            'productCode' => '6RNDC',
+            'productCategory' => '2',
+            'productName' => 'Choco Marble (6-round)' ,
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+        [
+            'productCode' => '00175',
+            'productCategory' => '2',
+            'productName' => 'Choco Caramel (6-round)' ,
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+        [
+            'productCode' => '00173',
+            'productCategory' => '2',
+            'productName' => ' Choco Moist (6-round)',
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+        [
+            'productCode' => '00161',
+            'productCategory' => '2',
+            'productName' => ' Regular Choco (6-round)',
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+        [
+            'productCode' => '00159',
+            'productCategory' => '2',
+            'productName' => ' Regular Mocha (6-round)',
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+    
+        [
+            'productCode' => '00160',
+            'productCategory' => '2',
+            'productName' => ' Regular Vanilla (6-round)',
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+        [
+            'productCode' => '6RNDS',
+            'productCategory' => '2',
+            'productName' => ' Regular Strawberry (6-round)',
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+    
+        //8 round
+        
+        [
+            'productCode' => '8RNDMOIST',
+            'productCategory' => '2',
+            'productName' => ' Choco Moist (8-round)',
+            'unit' => 'Piece',
+            'quantity'=> '1',
+        ],
+    
+        //Pastries
+        [
+            'productCode' => 'EGGPIE',
+            'productCategory' => '3',
+            'productName' => ' Egg Pie',
+            'unit' => 'Piece',
+            'quantity'=> '2',
+        ],
+
+        //Pasalubong
+        [
+            'productCode' => 'MERINGUEC',
+            'productCategory' => '4',
+            'productName' => ' Meringue Cookies (Pack)',
+            'unit' => 'Piece',
+            'quantity'=> '5',
+        ],
+
+        //Hotbakes
+        [
+            'productCode' => 'HOPIAUBE',
+            'productCategory' => '5',
+            'productName' => ' Hopia Ube (Pack)',
+            'unit' => 'Piece',
+            'quantity'=> '4',
+        ],
     ];
     
     public function run(): void

@@ -138,42 +138,42 @@ class ProductIngredientSeeder extends Seeder
         ],
 
         [            
-            'quantity' => '18',
+            'quantity' => '10',
             'unit' => 'kgs',
             'product' => '19',
             'premix' => '14',
         ],
 
         [            
-            'quantity' => '21',
+            'quantity' => '8',
             'unit' => 'kgs',
             'product' => '19',
             'premix' => '15',
         ],
 
         [            
-            'quantity' => '42',
+            'quantity' => '10',
             'unit' => 'kgs',
             'product' => '20',
             'premix' => '14',
         ],
 
         [            
-            'quantity' => '20',
+            'quantity' => '8',
             'unit' => 'kgs',
             'product' => '20',
             'premix' => '16',
         ],
 
         [            
-            'quantity' => '20',
+            'quantity' => '10',
             'unit' => 'kgs',
             'product' => '21',
             'premix' => '14',
         ],
 
         [            
-            'quantity' => '24',
+            'quantity' => '8',
             'unit' => 'kgs',
             'product' => '21',
             'premix' => '17',
@@ -226,7 +226,88 @@ class ProductIngredientSeeder extends Seeder
             'unit' => 'kgs',
             'product' => '28',
             'premix' => '21',
-        ],            
+        ],
+
+        //cakes
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '29',
+            'premix' => '22',
+        ],
+
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '30',
+            'premix' => '30',
+        ],
+
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '31',
+            'premix' => '22',
+        ],
+
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '32',
+            'premix' => '22',
+        ],
+
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '33',
+            'premix' => '31',
+        ],
+
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '34',
+            'premix' => '25',
+        ],
+
+
+        [            
+            'quantity' => '2',
+            'unit' => 'kgs',
+            'product' => '35',
+            'premix' => '27',
+        ],
+
+
+        [            
+            'quantity' => '1',
+            'unit' => 'kg',
+            'product' => '36',
+            'premix' => '22',
+        ],
+       
+        //pastries
+        [            
+            'quantity' => '1',
+            'unit' => 'kg',
+            'product' => '37',
+            'premix' => '32',
+        ],
+        //pasalubong
+        [            
+            'quantity' => '1',
+            'unit' => 'kg',
+            'product' => '38',
+            'premix' => '33',
+        ],
+        //hotbakes
+        [            
+            'quantity' => '1',
+            'unit' => 'kg',
+            'product' => '39',
+            'premix' => '34',
+        ],  
     ];
     public function run(): void
     {

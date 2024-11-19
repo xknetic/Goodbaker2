@@ -16,6 +16,8 @@ class RunSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             AdminSeeder::class,
+            AgentSeeder::class,
+            BranchUserSeeder::class,
             AreaSeeder::class,
             BranchSeeder::class,
             SupplierSeeder::class,

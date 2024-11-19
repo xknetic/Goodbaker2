@@ -49,6 +49,7 @@ class RawMaterialController extends Controller
             'quantity' => 'required|integer',
             'type' => 'required|string|max:25',
             'typeQuantity' => 'required|integer',
+            'criticalLevel' => 'required|integer',
             'supplierID' => 'required|exists:suppliers,supplierID',
         ]);
     
@@ -60,6 +61,7 @@ class RawMaterialController extends Controller
             'unit',
             'price',
             'quantity',
+            'criticalLevel',
             'supplierID'
         ]));
 

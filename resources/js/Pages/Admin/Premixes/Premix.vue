@@ -121,7 +121,7 @@ function formatNumber(value) {
                         Replenish
                     </PrimaryButton>
 
-                    <Link :href="route('premixes.create')" class="btn btn-primary">
+                    <Link :href="route('premixes.create')" class="btn btn-primary hidden">
                         <PrimaryButton class="p-2">
                             Create
                         </PrimaryButton>

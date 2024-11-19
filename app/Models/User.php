@@ -26,6 +26,7 @@ class User extends Authenticatable
         'name',
         'userName',
         'email',
+        'branch',
         'password',
         'userContact',
         'creationDate'

@@ -1225,6 +1225,21 @@ class RawMaterialUnitSeeder extends Seeder
             'unit' => 'kg',
             'price' => '75.90',
             'stock' => '0'
+        ],
+
+        //rm90
+        [
+            'rawMaterial' => '90',
+            'unit' => 'kgs',
+            'price' => '1300.60',
+            'stock' => '100'
+        ],
+
+        [
+            'rawMaterial' => '90',
+            'unit' => 'kg',
+            'price' => '65.00',
+            'stock' => '0'
         ]
     ];
 

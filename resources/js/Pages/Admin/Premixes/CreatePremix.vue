@@ -19,6 +19,7 @@ const form = useForm({
     category: '',
     size: '',
     quantity: '',
+    criticalLevel: '',
     cost: '',
     ingredients: [],
 });
@@ -119,6 +120,12 @@ const removeIngredient = (index) => {
                     <InputLabel for="cost" class="mb-2">Cost</InputLabel>
                     <TextInput class="mt-1 block w-[50%]" id="cost" type="text" v-model="form.cost" required />
                     <InputError :message="form.errors.cost" />
+                </div>
+
+                <div>
+                    <InputLabel for="criticalLevel" class="mb-2">Critical Level</InputLabel>
+                    <TextInput class="mt-1 block w-[50%]" id="criticalLevel" type="text" v-model="form.criticalLevel" />
+                    <InputError :message="form.errors.criticalLevel" />
                 </div>
             </form>
                 <!-- Bottom Table for Ingredients -->

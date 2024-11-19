@@ -111,28 +111,28 @@ class PremixSeeder extends Seeder
         [
             'premixName' => 'Spanish Bread Premix',
             'size' => 'Kgs',
-            'quantity' => '24',
+            'quantity' => '40',
             'cost' => '120.03'
         ],
 
         [    
             'premixName' => 'Spanish Filling Premix',
             'size' => 'Kgs',
-            'quantity' => '15',
+            'quantity' => '17',
             'cost' => '248.15'
         ],
 
         [
             'premixName' => 'Spanish Filling (Choco) Premix',
             'size' => 'Kgs',
-            'quantity' => '15',
+            'quantity' => '16',
             'cost' => '128.00'
         ],
 
         [
             'premixName' => 'Spanish Filling (Ube) Premix',
             'size' => 'Kgs',
-            'quantity' => '16',
+            'quantity' => '17',
             'cost' => '128.00'
         ],
 
@@ -163,7 +163,101 @@ class PremixSeeder extends Seeder
             'quantity' => '20',
             'cost' => '268.11'
         ],
+
         
+        //Chocolate Cake Premix = 36 kgs 22
+        [  
+            'premixName' => 'Chocolate Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+        //Chocolate Marble Premix = 25 kgs 23
+        [  
+            'premixName' => '//Chocolate Marble Premix',
+            'size' => 'Kgs',
+            'quantity' => '25',
+            'cost' => '242.00'
+        ],
+        //Ube Cake Premix = 36 kgs 24
+        [  
+            'premixName' => 'Ube Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+        //Vanilla Cake Premix = 36 kgs 25
+        [  
+            'premixName' => 'Vanilla Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+        //Yema Cake Premix = 36 kgs 26
+        [  
+            'premixName' => 'Yema Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+        //Strawberry Shortcake Cake Premix – 36kg 27
+        [  
+            'premixName' => 'Strawberry Shortcake Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+        //Chiffon Cake – 20kg 28
+        [  
+            'premixName' => 'Chiffon Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '20',
+            'cost' => '242.00'
+        ],
+        //Choco Chiffon Cake – 20kg 29
+        [  
+            'premixName' => 'Choco Chiffon Cake',
+            'size' => 'Kgs',
+            'quantity' => '20',
+            'cost' => '242.00'
+        ],
+        //Choco Caramel Cake Premix – 36kg 30
+        [  
+            'premixName' => 'Choco Caramel Cake',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+        //Mocha Cake Premix – 36 kgs 31
+        [  
+            'premixName' => 'Mocha Cake Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '242.00'
+        ],
+
+        //pastries
+        [  
+            'premixName' => 'Egg Pie Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '123.41'
+        ],
+        //pasalubong
+        [  
+            'premixName' => 'Meringue Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '115.00'
+        ],
+        //hotbakes
+        [  
+            'premixName' => 'Hopia Ube Premix',
+            'size' => 'Kgs',
+            'quantity' => '36',
+            'cost' => '208.00'
+        ],
+
     ];
     /**
      * Run the database seeds.

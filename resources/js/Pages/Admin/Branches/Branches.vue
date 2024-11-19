@@ -31,12 +31,14 @@ const options = props.branches.map(branch => ({
             <!-- Top -->
             <div class="flex justify-between items-center">
                 <h3 class="font-bold"> Branch </h3>
-                <div class="flex gap-2">
-                    <Link :href="route('branches.csvimports')" class="btn btn-primary">
+                <div class="flex gap-2"
+                    v-if="$page.props.user.branch === null"
+                >
+                    <!-- <Link :href="route('branches.csvimports')" class="btn btn-primary">
                         <PrimaryButton>
                             Import CSV
                         </PrimaryButton>
-                    </Link>
+                    </Link> -->
                     <Link :href="route('branches.create')" class="btn btn-primary">
                         <PrimaryButton>
                             Create
@@ -70,8 +72,8 @@ const options = props.branches.map(branch => ({
                             <th scope="col" class="px-6 py-3">View Branch</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="branch in otherBranches" :key="branch.id">
+                    <tbody v-for="branch in otherBranches" :key="branch.id">
+                        <tr v-if="$page.props.user.branch === branch.branchName || $page.props.user.branch === null">
                             <td class="px-6 py-4"> {{ branch.branchName }}</td>
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>

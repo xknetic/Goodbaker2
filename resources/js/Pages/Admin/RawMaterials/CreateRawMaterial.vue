@@ -22,6 +22,7 @@ const form = useForm({
     typeQuantity: '',
     price: '',
     quantity: '',
+    criticalLevel: '',
     supplierID: '',
 });
 
@@ -136,6 +137,12 @@ function selectSupplier(supplier) {
                         <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
                         <TextInput class="mt-1 block w-[50%]" id="quantity" type="text" v-model="form.quantity" required />
                         <InputError :message="form.errors.quantity" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="criticalLevel" class="mb-2">Critical Level</InputLabel>
+                        <TextInput class="mt-1 block w-[50%]" id="criticalLevel" type="text" v-model="form.criticalLevel" />
+                        <InputError :message="form.errors.criticalLevel" />
                     </div>
 
                     <!-- <div>

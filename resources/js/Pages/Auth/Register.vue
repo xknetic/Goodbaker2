@@ -24,6 +24,7 @@ const form = useForm({
     password_confirmation: '',
     userContact: '',
     role: '',
+    branch: '',
     creationDate: currentDate()
 });
 
@@ -138,6 +139,22 @@ const submit = () => {
                             <option value="agent">Agent</option>
                         </select>
                         <InputError class="mt-2" :message="form.errors.role" />
+                    </div>
+
+                    <div class="mt-2">
+                        <InputLabel for="branch" value="Branch" />
+                        <select
+                            id="branch"
+                            class="mt-1 block w-[50%] border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            v-model="form.branch"
+                            required
+                        >
+                            <option value="" disabled>Select a role</option>
+                            <option value="Mabini">Mabini</option>
+                            <option value="City Camp">City Camp</option>
+                            <option value="Rosario">Rosario</option>
+                        </select>
+                        <InputError class="mt-2" :message="form.errors.branch" />
                     </div>
 
                     <div class="mt-2">

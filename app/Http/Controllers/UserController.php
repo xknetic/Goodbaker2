@@ -43,6 +43,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'userName' => 'required|string|max:50',
+            'branch' => 'required|string|max:50',
             'userContact' => 'required|string|size:11',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -54,6 +55,7 @@ class UserController extends Controller
             'creationDate' => now(),
             'name' => $request->name,
             'userName' => $request->userName,
+            'branch' => $request->branch,
             'userContact' => $request->userContact,
             'email' => $request->email,
             'password' => Hash::make($request->password),

@@ -120,7 +120,7 @@ function formatNumber(value) {
                             Export
                         </PrimaryButton>
                     </a>
-                    <Link :href="route('rawmaterials.create')" class="btn btn-primary">
+                    <Link :href="route('rawmaterials.create')" class="btn btn-primary hidden">
                         <PrimaryButton class="p-2">
                             Create
                         </PrimaryButton>

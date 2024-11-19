@@ -25,6 +25,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 50);
             $table->string('userName', 50);
+            $table->string('branch', 50)->nullable();
             $table->string('password');
             $table->string('userContact', 25);
             $table->string('email')->unique();
@@ -32,7 +33,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->string('file_path')->nullable();
         });
     }
 

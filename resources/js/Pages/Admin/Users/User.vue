@@ -27,7 +27,7 @@ function destroy(id) {
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">User List</h3>
                 <Link :href="route('users.create')" class="btn btn-primary">
-                    <PrimaryButton class="p-2">Create</PrimaryButton>
+                    <PrimaryButton class="p-2"> Create </PrimaryButton>
                 </Link>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />

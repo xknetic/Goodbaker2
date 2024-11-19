@@ -10,29 +10,29 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class ProductCategorySeeder extends Seeder
 {
     protected $product_categories = [
-        [
+        [//1
             'categoryName' => "Bread"
         ],
 
-        [
+        [//2
             'categoryName' => "Cakes"
         ],
 
-        [
+        [//3
             'categoryName' => "Pastries"
         ],
 
-        [
+        [//4
             'categoryName' => "Pasalubong"
         ],
 
-        [
+        [//5
             'categoryName' => "Hotbakes"
         ],
 
-        [
-            'categoryName' => "Loaves"
-        ],
+       
+
+
         
     ];
 

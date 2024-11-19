@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('rawMaterialName', 50);
             $table->string('type', 25);
             $table->string('typeQuantity', 25);
+            $table->integer('criticalLevel')->nullable();
             $table->unsignedBigInteger('supplierID');
 
             $table->foreign('supplierID')->references('supplierID')->on('suppliers')->onDelete('cascade');

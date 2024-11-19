@@ -90,7 +90,7 @@ class RawMaterialSeeder extends Seeder
         
         [
             //rm 10
-            'rawMaterialName' => 'V-Ester SSL-S150',
+            'rawMaterialName' => 'V-Elster SSL-S150',
             'type' => 'Box',
             'typeQuantity' => '25',
             'supplierID' => '2'
@@ -735,13 +735,14 @@ class RawMaterialSeeder extends Seeder
             'typeQuantity' => '25',
             'supplierID' => '23'
         ],
-
+        
+        //extra
         [
             //rm 88
             'rawMaterialName' => "Cream of Tartar",
             'type' => 'Pack',
             'typeQuantity' => '20',
-            'supplierID' => '23'
+            'supplierID' => '2'
         ],
 
         [
@@ -750,6 +751,14 @@ class RawMaterialSeeder extends Seeder
             'type' => 'Pack',
             'typeQuantity' => '14',
             'supplierID' => '23'
+        ],
+
+        [
+            //rm 90
+            'rawMaterialName' => "Apito Yema Paste",
+            'type' => 'Pack',
+            'typeQuantity' => '20',
+            'supplierID' => '4'
         ],
 
 

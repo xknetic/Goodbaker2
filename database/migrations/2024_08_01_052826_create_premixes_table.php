@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('category', 25)->nullable();
             $table->string('size', 25)->nullable();
             $table->integer('quantity')->nullable();
+            $table->integer('criticalLevel')->nullable();
             $table->float('cost');
         });
     }

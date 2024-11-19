@@ -49,6 +49,7 @@ class PremixController extends Controller
             'size' => 'required|string|max:25',
             'quantity' => 'required|integer',
             'cost' => 'required|numeric',
+            'criticalLevel' => 'required|integer',
             'ingredients' => 'required|array',
         ]);
 
@@ -57,6 +58,7 @@ class PremixController extends Controller
             'category',
             'size',
             'quantity',
+            'criticalLevel',
             'cost',
         ]));
 

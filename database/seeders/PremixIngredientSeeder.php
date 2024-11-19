@@ -1327,7 +1327,781 @@ class PremixIngredientSeeder extends Seeder
             'rawMaterial'=> '12',//ube
             'premix'=> '21'
         ],
+
+       //Chocolate Cake Premix = 36 kgs
+       [
+        'unitQuantity' => '2',
+        'unit' => 'kgs',
+        'variance' => '0.01',
+        'rawMaterial' => '80',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '2',
+        'unit' => 'kg',
+        'variance' => '0.01',
+        'rawMaterial' => '33',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '500',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '13',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '300',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '26',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '250',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '9',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '100',
+        'unit' => 'pcs',
+        'variance' => '0.01',
+        'rawMaterial' => '46',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '7',
+        'unit' => 'kgs',
+        'variance' => '0.01',
+        'rawMaterial' => '49',
+        'premix' => '22',
+    ],
+
+    [
+        'unitQuantity' => '5',
+        'unit' => 'kgs',
+        'variance' => '0.01',
+        'rawMaterial' => '62',
+        'premix' => '22',
+    ],
+
+//Chocolate Marble Premix = 25 kgs
+    [//butter
+        'unitQuantity' => '400',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '58',
+        'premix' => '23'
+    ],
+
+     [//powdered sugar
+        'unitQuantity' => '25',
+        'unit' => 'pcs',
+        'variance' => '0.01',
+        'rawMaterial' => '28',
+        'premix' => '23'
+    ],
+
+    [//eggs
+        'unitQuantity' => '25',
+        'unit' => 'pcs',
+        'variance' => '0.01',
+        'rawMaterial' => '47',
+        'premix' => '23'
+    ],
+
+    [//flour
+        'unitQuantity' => '500',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '77',
+        'premix' => '23'
+    ],
+
+    [//evap milk
+        'unitQuantity' => '200',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '63',
+        'premix' => '23'
+    ],
+
+    [//vanilla ext
+        'unitQuantity' => '25',
+        'unit' => 'pcs',
+        'variance' => '0.01',
+        'rawMaterial' => '35',
+        'premix' => '23'
+    ],
+
+    [//cocoa
+        'unitQuantity' => '200',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '72',
+        'premix' => '23'
+    ],
+
+
+//Ube Cake Premix = 36 kgs
+
+    [//flour
+        'unitQuantity' => '2',
+        'unit' =>'kgs',
+        'variance' => '0.01',
+        'rawMaterial' => '80',
+        'premix' => '24'
+    ],
+
+    [//sugar
+        'unitQuantity' => '2',
+        'unit' => 'kgs',
+        'variance' => '0.01',
+        'rawMaterial' => '33',
+        'premix' => '24'
+    ],
+
+[//powder
+        'unitQuantity' => '500',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '13',
+        'premix' => '24'
+],
+
+[//salt
+        'unitQuantity' => '300',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '26',
+        'premix' => '24'
+],
+
+[//potassium sorbate
+        'unitQuantity' => '250',
+        'unit' => 'g',
+        'variance' => '0.01',
+        'rawMaterial' => '9',
+        'premix' => '24'
+],
+
+[//egg large
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '24',
+],
+
+[//oil
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '24'
+],
+
+[//ube
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '38',
+'premix' => '24'
+],
+
+//Vanilla Cake Premix = 36 kgs
+
+[//flour
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '25',
+],
+
+[//sugar
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '25'
+],
+
+[//powder
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '25'
+],
+
+[//salt
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '25'
+],
+
+[//potassium sorbate
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '25'
+],
+
+[//egg large
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '25',
+],
+
+[//oil
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '25'
+],
+
+[//vanilla
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '35',
+'premix' => '25'
+],
+
+//Yema Cake Premix = 36 kgs
+
+[//flour
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '26'
+],
+
+[//sugar
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '26'
+],
+
+[//powder
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '26'
+],
+
+[//salt
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '26'
+],
+
+[//potassium sorbate
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '26'
+],
+
+[//egg large
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '26'
+],
+
+[//oil
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '26'
+],
+
+[//yema
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '90',
+'premix' => '26'
+],
+
+//Strawberry Shortcake Cake Premix – 36kg
+[//flour
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '27'
+],
+
+[//sugar
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '27'
+],
+
+[//powder
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '27'
+],
+
+[//salt
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '27'
+],
+
+[//potassium sorbate
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '27',
+],
+
+[//egg large
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '27'
+],
+
+[//oil
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '27'
+],
+
+[//strawberry
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '37',
+'premix' => '27'
+],
+
+//Chiffon Cake – 20kg
+[//flour
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '28'
+],
+
+[//sugar
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '28'
+],
+
+[//powder
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '28'
+],
+
+[//salt
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '28'
+],
+
+[//potassium sorbate
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '28'
+],
+
+[//egg large
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '28'
+],
+
+[//oil
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '28'
+],
+
+[//cream of tartar
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '37',
+'premix' => '28'
+],
+
+//Choco Chiffon Cake – 20kg
+[//flour
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '29'
+],
+
+[//sugar
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '29'
+],
+
+[//powder
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '29'
+],
+
+[//salt
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '29'
+],
+
+[//potassium sorbate
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '29'
+],
+
+[//egg large
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '29'
+],
+
+[//oil
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '29'
+],
+
+[//cream of tartar
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '37',
+'premix' => '29'
+],
+
+//Choco Caramel Cake Premix – 36kg
+[
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '30'
+],
+
+[
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '62',
+'premix' => '30'
+],
+
+//Mocha Cake Premix – 36 kgs
+[
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '80',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '2',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '33',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '500',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '13',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '300',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '26',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '250',
+'unit' => 'g',
+'variance' => '0.01',
+'rawMaterial' => '9',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '100',
+'unit' => 'pcs',
+'variance' => '0.01',
+'rawMaterial' => '46',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '7',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '49',
+'premix' => '31'
+],
+
+[
+'unitQuantity' => '5',
+'unit' => 'kgs',
+'variance' => '0.01',
+'rawMaterial' => '56',
+'premix' => '31'
+],
+//pastries
+[
+    'unitQuantity'=> '1.5',
+    'unit'=> 'kg',
+    'variance'=> '0.01',
+    'rawMaterial'=> '28',//white sugar
+    'premix'=> '32'
+],
+
+[
+    'unitQuantity'=> '800',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '34',//brown sugar
+    'premix'=> '32'
+],
+
+[
+    'unitQuantity'=> '600',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '7',//skimmilk
+    'premix'=> '32'
+],
+
+[
+    'unitQuantity'=> '1',
+    'unit'=> 'kg',
+    'variance'=> '0.01',
+    'rawMaterial'=> '27',//margarine
+    'premix'=> '32'
+],
+
+//pasalubong
+[
+    'unitQuantity'=> '2',
+    'unit'=> 'kg',
+    'variance'=> '0.01',
+    'rawMaterial'=> '24',// 3rd class flour
+    'premix'=> '33'
+],
+
+[
+    'unitQuantity'=> '15',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '2',// baking powder
+    'premix'=> '33'
+],
+
+[
+    'unitQuantity'=> '15',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '26',//salt
+    'premix'=> '33'
+],
+
+[
+    'unitQuantity'=> '15',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '35',//vanilla flavor
+    'premix'=> '33'
+],
+
+[
+    'unitQuantity'=> '25',
+    'unit'=> 'pcs',
+    'variance'=> '0.01',
+    'rawMaterial'=> '46',// egg large
+    'premix'=> '33'
+],
+
+//hotbakes
+[
+    'unitQuantity'=> '20',
+    'unit'=> 'kg',
+    'variance'=> '0.01',
+    'rawMaterial'=> '77',//flour,
+    'premix' => '34'        
+],
+
+[
+    'unitQuantity'=> '50',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '13',//baking powder
+    'premix'=> '34'
+],
+
+[
+    'unitQuantity'=> '400',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '26',//salt,
+    'premix'=> '34'
+],
+
+[
+    'unitQuantity'=> '15',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '35',//vanilla flavor
+    'premix'=> '34'
+],
+
+[
+    'unitQuantity'=> '25',
+    'unit'=> 'pcs',
+    'variance'=> '0.01',
+    'rawMaterial'=> '46', //egg large
+    'premix'=> '34'
+],
+
+[
+    'unitQuantity'=> '100',
+    'unit'=> 'g',
+    'variance'=> '0.01',
+    'rawMaterial'=> '12',//ube
+    'premix'=> '34'
+],
+
     ];
+
+    
+
+    
+    //hot bakes
     /**
      * Run the database seeds.
      */

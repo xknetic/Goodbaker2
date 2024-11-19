@@ -184,7 +184,75 @@ class ProductPriceSeeder extends Seeder
         ],
 
         //cake
-        
+        [
+            'product' => '29',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        [
+            'product' => '30',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        [
+            'product' => '31',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        [
+            'product' => '32',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        [
+            'product' => '33',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        [
+            'product' => '34',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        [
+            'product' => '35',
+            'area' => '1',
+            'price' => '115.00'
+        ],
+
+        //8-round
+        [
+            'product' => '36',
+            'area' => '1',
+            'price' => '225.00'
+        ],
+
+        //Pastries
+        [
+            'product' => '37',
+            'area' => '1',
+            'price' => '80.00'
+        ],
+
+        //Pasalubong
+        [
+            'product' => '38',
+            'area' => '1',
+            'price' => '28.00'
+        ],
+
+        //Hotbakes
+        [
+            'product' => '38',
+            'area' => '1',
+            'price' => '20.00'
+        ],
     ];
     
     public function run(): void
