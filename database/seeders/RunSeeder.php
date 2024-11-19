@@ -27,6 +27,8 @@ class RunSeeder extends Seeder
             ProductPriceSeeder::class,
             PremixIngredientSeeder::class,
             ProductIngredientSeeder::class,
+            DriverSeeder::class,
+            SaleTypeSeeder::class,
         ]);
     }
 }

@@ -15,7 +15,7 @@ const props = defineProps({
 });
 
 const sortedDeliveries = computed(() => {
-    return props.deliveries.slice().sort((a, b) => new Date(b.salesDate) - new Date(a.salesDate));
+    return props.deliveries.slice().sort((a, b) => new Date(b.deliveryID) - new Date(a.deliveryID));
 });
 </script>
 
@@ -28,14 +28,14 @@ const sortedDeliveries = computed(() => {
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Delivery</h3>
                 <div class="flex gap-5">
-                    <Link
+                    <!-- <Link
                         v-if="hasRole('admin')"
                         :href="route('deliverytypes.index')"
                         class="btn btn-primary">
                         <PrimaryButton class="p-2">
                             Delivery Type
                         </PrimaryButton>
-                    </Link>
+                    </Link> -->
                     <Link
                         v-if="hasRole('admin')"
                         :href="route('drivers.index')"

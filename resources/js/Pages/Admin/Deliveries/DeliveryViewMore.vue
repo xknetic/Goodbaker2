@@ -44,7 +44,20 @@ const addProduct = () => {
         if (existingProduct) {
             const availableQuantity = existingProduct.quantity;
             if (availableQuantity >= newProduct.value.quantity && newProduct.value.quantity > 0) {
-                form.products.push({ ...newProduct.value });
+                // Check if the product already exists in form.products
+                const existingInForm = form.products.find(p => p.productID === parseInt(newProduct.value.productID));
+                if (existingInForm) {
+                    // If it exists, update the quantity
+                    if(existingInForm.quantity + parseInt(newProduct.value.quantity) <= availableQuantity) {
+                        existingInForm.quantity += parseInt(newProduct.value.quantity);
+                    } else {
+                        alert("Insufficient Products.");
+                    }
+                } else {
+                    // If it doesn't exist, push the new product
+                    form.products.push({ ...newProduct.value });
+                }
+                // Reset newProduct value
                 newProduct.value = { productID: '', product: '', quantity: '', price: '' };
                 searchProducts.value = '';
                 filteredProducts.value = [];
@@ -87,33 +100,28 @@ const removeItem = (index) => {
 };
 
 const submitBadOrders = () => {
-    const itemsToSubmit = form.items.map(item => ({
-        truckLoadItemID: item.truckLoadItemID,
-        badOrderQuantity: item.badOrderQuantity || 0,
-        bOName: item.bOName || 0,
-    }));
-
-    console.log(itemsToSubmit);
-
-    form.post(route('deliveries.loadIn', props.deliveries.deliveryID), {
-        items: itemsToSubmit
-    });
+    // const itemsToSubmit = form.items.map(item => ({
+    //     truckLoadItemID: item.truckLoadItemID,
+    //     badOrderQuantity: item.badOrderQuantity || 0,
+    //     bOName: item.bOName || 0,
+    // }));
+    form.post(route('deliveries.loadIn', props.deliveries.deliveryID));
 };
 
 // New reactive variable to store bad orders data
-const badOrders = ref(props.truckloaditems.map(item => ({
-    truckLoadItemID: item.truckLoadItemID,
-    badOrderQuantity: item.badOrderQuantity || '',
-    bOName: item.bOName || ''
-})));
+// const badOrders = ref(props.truckloaditems.map(item => ({
+//     truckLoadItemID: item.truckLoadItemID,
+//     badOrderQuantity: item.badOrderQuantity || '',
+//     bOName: item.bOName || ''
+// })));
 
-const addAnotherBadOrder = (index) => {
-    badOrders.value.push({
-        truckLoadItemID: form.items[index].truckLoadItemID,
-        badOrderQuantity: '',
-        bOName: ''
-    });
-};
+// const addAnotherBadOrder = (index) => {
+//     badOrders.value.push({
+//         truckLoadItemID: form.items[index].truckLoadItemID,
+//         badOrderQuantity: '',
+//         bOName: ''
+//     });
+// };
 </script>
 
 <style>
@@ -178,18 +186,18 @@ const addAnotherBadOrder = (index) => {
 
                 <div class="border-b border-gray-700 my-5" />
 
-                <div>
-                    <InputLabel for="status" class="mb-2">Status</InputLabel>
-                    <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="truckID" v-model="form.status" required>
-                        <option disabled value="">Select Status</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                        <option value="Pending">Pending</option>
-                    </select>
-                </div>
-
                 <div class="overflow-x-auto">
-                    <div class="relative">
+                    <div>
+                        <InputLabel for="status" class="mb-2">Status</InputLabel>
+                        <select class="mt-1 w-[20%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="truckID" v-model="form.status" required>
+                            <option disabled value="">Select Status</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+
+                    <!-- <div class="relative">
                         <InputLabel for="product" class="mb-2">Product</InputLabel>
                         <TextInput id="typepro"
                             type="text" 
@@ -220,46 +228,47 @@ const addAnotherBadOrder = (index) => {
 
                     <PrimaryButton @click.prevent="addProduct" class="mt-2">
                         Add Product
-                    </PrimaryButton>
+                    </PrimaryButton> -->
                     <table class="w-full text-sm text-left">
                         <thead class="text-xs uppercase">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Product Items</th>
+                                <th scope="col" class="px-6 py-3">Original Quantity</th>
                                 <th scope="col" class="px-6 py-3">Quantity</th>
                                 <th scope="col" class="px-6 py-3">Price</th>
                                 <th scope="col" class="px-6 py-3">Amount</th>
-                                <th scope="col" class="px-6 py-3">Actions</th>
                                 <!-- <th scope="col" class="px-6 py-3">Actions</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in form.items">
                                 <td class="px-6 py-4">{{ item.products.productName }}</td>
+                                <td class="px-6 py-4">{{ item.originalQuantity }}</td>
                                 <td class="px-6 py-4">{{ item.quantity }}</td>
                                 <td class="px-6 py-4">{{ item.products.productprices[0].price }}</td>
                                 <td class="px-6 py-4">{{ item.products.productprices[0].price * item.quantity }}</td>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-6 py-4">
                                     <button @click="addDelete(item)" class="text-red-700 hover:text-red-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                     </svg>
                                 </button>
-                                </td>
+                                </td> -->
                             </tr>
                             <tr v-for="item, index in form.products">
                                 <td class="px-6 py-4">{{ item.product }}</td>
                                 <td class="px-6 py-4">{{ item.quantity }}</td>
                                 <td class="px-6 py-4">{{ item.price }}</td>
                                 <td class="px-6 py-4">{{ item.price * item.quantity }}</td>
-                                <td class="px-6 py-4">
+                                <!-- <td class="px-6 py-4">
                                     <button @click="removeItem(index)" class="text-red-700 hover:text-red-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                         <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                     </svg>
                                 </button>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -278,17 +287,17 @@ const addAnotherBadOrder = (index) => {
                         <thead class="text-xs uppercase">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Products</th>
-                                <th scope="col" class="px-6 py-3">Good Orders</th>
-                                <th scope="col" class="px-6 py-3">Bad Orders</th>
-                                <th scope="col" class="px-6 py-3">Remarks</th>
+                                <th scope="col" class="px-6 py-3">Quantity</th>
+                                <!-- <th scope="col" class="px-6 py-3">Bad Orders</th>
+                                <th scope="col" class="px-6 py-3">Remarks</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in form.items">
                                 <td class="px-6 py-4"> {{ item.products.productName }} </td>
                                 <td class="px-6 py-4"> {{ item.quantity }} </td>
-                                <td class="px-6 py-4">
-                                    <!-- badorder quantity -->
+                                <!-- <td class="px-6 py-4">
+                                  
                                     <div>
                                         <TextInput 
                                             class="mt-1 block w-[10vh]" 
@@ -298,9 +307,9 @@ const addAnotherBadOrder = (index) => {
                                         />
                                         <InputError :message="form.errors.badOrderQuantity" />
                                     </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <!-- BO Name -->
+                                </td> -->
+                                <!-- <td class="px-6 py-4">
+                     
                                     <div>
                                         <TextInput 
                                             class="mt-1 block w-[20vh]"
@@ -312,11 +321,11 @@ const addAnotherBadOrder = (index) => {
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <!-- BO Name -->
+                                  
                                     <div>
                                         <PrimaryButton> Add Another </PrimaryButton>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>

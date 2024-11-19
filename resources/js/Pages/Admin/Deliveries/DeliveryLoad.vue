@@ -63,11 +63,25 @@ const addProduct = () => {
         if (existingProduct) {
             const availableQuantity = existingProduct.quantity;
             if (availableQuantity >= newProduct.value.quantity && newProduct.value.quantity > 0) {
-                form.products.push({ ...newProduct.value });
+                // Check if the product already exists in form.products
+                const existingInForm = form.products.find(p => p.productID === parseInt(newProduct.value.productID));
+                if (existingInForm) {
+                    // If it exists, update the quantity
+                    if(existingInForm.quantity + parseInt(newProduct.value.quantity) <= availableQuantity) {
+                        existingInForm.quantity += parseInt(newProduct.value.quantity);
+                    } else {
+                        alert("Insufficient Products.");
+                    }
+                } else {
+                    // If it doesn't exist, push the new product
+                    form.products.push({ ...newProduct.value });
+                }
+                // Reset newProduct value
                 newProduct.value = { productID: '', product: '', quantity: '', price: '' };
                 searchProducts.value = '';
+                filteredProducts.value = [];
                 filterProducts();
-            }else {
+            } else {
                 alert("Insufficient Products.");
             }
         }
@@ -367,7 +381,7 @@ const removeItem = (index) => {
 
                     <div class="mt-4">
                         <InputLabel for="quantity" class="mb-2">Quantity</InputLabel>
-                        <TextInput class="mt-1 block w-[50%]" id="quantity" v-model="newProduct.quantity" />
+                        <TextInput class="mt-1 block w-[50%]" id="quantity" type="number" v-model="newProduct.quantity" />
                         <InputError :message="form.errors.quantity" />
                     </div>
 

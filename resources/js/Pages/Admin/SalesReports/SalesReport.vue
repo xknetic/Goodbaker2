@@ -642,7 +642,7 @@ const getExportUrl = computed(() => {
                     :options="pieChartOptions" 
                     :series="pieChartOptions.series" 
                     type="pie" 
-                    height="350"
+                    height="300"
                 />
 
                 <VueApexCharts
