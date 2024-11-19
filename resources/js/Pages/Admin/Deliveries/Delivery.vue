@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { usePermission } from '@/composables/permission';
+import { ref, computed } from 'vue';
 
 const { hasRole } = usePermission();
 
@@ -11,6 +12,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+});
+
+const sortedDeliveries = computed(() => {
+    return props.deliveries.slice().sort((a, b) => new Date(b.salesDate) - new Date(a.salesDate));
 });
 </script>
 
@@ -74,7 +79,7 @@ const props = defineProps({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="delivery in deliveries" :key="delivery.id" class="border-gray-700">
+                        <tr v-for="delivery in sortedDeliveries" :key="delivery.id" class="border-gray-700">
                             <td class="px-6 py-4"> {{ delivery.salesDate }} </td>
                             <td class="px-6 py-4"> {{ delivery.saletypes.saleTypeName }} </td>
                             <td class="px-6 py-4"><span v-if="delivery.client">{{ delivery.clients.clientName }}</span>{{ delivery.route }} </td>

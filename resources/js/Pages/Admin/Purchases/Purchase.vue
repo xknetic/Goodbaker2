@@ -3,12 +3,17 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { ref, computed } from 'vue';
 
 const props = defineProps({
     purchases: {
         type: Object,
         default: () => [],
     }
+});
+
+const sortedPurchases = computed(() => {
+    return props.purchases.slice().sort((a, b) => new Date(b.purchaseID) - new Date(a.purchaseID));
 });
 
 function calculateTotalQuantity(purchaseitems){
@@ -78,7 +83,7 @@ function completePurchase(purchase) {
                         </tr>
                     </thead>
                     <tbody class="striped">
-                        <tr v-for="purchase in purchases" :key="purchase.id">
+                        <tr v-for="purchase in sortedPurchases" :key="purchase.id">
                             <td class="px-6 py-4">{{ purchase.purchaseID }}</td>
                             <td class="px-6 py-4">{{ purchase.purchaseDate }}</td>
                             <td class="px-6 py-4">{{ purchase.suppliers.supplierName }}</td>

@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({
@@ -12,6 +13,10 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+});
+
+const sortedSales = computed(() => {
+    return props.sales.slice().sort((a, b) => new Date(b.salesDate) - new Date(a.salesDate));
 });
 
 </script>
@@ -50,7 +55,7 @@ const props = defineProps({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="sale in sales" :key="sale.id">
+                        <tr v-for="sale in sortedSales" :key="sale.id">
                             <td class="px-6 py-4 align-top"> {{ sale.salesID }} </td>
                             <td class="px-6 py-4 align-top"> {{ sale.delivery.saletypes.saleTypeName }} </td>
                             <td class="px-6 py-4 align-top"> {{ sale.salesDate }} </td>
