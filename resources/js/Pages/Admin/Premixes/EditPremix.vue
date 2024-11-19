@@ -69,7 +69,7 @@ const submit = () => {
 
                 <div>
                     <InputLabel for="category" class="mb-2"> Category </InputLabel>
-                    <TextInput class="mt-1 block w-[50%]" id="category" type="text" v-model="form.category" required />
+                    <TextInput class="mt-1 block w-[50%]" id="category" type="text" v-model="form.category" />
                     <InputError :message="form.errors.category" />
                 </div>
 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\PremixExport;
 use Inertia\Inertia;
 use App\Models\Premix;
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
+use App\Exports\PremixExport;
 use App\Models\RawMaterialUnit;
 use App\Models\ReplenishPremix;
 use App\Models\PremixIngredient;
@@ -127,13 +127,11 @@ class PremixController extends Controller
                 RawMaterialUnit::where('rawMaterial', $ingredient->rawMaterial)->skip(1)->take(1)->get()->first()->update(['stock' => $nextStock]);
             }
             RawMaterialUnit::where('rawMaterial', $ingredient->rawMaterial)->first()->update(['stock' => floor($stock)]);
-
-            ReplenishPremix::create([
-                'quantity' => $request->quantity,
-                'premixIngredient' => $ingredient->premixIngredientID
-            ]);
-    
         }
+        ReplenishPremix::create([
+            'quantity' => $request->quantity,
+            'premix' => $premix->premixID
+        ]);
     }
 
 
@@ -164,7 +162,7 @@ class PremixController extends Controller
         //
         $request->validate([
             'premixName' => 'required|string|max:25',
-            'category' => 'required|string|max:25',
+            // 'category' => 'required|string|max:25',
             'size' => 'required|string|max:25',
             'cost' => 'required|numeric',
         ]);
@@ -190,4 +188,5 @@ class PremixController extends Controller
         // dd('Export function hit');
         return Excel::download(new PremixExport, 'premix.xlsx');
     }
+    
 }

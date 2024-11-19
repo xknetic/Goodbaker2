@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ProductExport;
 use App\Models\Area;
 use Inertia\Inertia;
 use App\Models\Premix;
@@ -10,6 +9,7 @@ use App\Models\Product;
 use App\Models\RawMaterial;
 use App\Models\ProductPrice;
 use Illuminate\Http\Request;
+use App\Exports\ProductExport;
 use App\Models\ProductCategory;
 use App\Models\PremixIngredient;
 use App\Models\ReplenishProduct;
@@ -112,36 +112,28 @@ class ProductController extends Controller
     {
         $product = Product::with('productingredients.premixes')->find($request->productID);
         $quantityToAdd = $request->quantity;
-    
-        // Check if there are product ingredients
-        $productIngredient = $product->productingredients[0] ?? null;
 
-        // Check if premix is an object and contains quantity
-        $premix = $productIngredient->premixes ?? null;
+        $product->increment('quantity', $quantityToAdd * $product->productingredients[0]->quantity);
     
-        // Check if premix quantity is sufficient
-        if ($premix->quantity >= $quantityToAdd) {
-        $ingredientQuantity = $productIngredient->quantity;
-    
-            // Increment product quantity based on ingredient quantity
-            $product->increment('quantity', $quantityToAdd * $ingredientQuantity);
-    
-            // Decrement the premix quantity
-            $premix->decrement('quantity', $quantityToAdd);
+        foreach($product->productingredients as $ingredient) {
+            // Check if premix quantity is sufficient
+            $premix = Premix::find($ingredient->premix);
+            if ($premix->quantity >= $quantityToAdd) {
+
+                $ingredientQuantity = $ingredient->quantity;
+                // Increment product quantity based on ingredient quantity
+        
+                // Decrement the premix quantity
+                $premix->decrement('quantity', $quantityToAdd);        
+            }
 
             ReplenishProduct::create([
                 'quantity' => $request->quantity,
-                'productIngredient' => $productIngredient->productIngredientID
+                'product' => $product->productID
             ]);
-    
         }
     }
     
-
-
-    
-    
-
 
     /**
      * Show the form for editing the specified resource.

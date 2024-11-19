@@ -311,7 +311,7 @@ function selectPremix(premix) {
                         <tbody>
                             <tr v-for="(ingredient, index) in form.ingredients" :key="index" class="border-gray-700">
                                 <td class="px-6 py-4" v-if="ingredient.raw_material">{{ ingredient.raw_material.rawMaterialName }}</td>
-                                <td class="px-6 py-4" v-if="ingredient.premix">{{ ingredient.premix.premixName }}</td>
+                                <td class="px-6 py-4" v-if="ingredient.premixes">{{ ingredient.premixes.premixName }}</td>
                                 <td class="px-6 py-4">{{ ingredient.quantity }}</td>
                                 <td class="px-6 py-4 flex items-center space-x-3">
                                     <button @click.prevent="removeIngredient(index)" class="text-red-700 hover:text-red-400">

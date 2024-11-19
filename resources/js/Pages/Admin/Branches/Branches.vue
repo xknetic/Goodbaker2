@@ -12,6 +12,7 @@ const props = defineProps({
     },
 });
 
+const otherBranches = props.branches.filter(branch => branch.branchName != 'Loakan')
 // Create a reactive property to hold the selected branches
 const selectedBranches = ref([]);
 
@@ -70,7 +71,7 @@ const options = props.branches.map(branch => ({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="branch in branches" :key="branch.id">
+                        <tr v-for="branch in otherBranches" :key="branch.id">
                             <td class="px-6 py-4"> {{ branch.branchName }}</td>
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4"></td>

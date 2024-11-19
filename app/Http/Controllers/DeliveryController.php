@@ -215,6 +215,8 @@ class DeliveryController extends Controller
             ]);
         }
 
+        Delivery::where('deliveryID', $delivery->deliveryID)->update(['status' => $request->status]);
+
         return Inertia::location(request()->fullUrl());
     }
 

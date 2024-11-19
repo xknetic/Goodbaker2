@@ -29,6 +29,7 @@ const form = useForm({
     items: props.truckloaditems,
     products: [],
     itemDelete: [],
+    status: props.deliveries.status,
 });
 
 const submit = () => {
@@ -176,6 +177,16 @@ const addAnotherBadOrder = (index) => {
                 </div>
 
                 <div class="border-b border-gray-700 my-5" />
+
+                <div>
+                    <InputLabel for="status" class="mb-2">Status</InputLabel>
+                    <select class="mt-1 w-[50%] border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" id="truckID" v-model="form.status" required>
+                        <option disabled value="">Select Status</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
 
                 <div class="overflow-x-auto">
                     <div class="relative">
