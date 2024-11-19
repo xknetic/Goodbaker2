@@ -37,7 +37,7 @@ class TransferController extends Controller
             'branches' => Branch::all(),
             'products' => Product::all(),
             'premixes' => Premix::all(),
-            'rawmaterials' => RawMaterial::all()
+            'rawmaterials' => RawMaterial::with(['rawmaterialunits'])->get(),
         ]);
     }
 
@@ -121,10 +121,11 @@ class TransferController extends Controller
                     Premix::where('premixID', $item->premix)
                         ->decrement('quantity', $item->quantity);
                 }
-            }else if ($item->rawmaterial) {
-                if($item->quantity < $item->rawmaterials->rawmaterialunits->first()->quantity) {
-                RawMaterialUnit::where('rawMaterial', $item->rawmaterial)-first()
-                    ->decrement('quantity', $item->quantity);
+            }else if ($item->rawMaterial) {
+                
+                if($item->quantity < $item->rawmaterials->rawmaterialunits->first()->stock) {
+                    // return response()->json(['error' => $item->rawmaterials->rawmaterialunits->first()], 400);
+                    RawMaterialUnit::where('rawMaterial', $item->rawMaterial)->first()->decrement('stock', $item->quantity);
                 }
             }
         }

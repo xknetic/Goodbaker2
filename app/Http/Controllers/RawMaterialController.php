@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RawMaterialExport;
 use Inertia\Inertia;
 use App\Models\Supplier;
 use App\Models\RawMaterial;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Redirect;
 
 class RawMaterialController extends Controller
@@ -124,5 +126,11 @@ class RawMaterialController extends Controller
         sleep(1);
 
         return Redirect::route('rawmaterials.index');
+    }
+
+    public function export() 
+    {
+        // dd('Export function hit');
+        return Excel::download(new RawMaterialExport, 'rawmaterial.xlsx');
     }
 }

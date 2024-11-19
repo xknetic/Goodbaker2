@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ProductExport;
 use App\Models\Area;
 use Inertia\Inertia;
 use App\Models\Premix;
@@ -13,6 +14,7 @@ use App\Models\ProductCategory;
 use App\Models\PremixIngredient;
 use App\Models\ReplenishProduct;
 use App\Models\ProductIngredient;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
@@ -156,7 +158,7 @@ class ProductController extends Controller
             'rawmaterials' => RawMaterial::all(),
             'premixes' => Premix::all(),
             'productcategories' => ProductCategory::all(),
-            'productingredients' => ProductIngredient::with('premix', 'rawMaterial')->get(),
+            'productingredients' => ProductIngredient::with('premixes', 'rawMaterial')->get(),
             
         ]);
     }
@@ -191,11 +193,12 @@ class ProductController extends Controller
             ->update(['price' => $request->price, 'area' => $request->area]);
 
         // Update ingredients
-        $product->ingredients()->delete(); // Clear existing ingredients
+        $product->productingredients()->delete(); // Clear existing ingredients
 
         foreach ($request->ingredients as $ingredientData) {
             $ingredientID = ProductIngredient::create([
                 'product' => $product->productID,
+                'unit' => $ingredientData['unit'],
                 'quantity' => $ingredientData['quantity'],
             ]);
             if (is_array($ingredientData['rawMaterial'])) {
@@ -216,7 +219,7 @@ class ProductController extends Controller
             // Deduct the ingredient quantity from raw materials
             $rawMaterial = RawMaterial::find($ingredientData['rawMaterial']);
             if ($rawMaterial) {
-                $rawMaterial->quantity += $ingredientData['quantity'];
+                $rawMaterial->typeQuantity += $ingredientData['quantity'];
                 $rawMaterial->save();
             }
 
@@ -240,5 +243,11 @@ class ProductController extends Controller
         sleep(1);
 
         return Redirect::route('products.index');
+    }
+
+    public function export() 
+    {
+        // dd('Export function hit');
+        return Excel::download(new ProductExport, 'products.xlsx');
     }
 }

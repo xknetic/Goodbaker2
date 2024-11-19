@@ -99,12 +99,12 @@ const submit = () => {
 
                     <div class="mt-2">
                         <InputLabel for="userContact" value="User Contact" />
-                        <NumberInput
+                        <TextInput
                             maxlength="11"
                             id="userContact"
                             type="text"
                             pattern="\d*"
-                            
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, this.maxLength);"
                             class="mt-1 block w-[50%]"
                             v-model="form.userContact"
                             required

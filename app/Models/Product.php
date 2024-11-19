@@ -35,4 +35,9 @@ class Product extends Model
     {
         return $this->hasMany(TruckLoadItem::class, 'product', 'productID');
     }
+
+    public function replenishproducts()
+    {
+        return $this->hasMany(ReplenishProduct::class, 'product', 'productID');
+    }
 }

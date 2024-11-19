@@ -109,7 +109,7 @@ function selectAgent(agent) {
 }
 
 function notAvailable(truck) {
-    if (truck.deliveries.some(delivery => delivery.salesDate === form.salesDate)) {
+    if (truck.deliveries.some(delivery => delivery.salesDate === form.salesDate && delivery.status === 'Pending')) {
         return true;
     } else {
         return false;

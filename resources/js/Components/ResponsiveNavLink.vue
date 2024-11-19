@@ -14,8 +14,8 @@ const props = defineProps({
 
 const classes = computed(() =>
     props.active
-        ? 'block w-full ps-6 py-2 text-white bg-[#0108EE] shadow-xl rounded-lg transition duration-150 ease-in-out'
-        : 'block w-full ps-6 py-2 rounded-lg hover:text-white hover:bg-[#0108EE] hover:shadow-xl hover:rounded-lg transition duration-150 ease-in-out'
+        ? 'py-2 text-white bg-[#0108EE] shadow-xl rounded-lg transition duration-150 ease-in-out'
+        : 'py-2 rounded-lg hover:text-white hover:bg-[#0108EE] hover:shadow-xl hover:rounded-lg transition duration-150 ease-in-out'
 );
 </script>
 

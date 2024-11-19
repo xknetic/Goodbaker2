@@ -30,4 +30,9 @@ class Premix extends Model
     {
         return $this->hasMany(ProductIngredient::class, 'premix', 'premixID');
     }
+    
+    public function replenishpremixes()
+    {
+        return $this->hasMany(ReplenishPremix::class, 'premix', 'premixID');
+    }
 }

@@ -17,7 +17,7 @@ class ReplenishProduct extends Model
 
     protected $guarded = [];
 
-    public function productingredients() {
-        return $this->hasBelongTo(ProductIngredient::class, 'productIngredient', 'productIngredientID');
+    public function products() {
+        return $this->belongsTo(Product::class, 'product', 'productID');
     }
 }

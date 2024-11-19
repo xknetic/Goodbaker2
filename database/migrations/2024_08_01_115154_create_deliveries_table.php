@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('client')->nullable();
             $table->unsignedBigInteger('agent');
             $table->string('route', 50)->nullable();
+            $table->string('status', 50)->nullable()->default('Pending');
             // $table->unsignedBigInteger('truckAgent');
 
             // Foreign key constraints

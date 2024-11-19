@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('replenishProductID');
             $table->datetime('date')->useCurrent();
             $table->integer('quantity');
-            $table->unsignedBigInteger('productIngredient');
+            $table->unsignedBigInteger('product');
 
-            $table->foreign('productIngredient')->references('productIngredientID')->on('product_ingredients')->onDelete('cascade');
+            $table->foreign('product')->references('productID')->on('products')->onDelete('cascade');
         });
     }
 

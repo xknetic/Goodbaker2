@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import TextInput from '@/Components/TextInput.vue';
 
@@ -136,6 +136,14 @@ function selectProduct(product) {
                             Area
                         </PrimaryButton>
                     </Link> -->
+                    <a :href="route('products.export')"
+                    class="btn btn-primary"
+                    target="_blank" 
+                    >
+                        <PrimaryButton class="p-2">
+                            Export
+                        </PrimaryButton>
+                    </a>
                     <PrimaryButton @click.prevent="showModal = true" class="p-2">
                         Replenish
                     </PrimaryButton>

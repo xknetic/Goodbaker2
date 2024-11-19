@@ -147,7 +147,7 @@ const addItem = () => {
         } else {
             props.rawmaterials.find((rawMaterial, index) => {
                 if (rawMaterial.rawMaterialID === parseInt(newItem.value.item)) {
-                    itemQuantity = props.rawmaterials[index].quantity;
+                    itemQuantity = props.rawmaterials[index].rawmaterialunits[0].stock;
                     return true; // stop searching
                 }
             });

@@ -42,19 +42,49 @@ const form = useForm({
     salesStatus: '',
     deliveryID: '',
     products: [],
-    deliveryType: computed(() => deliveryType.value)
+    deliveryType: computed(() => deliveryType.value),
+    remarks: ''
 });
 
 const newProduct = ref({quantity: '', truckLoadItems:'', itemID:''});
 
 const addProduct = () => {
+    let itemQuantity = 0;
     if (newProduct.value.quantity && newProduct.value.truckLoadItems) {
-        form.products.push({ ...newProduct.value });
-        newProduct.value.itemID = '';
-        newProduct.value.quantity = '';
-        newProduct.value.truckLoadItems = '';
-        searchItems.value = '';
-        filterItems()
+        
+        // Find the existing item in truckloaditems
+        props.truckloaditems.find((item, index) => {
+            if (item.truckLoadItemID === parseInt(newProduct.value.itemID)) {
+                itemQuantity = props.truckloaditems[index].quantity;
+                return true; // stop searching
+            }
+        });
+        
+        // Check if the new quantity is less than or equal to available item quantity
+        if (newProduct.value.quantity <= itemQuantity) {
+            // Check if the product already exists in form.products
+            const existingProductIndex = form.products.findIndex(product => product.itemID === newProduct.value.itemID);
+            if (existingProductIndex !== -1) {
+                // If it exists, add the new quantity to the existing quantity
+                if (form.products[existingProductIndex].quantity + parseInt(newProduct.value.quantity) <= itemQuantity) {
+                    form.products[existingProductIndex].quantity += parseInt(newProduct.value.quantity);
+                } else {
+                    alert("Insufficient truck load.");
+                }
+            } else {
+                // If it doesn't exist, push the new product to the array
+                form.products.push({ ...newProduct.value });
+            }
+
+            // Reset newProduct values
+            newProduct.value.itemID = '';
+            newProduct.value.quantity = '';
+            newProduct.value.truckLoadItems = '';
+            searchItems.value = '';
+            filterItems();
+        } else {
+            alert("Insufficient truck load.");
+        }
     }
 };
 
@@ -99,6 +129,10 @@ function selectItem(item) {
 function clearItems() {
     form.products = [];
 }
+
+const removeItem = (index) => {
+    form.products.splice(index, 1);
+};
 
 </script>
 <style>
@@ -194,6 +228,12 @@ function clearItems() {
                             <option value="Pending">Pending</option>
                         </select>
                     </div>
+
+                    <div class="mt-4">
+                        <InputLabel for="remarks" class="mb-2">Remarks</InputLabel>
+                        <TextInput class="mt-1 block w-[50%]" id="remarks" v-model="form.remarks" />
+                        <InputError :message="form.errors.remarks" />
+                    </div>
                 </div>
 
                 <!-- Bottom Table for Ingredients -->
@@ -223,7 +263,7 @@ function clearItems() {
                                 </li>
                             </ul>
                         </div>
-                        <TextInput v-model="newProduct.quantity" class="mt-1 block w-[20%]" type="text" placeholder="Quantity" />
+                        <TextInput v-model="newProduct.quantity" class="mt-1 block w-[20%]" type="number" placeholder="Quantity" />
                         <PrimaryButton @click.prevent="addProduct" class="px-5">
                             Add
                         </PrimaryButton>
@@ -243,7 +283,7 @@ function clearItems() {
                                 <td class="px-6 py-4">{{ product.truckLoadItems }}</td>
                                 <td class="px-6 py-4">{{ product.quantity }}</td>
                                 <td class="px-6 py-4 flex items-center space-x-3">
-                                    <button @click="removeIngredient(index)" class="text-red-700 hover:text-red-400">
+                                    <button @click="removeItem(index)" class="text-red-700 hover:text-red-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>

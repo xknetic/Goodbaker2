@@ -2,9 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InventoryReport;
-use Illuminate\Http\Request;
+use App\Models\Sale;
 use Inertia\Inertia;
+use App\Models\Premix;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Supplier;
+use App\Models\RawMaterial;
+use Illuminate\Http\Request;
+use App\Models\InventoryReport;
+use App\Models\ReplenishPremix;
+use App\Models\ReplenishProduct;
 
 class InventoryReportController extends Controller
 {
@@ -15,7 +23,15 @@ class InventoryReportController extends Controller
     {
         //
         return Inertia::render('Admin/InventoryReports/InvReport', [
-            'inventoryreports' => InventoryReport::all()
+            'inventoryreports' => InventoryReport::all(),
+            'rawmaterials' => RawMaterial::with(['supplier', 'rawmaterialunits', 'premixingredients.premix'])->get(),
+            'suppliers' => Supplier::all(),
+            'purchases' => Purchase::with(['purchaseitems'])->get(),
+            'replenishpremixes' => ReplenishPremix::with(['premixes.premixingredients.rawmaterial'])->get(),
+            'premixes' => Premix::all(),
+            'replenishproducts' => ReplenishProduct::with(['products.productingredients.premixes'])->get(),
+            'products' => Product::with(['productcategories', 'productprices'])->get(),
+            'sales' => Sale::with(['saleitems.truckloaditems.products'])->get(),
         ]);
     }
 

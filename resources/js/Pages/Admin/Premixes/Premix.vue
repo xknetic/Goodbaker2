@@ -109,6 +109,14 @@ function formatNumber(value) {
             <div class="flex justify-between items-center">
                <h3 class="font-bold">Premixes</h3>
                 <div class="flex gap-5">
+                    <a :href="route('premixes.export')"
+                    class="btn btn-primary"
+                    target="_blank" 
+                    >
+                        <PrimaryButton class="p-2">
+                            Export
+                        </PrimaryButton>
+                    </a>
                     <PrimaryButton @click.prevent="showModal = true" class="p-2">
                         Replenish
                     </PrimaryButton>

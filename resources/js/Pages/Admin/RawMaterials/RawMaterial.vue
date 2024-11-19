@@ -112,6 +112,14 @@ function formatNumber(value) {
             <div class="flex justify-between items-center">
                 <h3 class="font-bold">Raw Materials</h3>
                 <div class="flex gap-5">
+                    <a :href="route('rawmaterials.export')"
+                    class="btn btn-primary"
+                    target="_blank" 
+                    >
+                        <PrimaryButton class="p-2">
+                            Export
+                        </PrimaryButton>
+                    </a>
                     <Link :href="route('rawmaterials.create')" class="btn btn-primary">
                         <PrimaryButton class="p-2">
                             Create

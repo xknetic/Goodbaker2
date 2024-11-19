@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('salesID');
             $table->datetime('salesDate');
             $table->string('salesStatus', 15)->nullable();
+            $table->string('remarks', 255)->nullable();
             $table->unsignedBigInteger('deliveryID')->nullable();
             $table->unsignedBigInteger('userName');
             $table->unsignedBigInteger('branch')->nullable();

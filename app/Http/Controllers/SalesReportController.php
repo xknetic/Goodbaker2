@@ -27,10 +27,11 @@ class SalesReportController extends Controller
             'salesreports' => SalesReport::all(),
             'clients' => Client::all(),
             'productcategories' => ProductCategory::all(),
-            'products' => Product::with(['productcategories', 'truckloaditems.saleitems.sale'])->get(),
+            'products' => Product::with(['productcategories', 'truckloaditems.saleitems.sale', 'productprices'])->get(),
             'branches' => Branch::all(),
             'saletypes' => SaleType::all(),
-            'sales' => Sale::with(['delivery.saletypes', 'delivery.users', 'saletype', 'truck', 'saleitems.truckloaditems.products.productprices'])->get(),
+            'sales' => Sale::with(['delivery.saletypes', 'delivery.users', 'saletype', 'truck', 'saleitems.truckloaditems.products.productprices'])
+            ->where('salesStatus', 'Completed') ->get(),
         ]);
     }
 
@@ -83,9 +84,10 @@ class SalesReportController extends Controller
         //
     }
 
-    public function export()
+    public function export(Request $request)
     {
         // dd('Export function hit');
-        return Excel::download(new SalesReportExport, 'sales_report.xlsx');
+        $year = $request->query('year');
+        return Excel::download(new SalesReportExport($year), 'sales_report'. $year.'.xlsx');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PremixExport;
 use Inertia\Inertia;
 use App\Models\Premix;
 use App\Models\RawMaterial;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\RawMaterialUnit;
 use App\Models\ReplenishPremix;
 use App\Models\PremixIngredient;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Redirect;
 
 class PremixController extends Controller
@@ -181,5 +183,11 @@ class PremixController extends Controller
         sleep(1);
 
         return Redirect::route('premixes.index');
+    }
+
+    public function export() 
+    {
+        // dd('Export function hit');
+        return Excel::download(new PremixExport, 'premix.xlsx');
     }
 }

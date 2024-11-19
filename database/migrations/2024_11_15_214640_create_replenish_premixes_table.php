@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id('replenishPremixID');
             $table->datetime('date')->useCurrent();
             $table->integer('quantity');
-            $table->unsignedBigInteger('premixIngredient');
+            $table->unsignedBigInteger('premix');
 
-            $table->foreign('premixIngredient')->references('premixIngredientID')->on('premix_ingredients')->onDelete('cascade');
+            $table->foreign('premix')->references('premixID')->on('premixes')->onDelete('cascade');
         
         });
     }

@@ -39,12 +39,13 @@ const props = defineProps({
                         <tr>
                             <th scope="col" class="px-6 py-3">Transaction No.</th>
                             <th scope="col" class="px-6 py-3">Sale Type</th>
-                            <th scope="col" class="px-6 py-3">Date</th>
+                            <th scope="col" class="px-6 py-3">Date/Time</th>
                             <!-- <th scope="col" class="px-6 py-3">Invoice</th> -->
                             <th scope="col" class="px-6 py-3">Product Items</th>
                             <th scope="col" class="px-6 py-3">Quantity</th>
                             <th scope="col" class="px-6 py-3">Price</th>
                             <th scope="col" class="px-6 py-3">Amount</th>
+                            <!-- <th scope="col" class="px-6 py-3">Action</th> -->
                             <th scope="col" class="px-6 py-3">Status</th>
                         </tr>
                     </thead>
@@ -65,6 +66,13 @@ const props = defineProps({
                             <td class="px-6 py-4">
                                 <tr v-for="item in sale.saleitems">{{ item.quantity*item.truckloaditems.products.productprices[0].price }}</tr>
                             </td>
+                            <!-- <td class="px-6 py-4 flex items-center space-x-3">
+                                <Link class="text-blue-400 hover:text-blue-600">
+                                    <PrimaryButton>
+                                        View More
+                                    </PrimaryButton>
+                                </Link>
+                            </td> -->
                             <td class="px-6 py-4 align-top">{{ sale.salesStatus }} </td>
                         </tr>
                     </tbody>

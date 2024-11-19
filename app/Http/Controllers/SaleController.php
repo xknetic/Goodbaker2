@@ -59,6 +59,7 @@ class SaleController extends Controller
             'salesDate' =>$request->salesDate,
             'salesStatus'=>$request->salesStatus,
             'deliveryID'=>$request->deliveryID,
+            'remarks'=>$request->remarks,
             // 'branch' => $branch ? $branch->branchID : null, // Use the branch ID if found, otherwise set it to null
         ]);
 
@@ -76,8 +77,9 @@ class SaleController extends Controller
                 ]);
 
                 // Deduct the ingredient quantity from raw materials
-                $product = TruckLoadItem::find($productData['truckLoadItems']); // Ensure this is the correct model name
+                $product = TruckLoadItem::find($productData['itemID']); // Ensure this is the correct model name
                 if ($product) {
+                    // return response()->json(['error' => $product], 400);
                     $product->quantity -= $productData['quantity']; // Subtracting the quantity
                     $product->save(); // Save the adjusted quantity back to the database
                 }
@@ -91,6 +93,8 @@ class SaleController extends Controller
                     'quantity' => $truckLoadItem->quantity,
                     'truckLoadItem' => $truckLoadItem->truckLoadItemID, // Assuming id is the primary key of TruckLoadItem
                 ]);
+
+                $truckLoadItem->update(['quantity'=>0]);  
             }
 
         return Redirect::route('sales.index');

@@ -48,9 +48,12 @@ use App\Http\Controllers\InventoryReportController;
 //     ]);
 // });
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/', [DashboardController::class, 'index'])
+->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('/orderform', OrderFormController::class);
 
@@ -84,16 +87,19 @@ Route::post('/deliveries/{delivery}/load-in', [DeliveryController::class, 'loadI
 Route::resource('/products', ProductController::class)
 ->middleware(['auth', 'role:admin']);
 Route::post('/products/replenish', [ProductController::class, 'replenish'])->name('products.replenish');
+Route::get('/product/export', [ProductController::class, 'export'])->name('products.export');
 
 Route::resource('/premixes', PremixController::class)
 ->middleware(['auth', 'role:admin']);
 Route::post('/premixes/replenish', [PremixController::class, 'replenish'])->name('premixes.replenish');
+Route::get('/premix/export', [PremixController::class, 'export'])->name('premixes.export');
 
 Route::resource('/beverage', BeverageController::class)
 ->middleware(['auth', 'role:admin']);
 
 Route::resource('/rawmaterials', RawMaterialController::class)
 ->middleware(['auth', 'role:admin']);
+Route::get('/rawmaterial/export', [RawMaterialController::class, 'export'])->name('rawmaterials.export');
 
 Route::resource('/clients', ClientController::class)
 ->middleware(['auth', 'role:admin']);

@@ -189,7 +189,7 @@ const addAnotherBadOrder = (index) => {
                         />
                         <InputError :message="form.errors.supplierID" />
 
-                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] max-h-0 bg-white" >
+                        <ul id="selectpro" v-if="filteredProducts.length > 0" class="w-[50%] bg-white h-60 overflow-auto" >
                             <li 
                                 v-for="product in filteredProducts" 
                                 :key="product.productID" 

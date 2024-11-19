@@ -3,614 +3,250 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use App\Models\ProductCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ProductSeeder extends Seeder
 {
-    protected $product_categories = [
-        /*'categoryName' => "Bread"
-        'categoryName' => "Cakes"
-        'categoryName' => "Pastries"
-        'categoryName' => "Pasalubong"
-        'categoryName' => "Hotbakes"
-        'categoryName' => "Loaves"*/
-
-        //cakes
+    protected $product = [
+        //cat1
         [
+            'productCode' => 'BUNS',
             'productCategory' => '1',
             'productName' => 'Burger Buns',
             'unit' => 'Pack x6',
-            'quantity'=> '50',
-            
+            'quantity' => '50',
         ],
 
         [
+            'productCode' => 'CHEESE',
             'productCategory' => '1',
             'productName' => 'Cheese Buns',
             'unit' => 'Pack x8',
-            'quantity'=> '50',
+            'quantity' => '50',
         ],
 
-        [
+        [   
+            'productCode' => 'CINROUND',
             'productCategory' => '1',
             'productName' => 'Cinnamon Round',
             'unit' => 'Piece',
-            'quantity'=> '0',
-                  ],
+            'quantity' => '20',
+        ],
 
-        [
+        [   
+            'productCode' => '00166',
             'productCategory' => '1',
-            'productName' => 'Cinnamon Round-Special',
+            'productName' => 'Coco Nuggets',
+            'unit' => 'Pack x30',
+            'quantity' => '10',
+        ],
+
+        
+        [   
+            'productCode' => '00143',
+            'productCategory' => '1',
+            'productName' => 'Coco Nuggets',
             'unit' => 'Piece',
-            'quantity'=> '16',
-                    ],
-
-        [
-            'productCategory' => '1',
-            'productName' => 'Coco Bites',
-            'unit' => 'Pack',
-            'quantity'=> '11',
-                    ],
-
-        [
-            'productCategory' => '1',
-            'productName' => 'Cream Bread',
-            'unit' => 'Piece',
-            'quantity'=> '335',
-            
+            'quantity' => '89',
         ],
 
         [
+            'productCode' => 'DANISHB',
+            'productCategory' => '1',
+            'productName' => 'Dannish Cinnamon (Big)',
+            'unit' => 'Piece',
+            'quantity' => '50',
+        ],
+        
+        [
+            'productCode' => 'DANISHS',
+            'productCategory' => '1',
+            'productName' => 'Dannish Cinnamon (Small)',
+            'unit' => 'Piece',
+            'quantity' => '50',
+        ],
+
+        [
+            'productCode' => 'DINNER',
+            'productCategory' => '1',
+            'productName' => 'Dinner Roll',
+            'unit' => 'Piece',
+            'quantity' => '60',
+        ],
+    
+        [
+            'productCode' => '00127',
             'productCategory' => '1',
             'productName' => 'Lady Finger',
             'unit' => 'Piece',
-            'quantity'=> '0',
-                  ],
+            'quantity'=> '70',
+        ],
 
         [
+            'productCode' => 'MAMON',
             'productCategory' => '1',
-            'productName' => 'Mamon Kabayan',
+            'productName' => 'Mamon Kababayan',
             'unit' => 'Pack x8',
             'quantity'=> '286',
-            
         ],
 
         [
-            'productCategory' => '1',
-            'productName' => 'Milk Bread',
-            'unit' => 'Piece',
-            'quantity'=> '61',
-            
-        ],
-
-        [
+            'productCode' => 'MONGO',
             'productCategory' => '1',
             'productName' => 'Mongo Bread',
             'unit' => 'Piece',
             'quantity'=> '31',
-            
+        ],
+
+
+        [
+            'productCode' => 'PANBIG',
+            'productCategory' => '1',
+            'productName' => 'Panderosa (Big)',
+            'unit' => 'Piece',
+            'quantity'=> '15',
         ],
 
         [
+            'productCode' => 'PANSMALL',
             'productCategory' => '1',
-            'productName' => 'Panderosa',
+            'productName' => 'Panderosa (Small)',
             'unit' => 'Piece',
-            'quantity'=> '0',
-                  ],
+            'quantity'=> '20',
+        ],
 
         [
+            'productCode' => '00093',
+            'productCategory' => '1',
+            'productName' => 'Pandesal (Pack)',
+            'unit' => 'Pack x10',
+            'quantity'=> '40',
+        ],
+
+        [
+            'productCode' => '00092',
             'productCategory' => '1',
             'productName' => 'Pandesal',
-            'unit' => 'Pack x10',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '1',
-            'productName' => 'Pandesal-Malunggay',
-            'unit' => 'Pack x10',
-            'quantity'=> '15',
-                    ],
-
-        [
-            'productCategory' => '1',
-            'productName' => 'Peanut Butter',
             'unit' => 'Piece',
-            'quantity'=> '87',
-            
+            'quantity'=> '350',
         ],
 
         [
+            'productCode' => '00176',
+            'productCategory' => '1',
+            'productName' => 'Pandesal - Malunggay (Pack)',
+            'unit' => 'Pack x10',
+            'quantity'=> '15',
+        ],
+
+        
+        [
+            'productCode' => '00179',
+            'productCategory' => '1',
+            'productName' => 'Pandesal - Malunggay',
+            'unit' => 'Piece',
+            'quantity'=> '300',
+        ],
+
+        [
+            'productCode' => '00144',
             'productCategory' => '1',
             'productName' => 'Raisin Buns',
             'unit' => 'Piece',
-            'quantity'=> '0',
-                  ],
+            'quantity'=> '35',
+        ],
 
         [
-            'productCategory' => '1',
-            'productName' => 'Raisin Bread',
-            'unit' => 'Piece',
-            'quantity'=> '18',
-                    ],
-
-        [
+            'productCode' => '00133',
             'productCategory' => '1',
             'productName' => 'Spanish Bread',
             'unit' => 'Pack x5',
-            'quantity'=> '0',
-                  ],
+            'quantity'=> '20',
+        ],
 
         [
+            'productCode' => '00188',
+            'productCategory' => '1',
+            'productName' => 'Spanish Bread (Choco)',
+            'unit' => 'Pack x5',
+            'quantity'=> '19',
+        ],
+
+        [
+            'productCode' => '00157',
+            'productCategory' => '1',
+            'productName' => 'Spanish Bread (Ube)',
+            'unit' => 'Pack x5',
+            'quantity'=> '21',
+        ],
+
+        [
+            'productCode' => 'CINSPECIAL',
+            'productCategory' => '1',
+            'productName' => 'Special Cinnamon (Big)',
+            'unit' => 'Piece',
+            'quantity' => '16',
+        ],
+
+        [
+            'productCode' => '00116',
+            'productCategory' => '1',
+            'productName' => 'Special Cinnamon (Small)',
+            'unit' => 'Piece',
+            'quantity' => '16',
+        ],
+
+        [
+            'productCode' => '00220',
+            'productCategory' => '1',
+            'productName' => 'Squash Pandesal (Pack)',
+            'unit' => 'Pack x10',
+            'quantity'=> '15',
+        ],
+
+        [
+            'productCode' => '00218',
             'productCategory' => '1',
             'productName' => 'Squash Pandesal',
-            'unit' => 'Pack x10',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '1',
-            'productName' => 'Steamed Siopao',
             'unit' => 'Piece',
-            'quantity'=> '720',
-            
+            'quantity'=> '110',
         ],
 
         [
-            'productCategory' => '1',
-            'productName' => 'Toasted Siopao',
-            'unit' => 'Piece',
-            'quantity'=> '600',
-            
-        ],
-
-        [
+            'productCode' => '00117',
             'productCategory' => '1',
             'productName' => 'Ube Bites',
-            'unit' => 'Pack',
-            'quantity'=> '9',
-                    ],
+            'unit' => 'Pack x20',
+            'quantity'=> '177',
+        ],
 
         [
+            'productCode' => 'UBEBIG',
             'productCategory' => '1',
-            'productName' => 'Ube Bread 500g',
+            'productName' => 'Ube Bread (Big)',
             'unit' => 'Piece',
-            'quantity'=> '49',
-            
+            'quantity'=> '59',
         ],
 
         [
+            'productCode' => 'UBESMALL',
             'productCategory' => '1',
-            'productName' => 'Wheat Bread Buns',
+            'productName' => 'Ube Bread (Small)',
             'unit' => 'Piece',
-            'quantity'=> '40',
-            
-        ],
-        //cakes
-        [
-            'productCategory' => '2',
-            'productName' => '8 Round Yema Cake',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => '8 Round Choco Marble',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => ' 8 Round Custard Cake',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => ' 8x12 YemaCake',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => 'Cake Roll-Yema & Choco-Whole',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => 'Cake Roll-Yema & Choco-Half',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => ' Streamline Vanilla',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => ' Streamline Caramel',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '2',
-            'productName' => 'Streamline Choco',
-            'unit' => 'Cake',
-            'quantity'=> '0',
-                  ],
-
-        //pastries
-       
-        [
-            'productCategory' => '3',
-            'productName' => 'Banana/Carrot Muffin',
-            'unit' => 'piece',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Brownies Small',
-            'unit' => 'pack x8',
-            'quantity'=> '79',
-            
+            'quantity'=> '80',
         ],
 
-        [
-            'productCategory' => '3',
-            'productName' => 'Brownies',
-            'unit' => 'piece',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Brownies Big',
-            'unit' => 'pack x12',
-            'quantity'=> '62',
-            
-        ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Choco Crinkles',
-            'unit' => 'JAR',
-            'quantity'=> '79',
-            
-        ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Choco Crinkles',
-            'unit' => 'pack x4',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Mamon Special',
-            'unit' => 'piece',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Cinnamon Roll',
-            'unit' => 'piece',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Chiffon Slice',
-            'unit' => 'piece',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Egg Pie',
-            'unit' => 'Whole',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Hopia Baboy',
-            'unit' => 'piece',
-            'quantity'=> '373',
-            
-        ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Hopia Baboy',
-            'unit' => 'pack x4',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Hopia Mongo',
-            'unit' => 'pack x4',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Hopia Ube',
-            'unit' => 'pack x4',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'NUTRI-PEANUT Cookies',
-            'unit' => 'piece',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Premium Brownies',
-            'unit' => 'Box',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '3',
-            'productName' => 'Toasted Ensaymada',
-            'unit' => 'Box',
-            'quantity'=> '0',
-                  ],
-
-        //PASALUBONG
-        [
-            'productCategory' => '4',
-            'productName' => 'Butter Toast',
-            'unit' => 'Piece',
-            'quantity'=> '1546',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Merigue Kisses',
-            'unit' => 'Piece',
-            'quantity'=> '510',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Merigue Kisses Jar',
-            'unit' => 'Piece',
-            'quantity'=> '35',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Merigue Kisses Jar',
-            'unit' => 'Piece',
-            'quantity'=> '35',
-            
-        ],
-        /*Pacencia Cookies	|piece 100g	|580	|32.00	|18,560.00
-        Pacencia Cookies JAR	|piece 225g		|100.00
-        Pilipit			|piece 10 pcs		|32.00
-        Pilipit			|piece 15 pcs		|50.00		
-        Sesame Cookies		|piece 100g	|377	|32.00	|12,064.00
-        Sesame Cookies		|piece 175g		|100.00
-        Toasted Muffin		|piece		|803	|38.00	|30,514.00
-        Crinkles Pack		|piece		|172	|45.00	|7,740.00
-        Crinkles Jar		|piece		|30	|130.00	|3,900.00*/
-        
-        [
-            'productCategory' => '4',
-            'productName' => '*Pacencia Cookies',
-            'unit' => 'Piece 100g',
-            'quantity'=> '580',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Pacencia Cookies JAR',
-            'unit' => 'Piece 225g',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Pilipit',
-            'unit' => 'Piece 10 pcs',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Pilipit',
-            'unit' => 'Piece 15 pcs',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Sesame Cookies ',
-            'unit' => 'Piece 100g',
-            'quantity'=> '377',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Sesame Cookies',
-            'unit' => 'Piece 175g',
-            'quantity'=> '0',
-                  ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Toasted Muffin',
-            'unit' => 'Piece',
-            'quantity'=> '803',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Crinkles Pack',
-            'unit' => 'Piece',
-            'quantity'=> '172',
-            
-        ],
-
-        [
-            'productCategory' => '4',
-            'productName' => 'Crinkles JAR',
-            'unit' => 'Piece',
-            'quantity'=> '30',
-            
-        ],
-
-        //5
-        [//56
-            'productCategory' => '5',
-            'productName' => 'Cheese Roll',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Cheese Pandesal',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Cinnamon Twist',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Hotbaked Ensaymada',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Long John',
-            'unit' => 'Piece',
-            'quantity'=> '38',
-            
-        ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Monay Patok',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Fresh Pandesal',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Fresh Pandecoco',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Fresh Spanish Bread',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '5',
-            'productName' => 'Ube Keso Pandesal',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        //6
-        [
-            'productCategory' => '6',
-            'productName' => 'Cream Bread',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '6',
-            'productName' => 'Raisin Bread',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '6',
-            'productName' => 'Sandwich Bread',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '6',
-            'productName' => 'Healthy Wheat Bread',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '6',
-            'productName' => 'Milk Loaf',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
-
-        [
-            'productCategory' => '6',
-            'productName' => 'Ube Keso Loaf',
-            'unit' => 'Piece',
-            'quantity'=> '0',
-                   ],
+        //cake
     ];
     
     public function run(): void
     {
     //
-        foreach($this->product_categories as $product_categories) {
-            Product::create($product_categories);
+        foreach($this->product as $product) {
+            Product::create($product);
         }
-
     }
 }
      

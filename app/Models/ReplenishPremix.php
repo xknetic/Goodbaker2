@@ -17,7 +17,7 @@ class ReplenishPremix extends Model
 
     protected $guarded = [];
 
-    public function premixingredients() {
-        return $this->hasBelongTo(PremixIngredient::class, 'premixIngredient', 'premixIngredientID');
+    public function premixes() {
+        return $this->belongsTo(Premix::class, 'premix', 'premixID');
     }
 }

@@ -28,7 +28,7 @@ const props = defineProps({
 });
 
 const form = useForm({
-    date: '2024',
+    date: '',
     month: ''
 });
 
@@ -586,6 +586,10 @@ const getSalesForDay = (clientName, day) => {
   }
   return '';
 };
+
+const getExportUrl = computed(() => {
+    return `/sales-reports/export?year=${form.date}`;
+});
 </script>
 
 <style>
@@ -613,14 +617,14 @@ const getSalesForDay = (clientName, day) => {
                 <h3 class="font-bold">Sales Reports</h3>
 
                 <!-- Export Button -->
-                <Link
-                    href="/sales-reports/export"
+                <a
+                    :href="getExportUrl"
                     target="_blank" 
                 >
                     <PrimaryButton>
                         Export
                     </PrimaryButton>
-                </Link>
+                </a>
             </div>
             <div class="border-b border-gray-700 my-2 mb-5" />
 
