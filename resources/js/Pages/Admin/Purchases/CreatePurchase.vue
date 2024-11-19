@@ -54,15 +54,28 @@ function selectSupplier(supplier) {
     form.purchases = [];
 }
 
+function clearSupplier() {
+    if(searchSuppliers.value == '') {
+        form.supplier = '';
+    }
+}
+
 const searchRawMaterials = ref('');
 const filteredRawMaterials = ref(props.rawmaterials);
 const newUnit = ref({unit: ''});
 const selectUnit = ref('');
 
 function filterRawMaterials() {
-    filteredRawMaterials.value = props.rawmaterials.filter(rawmaterial =>
-        rawmaterial.rawMaterialName.toString().toLowerCase().includes(searchRawMaterials.value.toLowerCase()) && rawmaterial.supplierID == form.supplier
-    );
+    if(form.supplier == '') {
+        filteredRawMaterials.value = props.rawmaterials.filter(rawmaterial =>
+            rawmaterial.rawMaterialName.toString().toLowerCase().includes(searchRawMaterials.value.toLowerCase())
+        );
+        
+    }else {
+        filteredRawMaterials.value = props.rawmaterials.filter(rawmaterial =>
+            rawmaterial.rawMaterialName.toString().toLowerCase().includes(searchRawMaterials.value.toLowerCase()) && rawmaterial.supplierID == form.supplier
+        );
+    }
 }
 
 function selectRawMaterial(rawmaterial) {
@@ -72,6 +85,10 @@ function selectRawMaterial(rawmaterial) {
     newUnit.value.unit= rawmaterial.rawmaterialunits;
     filteredRawMaterials.value = [];
     form.selectedRaw = rawmaterial;
+    if(!form.supplier){
+        form.supplier = rawmaterial.supplierID;
+        searchSuppliers.value = rawmaterial.supplier.supplierName;
+    }
 }
 
 const addPurchase = () => {
@@ -182,10 +199,11 @@ const addPurchase = () => {
                 <div class="relative">
                     <InputLabel for="rawMaterial" class="mb-2">Raw Material</InputLabel>
                     <TextInput id="typeraw"
-                        :disabled="!form.supplier"
+                        
                         type="text" 
                         v-model="searchRawMaterials"
-                        @input="filterRawMaterials" 
+                        @input="filterRawMaterials"
+                        @click="clearSupplier" 
                         class="mt-1 block w-[50%]" 
                         placeholder="Search for raw material" 
                     />

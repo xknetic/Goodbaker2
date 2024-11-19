@@ -51,7 +51,7 @@ const filteredBranches = ref(props.branches);
 
 function filterBranches() {
     filteredBranches.value = props.branches.filter(branch =>
-        branch.branchName.toString().toLowerCase().includes(searchBranches.value.toLowerCase())
+        branch.branchName.toString().toLowerCase().includes(searchBranches.value.toLowerCase()) && branch.branchName != 'Loakan'
     );
 }
 
@@ -228,7 +228,8 @@ const removeItem = (index) => {
                     <InputLabel for="branch" class="mb-2">Branch</InputLabel>
                     <TextInput id="typebra"
                         type="text" 
-                        v-model="searchBranches" 
+                        v-model="searchBranches"
+                        @click="filterBranches"
                         @input="filterBranches"
                         class="mt-1 block w-[50%]" 
                         placeholder="Search for branch" 

@@ -32,7 +32,7 @@ class PurchaseController extends Controller
         //
         return Inertia::render('Admin/Purchases/CreatePurchase', [
             'suppliers' => Supplier::all(),
-            'rawmaterials' => RawMaterial::with('rawmaterialunits')->get()
+            'rawmaterials' => RawMaterial::with('rawmaterialunits', 'supplier')->get()
         ]);
     }
 
